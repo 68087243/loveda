@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>回复添加</title>
+<include file="Index:_js_css" />
+<script language="javascript">
+
+$(function(){
+	$("#MsgType").change(function(){
+		var v=$(this).val();
+		if(v=="text"){
+			$("#ReplyText").show();
+			$("#ReplyNews").hide();
+		}else{
+			var len=$("#detailBox .detail").length;
+			if(len==0){$("#btnAddDetail").click();};
+			$("#ReplyText").hide();
+			$("#ReplyNews").show();
+		}
+	}).change();
+	$("#btnAddDetail").click(function(){
+		var len=$("#detailBox .detail").length;
+		var newID = len+1;
+		if(newID>10){return false};
+		var size="（360*200）";
+		if(newID!=1){size="（200*200）"}
+		var html="";
+		html += ("<table border='0' cellspacing='1' cellpadding='3' class='MainTbl detail'>");
+		html += ("  <tr>");
+		html += ("    <td rowspan='4' class='tc' >图文{i}</td>");
+		html += ("    <td class='col1'>标题：</td>");
+		html += ("    <td><input type='text' class='inputText1 w350' id='item{i}_1' name='items[]' ");
+		html += ("maxlength='100' value='' /> <span class='fc_red'>*</span></td>");
+		html += ("  </tr>");
+		html += ("  <tr>");
+		html += ("    <td class='col1'>图片：</td>");
+		html += ("    <td><input type='text' class='inputText1 w350 fl' id='item{i}_2' name='items[]' ");
+		html += ("maxlength='100' value='' />");
+		html += ("      <input type='button' class='btn1 btnUpload' onclick='selectPic(this)' id='btnUpload{i}' value='上传' /> "+size+"</td>");
+		html += ("  </tr>");
+		html += ("  <tr>");
+		html += ("    <td class='col1'>链接：</td>");
+		html += ("    <td><input type='text' class='inputText1 w350' id='item{i}_3' name='items[]' ");
+		html += ("maxlength='100' value='' /></td>");
+		html += ("  </tr>");
+		html += ("  <tr>");
+		html += ("    <td class='col1'>描述：</td>");
+		html += ("    <td><input type='text' class='inputText1 w350' id='item{i}_4' name='items[]' ");
+		html += ("maxlength='100' value='' /></td>");
+		html += ("  </tr>");
+		html += ("</table>");
+		
+		
+		html = html.replace(/{i}/g,newID)	; 
+		$("#detailBox").append(html);
+		$("#detailBox").show();
+		//$.rendUploader("#btnUpload"+newID);
+	});
+});
+</script>
+</head>
+<body>
+<form action="__URL__/addReply" method="post" name="form1" id="form1">
+  <table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
+    <tr class="toolbar">
+      <td colspan="2" class="tc">【 添加回复 】</td>
+    </tr>
+    <tr class="row0">
+      <td width="140" class="col1" >关键司：</td>
+      <td><input type="text" class="inputText1 w350" id="title" name="title" maxlength="100" value="" />
+        <span class="fc_red">* </span>可以设置多个关键词（不能重复，逗号分割），默认回复：default</td>
+    </tr>
+    <tr class="row0">
+      <td width="140" class="col1" >回复类型：</td>
+      <td><select name="MsgType" id="MsgType">
+          <option value="text">纯文字</option>
+          <option value="news">多图文</option>
+        </select>
+        <span class="fc_red">* </span></td>
+    </tr>
+   
+    <tr class="row0" id="ReplyText">
+      <td width="140" class="col1" >内容：</td>
+      <td><textarea   class="inputText1 editor1" id="Content" name="Content"></textarea></td>
+    </tr>
+    <tr class="row0 hide" id="ReplyNews">
+      <td width="140" class="col1" >图文内容：<br />
+        （最多10个）<br />
+        <input type="button" class="btn1" value="增加" id="btnAddDetail" /></td>
+      <td id="detailBox" valign="top"> </td>
+    </tr>
+    <tr class="row0">
+      <td width="140" class="col1" >描述：</td>
+      <td><input type="text" class="inputText1 w350" id="remark" name="remark" maxlength="100" value="" /></td>
+    </tr>
+    <tr class="row0 hide">
+      <td class="col1">排序：</td>
+      <td><input type="text" class="inputText1 numeric w50" name="sort" id="sort" maxlength="10" value="{$sort}" /></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">状态：</td>
+      <td><select name="status" id="status">
+          <option value="1">启用</option>
+          <option value="0">禁用</option>
+        </select></td>
+    </tr>
+    <tr class="footer">
+      <td colspan="2" class="tc"><input type="submit" class="btn1" value="保存" />
+        <input type="button" class="btn1" value="返回" onclick="history.back();" /></td>
+    </tr>
+  </table>
+</form>
+<include file="Index:footer" />
+<link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+<script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
+<script>
+    /**
+     * 选择图片
+     */
+    function selectPic(obj){
+        upload.prototype.callback = function(url, path){
+            $(obj).siblings('.inputText1').val(path);
+        }
+        upload.prototype.uploadPic("info");
+    }
+</script>
+</body>
+</html>

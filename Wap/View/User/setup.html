@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="Robots" content="noindex,nofollow,noarchive" />
+    <title>爱大叔--{$user.nickname}</title>
+    <include file="Index:wap_js_css"/>
+    <style>
+        .modifyuser li label {width: 60px;}
+    </style>
+<body pagename="login" style="overflow-x:hidden;">
+<include file="User:uhead"/>
+<div class="line10"></div>
+<div class="container">
+    <ul class="modifyuser tr">
+        <li class="tl relative uppwd" >
+            <label style="width: 100%;">修改密码 <span class="right_ico bcol fr"></span></label>
+        </li>
+        <li style="display: none;" id="uppwdbox">
+            <ul class="absolute"  style="top: 0;width: 100% " >
+                <li>
+                    <label class="fontn" for="exampleInputPwd">原密码</label>
+                    <input type="text" name="oldpassword" value="" placeholder="请输入原始密码" class="form-control" id="exampleInputPwd" />
+                </li>
+                <li>
+                    <label class="fontn" for="exampleInputPwd1">新密码</label>
+                    <input type="text" name="password" value="" placeholder="请输入原始密码" class="form-control" id="exampleInputPwd1" />
+                </li>
+                <li>
+                    <label class="fontn" for="exampleInputPwd2">重复密码</label>
+                    <input type="text" name="password2" value="" placeholder="请输入原始密码" class="form-control" id="exampleInputPwd2" />
+                </li>
+                <li style="border: none">
+                    <div class="tc">
+                        <div  class=" next_btn " onclick="submodifyPwd()">修改</div>
+                    </div>
+                </li>
+            </ul>
+
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript" src="__STATIC__/common/js/hammer.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/iscroll-zoom.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/jquery.photoClip.min.js"></script>
+<script>
+    $('.uppwd').click(function(){
+        if($(this).find('label span').hasClass('right_ico')){
+            $(this).find('label span').removeClass('right_ico');
+            $(this).find('label span').addClass('down_ico');
+            $('#uppwdbox').show();
+        }else{
+            $(this).find('label span').removeClass('down_ico');
+            $(this).find('label span').addClass('right_ico');
+            $('#uppwdbox').hide();
+        }
+    })
+
+    function submodifyPwd(){
+        var oldpassword = $('#uppwdbox input[name=oldpassword]').val();
+        var password = $('#uppwdbox input[name=password]').val();
+        var password2 = $('#uppwdbox input[name=password2]').val();
+        if(!oldpassword){
+            clearpop('请填写原始密码！');
+            return false;
+        }
+        if(!password){
+            clearpop('请填写新密码！');
+            return false;
+        }
+        if(password.length<3){
+            clearpop('新密码长度不能小于4！');
+            return false;
+        }
+        if(password !=password2){
+           clearpop('重复密码不一致！');
+           return false;
+       }
+        $.post('/user/setup.html',{oldpassword:oldpassword,password:password,password2:password2,type:'uppwd'},function(data){
+            if(data.code == 200){
+                clearpop(data.message,'','/login/logout.html') ;
+            }else{
+                clearpop(data.message) ;
+            }
+        })
+    }
+
+    $(function() {
+        $("#clipArea").photoClip({
+            width: 200,
+            height: 200,
+            file: "#file",
+            view: "#view",
+            ok: "#clipBtn",
+            loadStart: function() {
+                console.log("照片读取中");
+            },
+            loadComplete: function() {
+                $('#pic').show()
+            },
+            clipFinish: function(dataURL) {
+                uploadPicByBase64('avatar',dataURL);
+            }
+        });
+    })
+
+    function uploadPicByBase64(scope,stream){
+        var uploadPhp = DOMAIN+'/Public/uploadForKindeditor.php';
+        var uploadJson = uploadPhp+"?scope="+scope+"&callback="+DOMAIN+"&isbase64=true&isaj=1";
+        $.post(uploadJson,{stream:stream},function(data){
+            if(data.code==100){
+                var img = data.data.url.img;//原图
+                var thumb = data.data.url.thumb;//缩略图
+                $('input[name=picture]').val(img);
+                $('#picture').attr('src',PUBLIC+img);
+                $('#pic').hide()
+            }else{
+
+            }
+        },'json')
+    }
+
+    //选择店铺所属省市——省
+    function checkeSupsort(obj){
+        var pid = $(obj).val();
+        $.ajax({
+            type: "POST",
+            url:'/index/getArea.html',
+            data: {pid:pid},
+            async: false,
+            success: function (data) {
+                var obj = data.data,$html='<option value="">请选择城市</option>';
+                for(var i in obj){
+                    if(obj[i]){
+                        $html += '<option value="'+ obj[i]['aid']+'">'+ obj[i]['name']+'</option>';
+                    }
+                }
+                $('#city').html($html);
+            }
+        });
+    }
+</script>
+</body>
+</html>

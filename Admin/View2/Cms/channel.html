@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>分类列表</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+		<tr class="toolbar">
+			<td colspan="6" class="tc">【 管理分类 】</td>
+		</tr>
+		<tr class="row0">
+			<td colspan="6"><a href="/Admin/Cms/addChannel.html"
+				class="btnAdd">添加</a></td>
+		</tr>
+		<tr class="header">
+			<td width="50">ID</td>
+			<td>分类名称</td>
+			<td>分类描述</td>
+			<td width="70">排序</td>
+			<td width="50">状态</td>
+			<td width="150">操作</td>
+		</tr> 
+{:R('Cms/treelist', array($tree))}
+</table>
+	<include file="Index:footer" />
+</body>
+</html>

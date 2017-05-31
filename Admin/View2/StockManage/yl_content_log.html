@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>原料明细</title>
+    <include file="Index:_js_css" />
+</head>
+<body style="background:#fff; padding:0px; overflow:hidden">
+<div class="page_title">原料商品：【{$title}】 的明细</div>
+<table border="0"class="mytables" style="width: 100%;">
+    <tr>
+        <th>日期</th>
+        <th>类型</th>
+        <th>数量</th>
+        <th>单价</th>
+        <th>金额</th>
+    </tr>
+    <volist id="vo" name="list">
+        <tr>
+            <td>{$vo.addtime}</td>
+            <td>
+                <if condition="$vo['type'] eq 1">
+                    领用
+                    <else/>
+                    采购
+                </if>
+            </td>
+            <td>{$vo.num}</td>
+            <td>{$vo['amount']/$vo['num']|float_fee}</td>
+            <td>{$vo.amount}</td>
+        </tr>
+    </volist>
+    <if condition="!empty($page)">
+        <tr class="footer">
+            <td colspan="6"><div class="page">{$page}</div></td>
+        </tr>
+    </if>
+</table>
+<include file="Index:footer" />
+</body>
+</html>

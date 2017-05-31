@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+<title>兑换订单列表</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+	<form action="" method="get" name="form1" id="form1">
+  <input type="hidden" name="status" id="status" value="{:I('status')}" />
+  <table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+    <tr>
+      <td>关 键 词：
+        <input type="text" class="inputText1" id="keyword"
+					name="keyword" value="{$keyword}" />
+        <select id="searchtype"
+					name="searchtype">
+          <option value="0">兑换订单号</option>
+          <if condition="($searchtype eq 1)">
+            <option value="1" selected="selected">姓名</option>
+            <else />
+            <option value="1">姓名</option>
+          </if>
+          <if condition="($searchtype eq 2)">
+            <option value="2" selected="selected">手机号</option>
+            <else />
+            <option value="2">手机号</option>
+          </if>
+        </select>
+        <input type="submit" class="btn1" value="查询" /></td>
+    </tr>
+    <tr>
+      <td>订单状态： <a href="{:U('Cms/orderpoint')}" >全部</a>
+       <switch name="status">
+       <case value="0">
+          <a href="{:U('Cms/orderpoint','status=0')}" class="fc_red">未处理</a>
+          <a href="{:U('Cms/orderpoint','status=1')}" >已处理</a>
+       
+       </case>
+       <case value="1">
+          <a href="{:U('Cms/orderpoint','status=0')}">未处理</a>
+          <a href="{:U('Cms/orderpoint','status=1')}" class="fc_red" >已处理</a>
+       </case>
+       <default/>
+          <a href="{:U('Cms/orderpoint','status=0')}">未处理</a>
+          <a href="{:U('Cms/orderpoint','status=1')}" >已处理</a>
+       </switch> </td>
+    </tr>
+  </table>
+</form>
+	<div class="dot"></div>
+	<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+		<tr class="toolbar">
+			<td colspan="7" class="tc">【 管理兑换订单 】</td>
+		</tr>
+		<tr class="row0 hide">
+			<td colspan="7"><a href="{:U('Admin/Cms/addOrderpoint')}"
+				class="btnAdd">添加</a></td>
+		</tr>
+		<tr class="header">
+			<td width="50">ID</td>
+			<td width="130">订单号</td>
+			<td>订单产品</td>
+			<td width="100" >数量/积分</td>
+			<td width="120">用户信息</td>
+			<td width="50">状态</td>
+			<td width="110">操作</td>
+		</tr>
+		<volist id="vo" name="list">
+		<tr class="row{$i % 2+1}">
+			<td><input type="checkbox" name="SelectIDs" value="{$vo.id}" />
+				{$vo.id}</td>
+			<td>{$vo.orderno}</td>
+			<td><a href="{:U('Shop/Point/view','id='.$vo['productid'])}" target="_blank">{$vo.productname}</a></td>
+			<td>{$vo.num} / {$vo.amount} </td>
+			<td>{$vo.username} <br /> {$vo.telephone}</td>
+			<td><eq name="vo.status" value="1">已处理<else/>未处理</eq></td>
+			<td> 
+            <a href="{:U('Cms/editOrderpoint','id='.$vo['id'])}" class="btnEdit">修改</a> 
+            <a class="btnDel" href="javascript:void(0);" onclick="var url='{:U("Cms/deleteOrderpoint","id=".$vo['id'])}';if(confirm('您确定删除该记录吗？')){location=url;}">删除</a> 
+            </td>
+		</tr>
+		</volist>
+		 
+		<tr class="row0">
+			<td colspan="9" class="tr"><input type="hidden" value="order"
+				id="ConstTbl" name="ConstTbl" /> <input type="button" class="btn2"
+				value="批量删除" id="AllDel" /> <input type="button" class="btn1"
+				value="全选" id="AllCheck" /> <input type="button" class="btn1"
+				value="反选" id="ReverseCheck" /></td>
+		</tr>
+		<tr class="footer">
+			<td colspan="9"><div class="page">{$page}</div></td>
+		</tr>
+	</table>
+	<include file="Index:footer" />
+</body>
+</html>

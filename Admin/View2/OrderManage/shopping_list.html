@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset=utf-8"/>
+    <title>采购清单列表</title>
+    <include file="Index:_js_css"/>
+</head>
+<body>
+<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+    <tr>
+        <td>
+            <form action="/admin/orderManage/getShoppingList.html" method="get"  name="form1" id="form1">
+                <div style="float: left">送货日期：</div>
+                <input type="hidden" name="datetime" id="datetime" />
+                <div style="float: left;margin-left: 5px;"><input type="submit" class="btn1 <if condition='!isset($_REQUEST["datetime"]) or ($_REQUEST["datetime"] eq $today)'>click</if>" onclick="$('#datetime').val('{$today}')" value="今天"/></div>
+                <div style="float: left;margin-left: 5px;">  <input type="submit" class="btn1 <if condition=' $_REQUEST["datetime"] eq $tomorrow'>click</if>"  onclick="$('#datetime').val('{$tomorrow}')" value="明天"/></div>
+                <div style="float: left;margin-left: 5px;"><input type="submit" class="btn1 <if condition='$_REQUEST["datetime"] eq $afterTomorrow'>click</if>"  onclick="$('#datetime').val('{$afterTomorrow}')" value="后天"/></div>
+
+                <div style="float: left;margin-left: 5px;cursor: pointer" class="btn1 <if condition='isset($_REQUEST["datetime"]) and ($_REQUEST["datetime"] neq $today and $_REQUEST["datetime"] neq $tomorrow and $_REQUEST["datetime"] neq $afterTomorrow)'>click</if>" id="getOtherDate">其他</div>
+            </form>
+        </td>
+    </tr>
+</table>
+
+<div class="dot"></div>
+<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+    <tr class="toolbar">
+        <td colspan="10" class="tc">【 采购清单 】</td>
+    </tr>
+    <tr class="header">
+        <td width="80">送货时间</td>
+        <td width="80">产品ID</td>
+        <td width="80">产品名称</td>
+        <td width="60">单位</td>
+        <td width="80">数量</td>
+        <td width="100">供应商</td>
+        <td width="80">明细</td>
+        <td width="50">操作</td>
+    </tr>
+    <volist name="list" id="vo">
+        <tr class="row{$i % 2+1}">
+            <td>{$vo.delivertime}</td>
+            <td>{$vo.productid}</td>
+            <td>{$vo.productname}</td>
+            <td>{$vo.unit|float_fee}</td>
+            <td>{$vo.num|float_fee}</td>
+            <td>{$vo.supplyname}</td>
+            <td>{$vo.info}</td>
+            <td></td>
+        </tr>
+    </volist>
+
+    <!--<tr class="row0">-->
+        <!--<td colspan="12" class="tr">-->
+            <!--<input type="hidden" value="ordernew" id="ConstTbl" name="ConstTbl"/>-->
+            <!--<input type="button" class="btn2" value="批量删除" id="AllDel"/>-->
+            <!--<input type="button" class="btn1" value="全选" id="AllCheck"/>-->
+            <!--<input type="button" class="btn1" value="反选" id="ReverseCheck"/>-->
+        <!--</td>-->
+    <!--</tr>-->
+    <!--<tr class="footer">-->
+        <!--<td colspan="12">-->
+            <!--<div class="page">{$page}</div>-->
+        <!--</td>-->
+    <!--</tr>-->
+</table>
+<include file="Index:footer"/>
+<js href="__PUBLIC__/js/jquery.lhgcalendar.min.js"/>
+<script>
+    //选择其他时间
+        $('#getOtherDate').calendar({
+            format: 'yyyy-MM-dd',
+            minDate: '%y-%M-%d',
+            disWeek: "{:lbl('disabled_week')}",
+            btnBar: false,
+            onSetDate:function(){
+                var date = this.year+'-'+this.month+'-'+this.day;
+                $('input[name=datetime]').val(date)
+                $('#form1').submit();
+            }
+        });
+</script>
+</body>
+</html>

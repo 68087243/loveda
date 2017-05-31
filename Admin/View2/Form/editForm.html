@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>反馈编辑</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+<form action="__URL__/editForm" method="post" name="form1"
+		id="form1">
+  <input type="hidden" id="id" name="id" value="{$db.id}" />
+  <input type="hidden" name="type" id="type" value="{$db.type}" />
+  <table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
+    <tr class="toolbar">
+      <td colspan="2" class="tc">【编辑反馈 】</td>
+    </tr>
+    <tr class="row0">
+      <td class="col1" >反馈：</td>
+      <td>{:get_cate($db['type'],'formtype')} </td>
+    </tr>
+     <tr class="row0">
+      <td class="col1">创建时间：</td>
+      <td>{$db['addtime']}</td>
+    </tr>
+     <tr class="row0">
+      <td class="col1">姓名：</td>
+      <td><input type="text" class="inputText1 " name="ext1" id="ext1" maxlength="100" value="{$db.ext1}" /></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">电话：</td>
+      <td><input type="text" class="inputText1 " name="ext2" id="ext2" maxlength="100" value="{$db.ext2}" /></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">Email：</td>
+      <td><input type="text" class="inputText1 " name="ext3" id="ext3" maxlength="100" value="{$db.ext3}" /></td>
+    </tr>
+    <tr class="row0 hide">
+      <td class="col1">QQ：</td>
+      <td><input type="text" class="inputText1 " name="ext4" id="ext4" maxlength="100" value="{$db.ext4}" /></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">主题：</td>
+      <td><input type="text" class="inputText1 w350" name="ext5" id="ext5" maxlength="100" value="{$db.ext5}" /></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">备注：</td>
+      <td><textarea class="inputText1 editor1" name="ext6" id="ext6">{$db.ext6}</textarea></td>
+    </tr>
+    <tr class="row0 hide">
+      <td class="col1">其它一：</td>
+      <td><input type="text" class="inputText1 " name="ext7" id="ext7" maxlength="100" value="{$db.ext7}" /></td>
+    </tr>
+    <tr class="row0 hide">
+      <td class="col1">其它二：</td>
+      <td><input type="text" class="inputText1 " name="ext8" id="ext8" maxlength="100" value="{$db.ext8}" /></td>
+    </tr>
+    <tr class="row0">
+      <td  colspan="2"><strong>管理员</strong></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">处理意见：</td>
+      <td><textarea type="text" class="inputText1 editor1" name="reply" id="reply" >{$db.reply}</textarea></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">状态：</td>
+      <td><select name="status" id="status">
+          <option value="1">已处理</option>
+          <if condition="($db.status eq 0)">
+            <option value="0" selected="selected">未处理</option>
+            <else/>
+            <option value="0">未处理</option>
+          </if>
+        </select></td>
+    </tr>
+     <tr class="row0">
+      <td class="col1">处理时间：</td>
+      <td>{$db['replytime']}</td>
+    </tr>
+    <tr class="footer">
+      <td colspan="2" class="tc"><input type="submit" class="btn1"
+					value="保存" />
+        <input type="button" class="btn1" value="返回"
+					onclick="history.back();" /></td>
+    </tr>
+  </table>
+</form>
+<include file="Index:footer" />
+</body>
+</html>

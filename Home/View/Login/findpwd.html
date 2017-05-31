@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>{$title}{:lbl('subtitleshop')}</title>
+    <meta name="keywords" content="{$keywords}"/>
+    <meta name="description" content="{$description}"/>
+    <include file="Index:header"/>
+</head>
+<body>
+<include file="Index:nav2"/>
+<div class="path clr"><div class="container"><a href="/">Home</a> &gt; <a href="/login/findpwd.html">Forgot Password</a> </div></div>
+<div class="bg_white">
+    <div class="container ">
+        <div class="order_item_title tc news_title " style="margin-top: 0" >Retrieve my password</div>
+        <form id="findpwd" class="pwd_box" style="width: 600px;;" onsubmit="return false" >
+            <div class="pwd_ionput">Please enter&nbsp;&nbsp;<input type="text" class="text_input" name="keywrod"  placeholder="your username or Email"/></div>
+            <p style="font-size: 12px; color: #999" id="msg">An Email with the new password will be sent to your
+                registered Email box.</p>
+            <div class="pwd_ionput">
+                Captcha&nbsp;&nbsp;
+                <input type="text" class="text_input" style="width: 261px;" maxlength="5" name="verify" id="verify" placeholder="enter captcha" />
+                <img style="cursor:pointer;margin-left:5px; width:150px; height:50px; float:right;"
+                     title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()"
+                     src="/index/verify.html?v={:rand(0,999)}"/>
+            </div>
+            <div class="clr"></div>
+            <div class=" submitOrder_b changpwd">
+                <button onclick="findpwd();" class="submitOrder ">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+<include file="Index:footer"/>
+<script>
+    /**
+     * 找回密码
+     * @returns {boolean}
+     */
+    /*阻塞标志，防止重复提交；预设不阻塞 (发送邮件处理慢，防止重复提交)*/
+    window.subBlock=false;
+    function findpwd(){
+        if(subBlock){
+            return false;
+        }
+        var keywrod = $('#findpwd input[name=keywrod]').val();
+        var verify = $('#verify').val();
+        if (!keywrod) {
+            clearpopj("Please input your username or Email.", "error",true);
+            subBlock = false;//解除阻塞
+            return false
+        } ;
+        if (!verify) {
+            clearpopj("Please input captcha", "error",true);
+            subBlock = false;//解除阻塞
+            return false
+        };
+        subBlock = true;
+        $.post('/login/findpwdAction',{keywrod:keywrod,verify:verify},function(data){
+            subBlock = false;//解除阻塞
+            if(data.code ==200){
+                clearpopj(data.message, "success",true,'/login/index.html');
+            }else{
+                clearpopj(data.message, "error",true);
+            }
+        })
+    }
+</script>
+</body>
+</html>
+
+
+

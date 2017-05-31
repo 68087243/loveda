@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>内容列表</title>
+<include file="Index:_js_css" />
+<script src="__PUBLIC__/js/json.js"></script>
+<script src="__PUBLIC__/js/jquery.cookies.2.2.0.js"></script>
+</head>
+<body style="background:#fff; padding:0px; overflow:hidden">
+	<form action="" method="get" name="form1" id="form1">
+    	<input type="hidden" name="p" id="p" value="1" />
+    	<input type="hidden" name="goodskey" value="{$_REQUEST['goodskey']}" />
+	    <input type="hidden" name="id" id="id" value="{:I('id')}" />
+		<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+			<tr>
+				<td>关 键 词： <input type="text" class="inputText1" id="keyword"
+					name="keyword" value="{$keyword}" /> <select id="searchtype"
+					name="searchtype">
+						<option value="0">标题</option>
+						<if condition="($searchtype eq 1)">
+						<option value="1" selected="selected">编号ID</option>
+						<else />
+						<option value="1">商品ID</option>
+						</if>
+						<if condition="($searchtype eq 2)">
+						<option value="2" selected="selected">分类ID</option>
+						<else />
+						<option value="2">分类ID</option>
+						</if>
+				</select> <input type="submit" class="btn1" value="查询" /></td>
+			</tr>
+ 
+		</table>
+	</form>
+	<div class="dot"></div>
+	<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+		<tr class="header">
+			<td width="60"><input type="checkbox" name="SelectAll" id="SelectAll" value=""/>商品ID</td>
+			<td>标题</td>
+			<td>分类</td>
+			<td>价格</td>
+			<td>销量</td>
+			<td>状态</td>
+		</tr>
+		<volist id="vo" name="list">
+		<tr class="row{$i % 2+1}" id="js_goods_{$vo.id}" data="{$vo.indexpic}"  data-negative="{$vo.negative}" data-unit="{$vo.unit}" data-price="{$vo.price}" data-id="{$vo.id}" data-indexpic="{$vo.indexpic}" data-name="{$vo.title}" >
+			<td><input type="checkbox" name="SelectIDs" value="{$vo.id}" <in name="vo.id" value="$selected"> checked="checked" </in>/>
+				{$vo.id}</td>
+			<td>{$vo.title|cutstring}<br/> {$vo.namecn|cutstring}</td>
+			<td>{$vo.channelname|cutstring}</td>
+			<td>{$vo.price}</td>
+			<td>{$vo.sold}</td>
+			<td><eq name="vo.status" value="1">上架<else/>下架</eq></td>
+		  </tr>
+		</volist>  
+		<tr class="footer">
+			<td colspan="6"><div class="page">{$page}</div></td>
+		</tr>
+	</table>
+	<include file="Index:footer" />
+<script language="javascript" type="text/javascript">
+    var $key = "{$_REQUEST['goodskey']?$_REQUEST['goodskey']:'admingood'}";
+    var sel = "{$_REQUEST['sel']}";
+$(function(){
+    $(".MainTbl tr").hover(function(event){
+	 var o=$(this);
+	 var img=o.attr("data"); 
+	 if(img!=""){
+		 var html1="";
+		 var html ="<img src=\""+img+"\" alt=\"\"/>";
+		 html1 = "<div id=\"hoverimg\" style=\"padding:10px;color:#f00\">"+html+"</div>";
+			 if($.trim(img)!=""){
+				 if($("#hoverimg").length==0){
+					 $(html1).appendTo($("body")); 
+				 } else{
+					 $("#hoverimg").html(html);
+				 };
+				 
+				$("#hoverimg").css({"left":o.position().left+60,"top":o.position().top+31}).show();	
+			 }
+		}
+	 },function(){
+		  $("#hoverimg").hide();
+	 });
+
+    $("input[name='SelectIDs']").click(function(){
+        $(this).attr('checked',true);
+        var ck=$(this).is(":checked");
+        var v=$(this).val();
+        if("{:I('id')}"){
+            changeValue(ck,v);
+        }else{
+            if(ck){
+                addgood(v,$key);
+            }else{
+                delgood(v,$key);
+            }
+        }
+    });
+
+    $("#SelectAll").click(function(){
+        $(".MainTbl input[name=SelectIDs]").each(function(){
+            $(this).click()
+            var ck=$(this).is(":checked");
+            var v=$(this).val();
+            if("{:I('id')}"){
+                changeValue(ck,v);
+            }else{
+                if(ck){
+                    addgood(v,$key);
+                }else{
+                    delgood(v,$key);
+                }
+            }
+        });
+    });
+
+    //设置选中
+    var myfood = $.cookie($key);
+    if(myfood){
+        var myfood_array = $.parseJSON(myfood);
+        if (myfood_array) {
+            for (var i in myfood_array) {
+                if(i > 1){
+                    $('#js_goods_'+i).find('input[name=SelectIDs]').attr('checked',true);
+                }
+            }
+        }
+    }
+
+});
+
+
+function changeValue(b,v){
+	var $id=$(window.parent.document).find("#{:I('id')}");
+	var newV=$id.val();	 
+	if(b){
+		newV+=v+",";
+	}else{
+		newV = newV.replace(v+",","");
+	}
+	$id.val(newV);
+}
+</script>
+</body>
+</html>

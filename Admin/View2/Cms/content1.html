@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>内容列表</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+	<form action="" method="get" name="form1" id="form1">
+		<input type="hidden" name="status" id="status" value="{:I('status')}" />
+		<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+			<tr>
+				<td>关 键 词： <input type="text" class="inputText1" id="keyword"
+					name="keyword" value="{$keyword}" /> <select id="searchtype"
+					name="searchtype">
+						<option value="0">标题</option>
+						<if condition="($searchtype eq 1)">
+						<option value="1" selected="selected">内容</option>
+						<else />
+						<option value="1">内容</option>
+						</if>
+						<if condition="($searchtype eq 2)">
+						<option value="2" selected="selected">分类ID</option>
+						<else />
+						<option value="2">分类ID</option>
+						</if>
+				</select> <input type="submit" class="btn1" value="查询" /></td>
+			</tr>
+
+			<tr>
+				<td>菜品状态： <a href="{:U('Cms/content')}" >全部</a>
+					<if condition="($status eq 1)"> <a
+						href="{:U('Cms/content','status=1')}" class="fc_red">启用</a> <else />
+					<a href="{:U('Cms/content','status=1')}">启用</a> </if> <if
+						condition="($status eq '0')"> <a
+						href="{:U('Cms/content','status=0')}" class="fc_red">禁用</a> <else />
+					<a href="{:U('Cms/content','status=0')}">禁用</a> </if>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<div class="dot"></div>
+	<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+		<tr class="toolbar">
+			<td colspan="7" class="tc">【 管理内容 】</td>
+		</tr>
+		<tr class="row0 hide">
+			<td colspan="7"><a href="{:U('Admin/Cms/addContent')}"
+				class="btnAdd">添加</a></td>
+		</tr>
+		<tr class="header">
+			<td width="60">ID</td>
+			<td>标题</td>
+			<td>分类</td>
+			<td width="70">排序</td>
+			<td width="50">推荐</td>
+			<td width="50">状态</td>
+			<td width="110">操作</td>
+		</tr>
+		<volist id="vo" name="list">
+		<tr class="row{$i % 2+1}" data="{$vo.indexpic}">
+			<td><input type="checkbox" name="SelectIDs" value="{$vo.id}" />
+				{$vo.id}</td>
+			<td>{$vo.title} 
+			<neq name="vo.indexpic" value=''><span class="fc_red">图</span></neq> 
+			<neq name="vo.linkurl" value=''><span class="fc_red">外</span></neq>
+			</td>
+			<td><a href="{:U('Cms/content','searchtype=2&keyword='.$vo['pid'])}">{:get_cate($vo['pid'])}</a></td>
+			<td><input name="Item_1" id="Item_1"
+				onchange="setVal('content','sort',{$vo.id},$(this).val())"
+				class="inputText1 numeric w50" value="{$vo.sort}" /></td>
+			<td><if condition="($vo.isresume eq 1)"> <a
+					href="javascript:void(0);"
+					onclick="setVal('content','isresume',{$vo.id},0)" class="fc_red">推荐</a>
+				<else /> <a href="javascript:void(0);"
+					onclick="setVal('content','isresume',{$vo.id},1)">未推荐</a> </if></td>
+			<td><if condition="($vo.status eq 1)"> <a
+					href="javascript:void(0);"
+					onclick="setVal('content','status',{$vo.id},0,this,'禁用')"  class="fc_red">启用</a> <else />
+				<a href="javascript:void(0);"
+					onclick="setVal('content','status',{$vo.id},1,this,'启用')">禁用</a> </if></td>
+			<td><a href="{:U('Cms/editContent','id='.$vo['id'])}"
+				class="btnEdit">修改</a> <a class="btnDel" href="javascript:void(0);"
+				onclick="var url='{:U("Cms/deleteContent","id=".$vo['id'])}';if(confirm('您确定删除该记录吗？')){location=url;}">删除</a></td>
+		</tr>
+		</volist>
+		<tr class="row0">
+			<td colspan="9" class="tr"><input type="button" class="btn2"
+				value="选中设置为" id="AllStatus_1" /> <select name="AllStatus_2"
+				id="AllStatus_2">
+					<option value="0" selected="selected">禁用</option>
+					<option value="1">启用</option>
+			</select></td>
+		</tr>
+		<tr class="row0">
+			<td colspan="9" class="tr"><input type="hidden" value="content"
+				id="ConstTbl" name="ConstTbl" /> <input type="button" class="btn2"
+				value="批量删除" id="AllDel" /> <input type="button" class="btn1"
+				value="全选" id="AllCheck" /> <input type="button" class="btn1"
+				value="反选" id="ReverseCheck" /></td>
+		</tr>
+		<tr class="footer">
+			<td colspan="9"><div class="page">{$page}</div></td>
+		</tr>
+	</table>
+	<include file="Index:footer" />
+<script language="javascript" type="text/javascript">
+$(function(){ 
+	$(".MainTbl tr").hover(function(event){
+	 var o=$(this);
+	 var img=o.attr("data"); 
+	 if(img!=""){
+		 var html1="";
+		 var html ="<img src=\""+img+"\" alt=\"\"/>";
+		 html1 = "<div id=\"hoverimg\" style=\"padding:10px;color:#f00\">"+html+"</div>";
+			 if($.trim(img)!=""){
+				 if($("#hoverimg").length==0){
+					 $(html1).appendTo($("body")); 
+				 } else{
+					 $("#hoverimg").html(html);
+				 };
+				 
+				$("#hoverimg").css({"left":o.position().left+60,"top":o.position().top+31}).show();	
+			 }
+		}
+	 },function(){
+		  $("#hoverimg").hide();
+	 });
+	 
+});
+
+</script>
+</body>
+</html>

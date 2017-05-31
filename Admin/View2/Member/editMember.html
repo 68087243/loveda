@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>会员编辑</title>
+    <include file="Index:_js_css"/>
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
+    <style>
+        table{ margin-top: 10px; border: 1px solid #bebbdb}
+    </style>
+</head>
+<body>
+<!--<form action="__URL__/editMember" method="post" name="form1" id="form1" >-->
+    <input type="hidden" id="userid" value="{$info.id}"/>
+    <table border="0" cellspacing="0" cellpadding="3" class="MainTbl member" id="member">
+        <tr class="toolbar">
+            <td colspan="5" class=" ">【 用户信息 】 &nbsp;&nbsp;用户ID:{$info.id}
+            &nbsp;&nbsp;&nbsp;&nbsp;<a onclick="login({$info.id})" class="underline">以该会员身份登录</a>
+        </tr>
+        <tr>
+            <td>
+                <span class="title">用户名:</span>
+                <span class="t_val"><input type="text" name="username" value="{$info.username}"/></span>
+            </td>
+            <td>
+                <span class="title">openid&nbsp;:</span>
+                <span class="t_val">{$info.wechatid}</span>
+            </td>
+            <td>
+                <span class="title">家庭人数:</span>
+                <span class="t_val">{$info.familynum}</span>
+            </td>
+            <td>
+                <span class="title">注&nbsp;&nbsp;册&nbsp;&nbsp;日&nbsp;&nbsp;期:</span>
+                <span class="t_val">{$info.addtime}</span>
+            </td>
+            <td>
+                <span class="title">注册时长:</span>
+                <span class="t_val js_reg_time">{:getDay($info['addtime'])}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="title">Email&nbsp;:</span>
+                <span class="t_val"><input type="text" name="email" value="{$info.email}"/></span>
+            </td>
+            <td>
+                <span class="title">职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;业:</span>
+                <span class="t_val"><input type="text" name="occupation" value="{$info.occupation}"/></span>
+            </td>
+            <td>
+                <span class="title">微&nbsp;信&nbsp;名:</span>
+                <span class="t_val">{$info.weixin}</span>
+            </td>
+            <td>
+                <span class="title">居住城市:</span>
+                <span class="t_val">{$info.cityname}</span>
+            </td>
+            <td>
+                <span class="title">上次下单天数:</span>
+                <span class="t_val js_order_time">{:getDay($order_time)}</span>
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <span class="title">电&nbsp;&nbsp;&nbsp;话:</span>
+                <span class="t_val"><input type="text" name="telephone" value="{$info.telephone}"/></span>
+            </td>
+            <td>
+                <span class="title">用户级别:</span>
+                <span class="t_val">
+                    <select name="usertype">
+                        <option value="">--用户级别--</option>
+                        <volist name="level" id="vo">
+                            <option value="{$vo.id}"  <if condition="($info['usertype'] eq $vo['id'])">selected</if>>{$vo.name}</option>
+                        </volist>
+                    </select>
+                </span>
+            </td>
+            <td>
+                <span class="title">性&nbsp;&nbsp;&nbsp;别:</span>
+                <span class="t_val">
+                        <input type="radio"  name="sex" id="sex1"  value="1"  <if condition="($info.sex eq 1)">checked</if> />
+                        <label for="sex1">男</label>
+                        <input type="radio"  name="sex" id="sex0"  value="0"  <if condition="($info.sex eq 0)">checked</if> />
+                        <label for="sex0">女</label>
+                </span>
+            </td>
+            <td>
+                <span class="title">上次下单日期:</span>
+                <span class="t_val">{$order_time|default='无'}</span>
+            </td>
+            <td style="text-align: center" rowspan="2">
+                <button onclick="modifyUser('{$info.id}')" style="height: 35px;width: 80px;">保存</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="title">改密码:</span>
+                <span class="t_val"><input type="password" name="password" value="{$info.userpwd}"/></span>
+            </td>
+            <td>
+                <lable>用户折扣:</lable>
+                <select name="discount_id">
+                    <option value="">--请选择--</option>
+                    <volist name="discount" id="vo">
+                        <option value="{$vo.id}" <if condition="$info['discount_id'] eq $vo['id']">selected</if>>{$vo.namecn}</option>
+                    </volist>
+                </select>
+            </td>
+            <td colspan="2">
+                <span class="title">用户喜好:</span>
+                <span class="t_val"><input type="text" name="hobby" value="{$info.hobby}"/></span>
+            </td>
+        </tr>
+    </table>
+    <br/>
+
+    <div>
+        <h3>
+           【 收货地址 】
+        </h3>
+        <volist name="addresslist" id="vo">
+            <table border="0" cellspacing="0" cellpadding="3" class="MainTbl member addr_tabel_{$vo.id}"  >
+                <tr>
+                    <td rowspan="4" width="20">{$i}</td>
+                    <td rowspan="4" width="20"><if condition="$vo['isdefault'] eq 1">默认</if></td>
+                    <td>
+                        <span class="title">收&nbsp;货&nbsp;人&nbsp;:</span>
+                        <span class="t_val"><input type="text" name="username" value="{$vo.username}" /> </span>
+                    </td>
+                    <td>
+                        <span class="title">电&nbsp;&nbsp;话:</span>
+                        <span class="t_val"><input type="text" name="telephone" value="{$vo.telephone}" /></span>
+                    </td>
+
+                    <td>
+                        <span class="title">性&nbsp;&nbsp;&nbsp;别:</span>
+                        <span class="t_val">
+                            <input type="radio"  name="sex{$vo.id}" value="1"  <if condition="($vo.sex eq 1)">checked</if> />
+                            <label for="sex1">男</label>
+                            <input type="radio"  name="sex{$vo.id}" value="0"  <if condition="($vo.sex eq 0)">checked</if> />
+                            <label for="sex0">女</label>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="title">语言:</span>
+                        <span class="t_val">
+                             <if condition="$vo.language eq 1">
+                                 中文
+                             <else/>
+                                 英文
+                             </if>
+                        </span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <span class="title">地址简称:</span>
+                        <span class="t_val"><input type="text" name="address_or" value="{$vo.address_or}"/></span>
+                    </td>
+                    <td>
+                        <span class="title">电话2:</span>
+                        <span class="t_val"><input type="text" name="telephone2" value="{$vo.telephone2}"/></span>
+                    </td>
+                    <td>
+                        <span class="title">城市:</span>
+                        <span class="t_val">{$vo.cityname}</span>
+                    </td>
+                    <td colspan="3">
+                        <span class="title">进入提示:</span>
+                        <span class="t_val"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <span class="title">详细地址:</span>
+                        <span class="t_val">
+                            <input type="text" value="{$vo.address}" name="address" size="100" />
+                        </span>
+                    </td>
+                    <td rowspan="2"><button  style="height: 35px;width: 80px;" onclick="modifyAddr({$vo.id})">保存</button></td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <span class="title">中文地址:</span>
+                        <span class="t_val">
+                            <input type="text"  value="{$vo.address_reserve}" name="address_reserve" size="100" />
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </volist>
+    </div>
+<include file="Index:footer"/>
+<script>
+    upload.prototype.createContent("#content",'info');
+    var login_key =     '{$login_key}';
+//        regist_time = '{$info.addtime}',
+//        order_time = '{$order_time}';
+//    $(function(){
+//        var myDate = new Date(),
+//            date =  myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate();//获取当前时间,
+//        $('.js_reg_time').html( DateDiff(date,regist_time.substr(0,10))+'天');
+//        $('.js_order_time').html( DateDiff(date,order_time.substr(0,10))+'天');
+//    })
+
+    function DateDiff(sDate1, sDate2) {  //sDate1和sDate2是yyyy-MM-dd格式
+
+        var aDate, oDate1, oDate2, iDays;
+        aDate = sDate1.split("-");
+        oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);  //转换为yyyy-MM-dd格式
+        aDate = sDate2.split("-");
+        oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]);
+        iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24); //把相差的毫秒数转换为天数
+
+        return iDays;  //返回相差天数
+    }
+
+    function login($id){
+        $.post('/admin/member/loginToUser.html',{'userid':$id,'toadmin':login_key},function(data){
+            if(data.code==200 ){
+                window.open(data.data)
+            }else{
+                clearpopj(data.message,'error',true)
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+<title>订座列表</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+	<form action="" method="get" name="form1" id="form1">
+		<input type="hidden" name="status" id="status" value="{:I('status')}" />
+		<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+			<tr>
+				<td>关 键 词： <input type="text" class="inputText1" id="keyword"
+					name="keyword" value="{$keyword}" /> <select id="searchtype"
+					name="searchtype">
+						<option value="0">标题</option>
+						<if condition="($searchtype eq 1)">
+						<option value="1" selected="selected">门店ID</option>
+						<else />
+						<option value="1">门店ID</option>
+						</if> 
+				</select> <input type="submit" class="btn1" value="查询" /></td>
+			</tr>
+
+			<tr>
+				<td>订座状态： <a href="{:U('Seat/seat')}" >全部</a>
+					<if condition="($status eq 1)"> <a
+						href="{:U('Seat/seat','status=1')}" class="fc_red">启用</a> <else />
+					<a href="{:U('Seat/seat','status=1')}">启用</a> </if> <if
+						condition="($status eq '0')"> <a
+						href="{:U('Seat/seat','status=0')}" class="fc_red">禁用</a> <else />
+					<a href="{:U('Seat/seat','status=0')}">禁用</a> </if>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<div class="dot"></div>
+	<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+		<tr class="toolbar">
+			<td colspan="7" class="tc">【 管理订座 】</td>
+		</tr>
+		<tr class="row0">
+			<td colspan="7"><a href="{:U('Admin/Seat/addSeat')}"
+				class="btnAdd">添加</a></td>
+		</tr>
+		<tr class="header">
+			<td width="50">ID</td>
+			<td width="100">标题</td>
+			<td width="100">所属门店</td>
+			<td width="100" >可预订桌数</td>
+			<td>定金</td>
+			<td width="50">状态</td>
+			<td width="110">操作</td>
+		</tr>
+		<volist id="vo" name="list">
+		<tr class="row{$i % 2+1}">
+			<td><input type="checkbox" name="SelectIDs" value="{$vo.id}" />
+				{$vo.id}</td>
+			<td>{$vo.title}</td>
+			<td><a href="{:U('Seat/seat','searchtype=1&keyword='.$vo['shop_id'])}">{$vo.shop_id|get_shopname}</a></td>
+			<td>{$vo.num}</td>
+			<td>{$vo.price}</td>
+			<td><if condition="($vo.status eq 1)"> <a
+					href="javascript:void(0);"
+					onclick="setVal('Seat','status',{$vo.id},0,this,'禁用')">启用</a> <else />
+				<a href="javascript:void(0);"
+					onclick="setVal('Seat','status',{$vo.id},1,this,'启用')">禁用</a> </if> </td>
+			<td><a href="{:U('Seat/editSeat','id='.$vo['id'])}"
+				class="btnEdit">修改</a> <a class="btnDel" href="javascript:void(0);"
+				onclick="var url='{:U("Seat/deleteSeat","id=".$vo['id'])}';if(confirm('您确定删除该记录吗？')){location=url;}">删除</a></td>
+		</tr>
+		</volist>
+		 
+		<tr class="row0">
+			<td colspan="9" class="tr"><input type="hidden" value="Seat"
+				id="ConstTbl" name="ConstTbl" /> <input type="button" class="btn2"
+				value="批量删除" id="AllDel" /> <input type="button" class="btn1"
+				value="全选" id="AllCheck" /> <input type="button" class="btn1"
+				value="反选" id="ReverseCheck" /></td>
+		</tr>
+		<tr class="footer">
+			<td colspan="9"><div class="page">{$page}</div></td>
+		</tr>
+	</table>
+	<include file="Index:footer" />
+</body>
+</html>

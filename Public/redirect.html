@@ -1,0 +1,36 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>redirect</title>
+<script type="text/javascript">
+        //获取url参数
+        function getParameter(val) {
+            var uri = window.location.search;
+            var re = new RegExp("" + val + "=([^&?]*)", "ig");
+            return ((uri.match(re)) ? (uri.match(re)[0].substr(val.length + 1)) : null);
+        }
+        var upload_callback = function(){
+            var data=getParameter("s");
+            var location_hash=location.hash;
+            if(location_hash!=null && location_hash!="" && location_hash){
+                var data = location.hash ? location.hash.substring(1) : '';
+                data = decodeURIComponent(data);
+                data = setUrl(data);
+                document.getElementsByTagName("body")[0].innerHTML = '<pre>' + data  + '</pre>';
+            }else{
+                data = decodeURIComponent(data);
+                data = setUrl(data);
+                document.getElementsByTagName("body")[0].innerHTML = '<pre>' + data  + '</pre>';
+            }
+        };
+        
+        function setUrl(data){
+        	var obj = eval('(' + data + ')');
+            obj.url = "http://"+window.location.host+ obj.url;
+        	return JSON.stringify(obj);
+        }
+    </script>
+</head>
+<body onload="upload_callback();">
+</body>
+</html>

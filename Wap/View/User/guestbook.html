@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="Robots" content="noindex,nofollow,noarchive" />
+    <title>爱大叔</title>
+    <include file="Index:wap_js_css"/>
+<body pagename="login" style="overflow-x:hidden;" data-uid="{$_REQUEST['uid']}" data-gid="{$_REQUEST['gid']}" data-currentuid="{$user.uid}">
+<include file="User:uhead"/>
+<div class="reply-list" id="reply_list" style="margin-bottom: 70px">
+    <ul class="container borderb-d">
+    </ul>
+    <div onclick="if($('body').data('gid')){$('body').data('gid','');page = 0; $('#reply_list ul').html('');}getGuestbook(this);" class="tc clo9 font13 loadmore" >加载更多</div>
+</div>
+<div class=" bordert-d borderb-d" style="width: 100%;position: fixed;bottom:0; ">
+    <div class="reply-input container" id="reply">
+        <input type="hidden" name="tid" value=""/>
+        <input type="hidden" name="uid" value="{$_REQUEST['uid']}"/>
+        <input type="hidden" name="type" value="add"/>
+        <input type="text" placeholder="发表留言" name="message" class="fl"/>
+        <span class="fr" onclick="subMsg()">发表</span>
+    </div>
+</div>
+<script>
+    $('#reply input[name=message]').css({'width':($('#reply ').width()-60)+'px'})
+    function subMsg(touser,uid){
+        if(uid){
+            $('#reply input[name=touser]').val(uid);
+            $('#reply input[name=message]').val("@"+touser+" ");
+        }
+        var uid = $('#reply input[name=uid]').val();
+        var type = $('#reply input[name=type]').val();
+        var tid = $('#reply input[name=tid]').val();
+
+        var message = $('#reply input[name=message]').val();
+        $.post('/user/subGuestbook.html',{uid:uid,message:message,tid:tid,type:type},function(data){
+            if(data.code == 200){
+                window.location.reload();
+                $('#reply input[name=message]').val('');
+            }
+            clearpop(data.message);
+        })
+    }
+
+    var page = 0;
+    function getGuestbook($tagobj){
+        $.post('/user/getGuestbook.html',{page:page,uid:$('body').data('uid'),gid:$('body').data('gid')},function(data){
+            var obj = data.data,$html='';
+            if(obj){
+                for(var i in obj){
+                    $html+='<li class="reply-item bordert-d">';
+                    $html+='<div class="stream-content">';
+                    $html+='<div>';
+                    $html+='<div class="fl">';
+                    if(obj[i]['picture']){
+                        $html+='<a href="/user/userinfo.html?uid='+obj[i]['cuid']+'" class="item-user"><img src="'+PUBLIC+'/'+obj[i]['picture']+'" width="40" alt=""> </a>';
+                    }else{
+                        $html+='<a href="/user/userinfo.html?uid='+obj[i]['cuid']+'" class="item-user"><img src="'+STATIC+'/image/defaultAvatar.png" width="40" alt=""> </a>';
+                    }
+                    $html+='</div>';
+                    $html+='<div class="fl">';
+                    $html+='<div class="item-nickname fontb clo3" style="height: 17px;" ><a href="/user/userinfo.html?uid='+obj[i]['cuid']+'">'+obj[i]['nickname']+'</a></div>';
+                    $html+='<span class="clo9 font12"> '+f+'楼&nbsp;&nbsp;'+obj[i]['createtime']+'</span>';
+                    $html+='</div>';
+                    if(obj[i]['uid'] == $('body').data('currentuid')){
+                        $html+='<div class="fr relative top5"><img src="'+STATIC+'/image/reply.png" onclick="reply(\''+obj[i]['nickname']+'\','+obj[i]['cuid']+','+obj[i]['gid']+')" width="30" alt=""/></div>';
+                    }
+                    $html+='<div class="clr"></div>';
+                    $html+='</div>';
+                    $html+='<div class="clo9">'+obj[i]['message']+'</div>';
+                    $html+='</div>';
+                    if(obj[i]['reply']){
+                        var reply = obj[i]['reply'];
+                        for(var j in reply){
+                            $html+='<ul class="container" style="width: 100%;">';
+                            $html+='<li class="reply-item " style="width: 80%;border-top: 1px dashed #dddddd">';
+                            $html+='<div class="stream-content">';
+                            $html+='<div>';
+                            $html+='<div class="fl">';
+                            if(reply[j]['avatar']){
+                                $html+='<a href="/user/userinfo.html?uid='+reply[j]['uid']+'" class="item-user"><img src="'+PUBLIC+'/'+reply[j]['avatar']+'" width="40" alt=""> </a>';
+                            }else{
+                                $html+='<a href="/user/userinfo.html?uid='+reply[j]['uid']+'" class="item-user"><img src="'+STATIC+'/image/defaultAvatar.png" width="40" alt=""> </a>';
+                            }
+                            $html+='</div>';
+                            $html+='<div class="fl">';
+                            $html+='<div class="item-nickname fontb clo3" style="height: 17px;" ><a href="/user/userinfo.html?uid='+reply[j]['uid']+'">'+reply[j]['nickname']+'</a></div>';
+                            $html+='<span class="clo9 font12"> '+f+'楼&nbsp;&nbsp;'+reply[j]['createtime']+'</span>';
+                            $html+='</div>';
+                            if(reply[j]['uid'] != $('body').data('currentuid')){
+                                $html+='<div class="fr relative top5"><img src="'+STATIC+'/image/reply.png" onclick="reply(\''+reply[j]['nickname']+'\','+reply[j]['uid']+','+obj[i]['gid']+')" width="30" alt=""/></div>';
+                            }
+                            $html+='<div class="clr"></div>';
+                            $html+='</div>';
+                            $html+='<div class="clo9">'+reply[j]['message']+'</div>';
+                            $html+='</div>';
+                            $html+='</li>';
+                            $html+='</ul>';
+                        }
+                    }
+                    $html+='</li>';
+                    f++;
+                }
+                page++;
+                $('#reply_list ul').append($html);
+            }else{
+                clearpop('没有更多了');
+                $($tagobj).hide();
+            }
+        })
+    }
+    getGuestbook();
+</script>
+</body>
+</html>

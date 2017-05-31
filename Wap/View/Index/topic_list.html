@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <include file="Index:wap_js_css"/>
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="__STATIC__/page/css/icon.css?version={:version()}"/>
+<div class="clearfix">
+    <ul class="user_header top-head container">
+        <li class="fl" onclick="window.history.back(-1)"><span class="back"></span></li>
+        <li class="tc fl top-htit">
+            <span class="fontb font24">爱大叔</span>
+        </li>
+        <li class="fr" onclick="openside();"><span class="menu"></span></li>
+    </ul>
+    <div class="clr"></div>
+</div>
+<php>$user = Common\Model\UserModel::getUser();$currentuid=$user['uid']</php>
+<include file="Index:_side"/>
+<div class="container topic-box">
+    <div class="topic-itme">
+        <div class="topic_u_info">
+            <div class="fl">
+                <img src="__STATIC__/image/defaultAvatar.png" width="40" alt=""/>
+                <span clo3>我不是稻草人</span>
+                <span>L1</span>
+            </div>
+            <div class="clo9 fr topic-c-time">2017-4-16</div>
+        </div>
+        <div class="topic_tit clo3 font16 fontb">此处。陌生</div>
+        <div class="topic_content font14">
+            阳光照进房间，新鲜的光线穿透窗纱，在清早的洁白里，蔓延成清醒的白日。昼与夜，被如此精巧分割，相持在分明的两端。分与秒，在6点30分的位置越过，如无数次重复的越过。
+            我平卧在安静中。
+            <div class="r-b-l fl r-b"><img src="__STATIC__/image/b2.png" alt=""/></div>
+            <div class="r-b-r fr r-b"><img src="__STATIC__/image/b3.png" alt=""/></div>
+            昨夜的梦，残存在虚弱的知觉，散发不明缘由的喜悦。那大约是一个有微笑的梦，只是，匆忙醒来的我，已追忆不起任何情节或场景，哪怕，浮光掠影的细节。只任心，悄悄蓬松着，溢出轻轻的快乐，像遥远的海上，正在生长的云朵。那些遥远的地点，海洋，原野，高山，总在无止境的想象中，将我们的生活带向漂浮，带向高空。
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+<title>会员列表</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+	<form action="" method="get" name="form1" id="form1">
+		<input type="hidden" name="status" id="status" value="{:I('status')}" />
+		<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+			<tr>
+				<td>关 键 词： <input type="text" class="inputText1" id="keyword"
+					name="keyword" value="{$keyword}" /> <select id="searchtype"
+					name="searchtype">
+						<option value="0">用户名</option>
+						<if condition="($searchtype eq 1)">
+						<option value="1" selected="selected">收件人</option>
+						<else />
+						<option value="1">收件人</option>
+						</if>
+						<if condition="($searchtype eq 2)">
+						<option value="2" selected="selected">联系电话</option>
+						<else />
+						<option value="2">联系电话</option>
+						</if>
+						<if condition="($searchtype eq 3)">
+						<option value="3" selected="selected">Email</option>
+						<else />
+						<option value="3">Email</option>
+						</if>
+						<if condition="($searchtype eq 4)">
+						<option value="4" selected="selected">等级ID</option>
+						<else />
+						<option value="4">等级ID</option>
+						</if>
+						<if condition="($searchtype eq 5)">
+						<option value="5" selected="selected">微信名</option>
+						<else />
+						<option value="5">微信名</option>
+						</if>
+				</select> <input type="submit" class="btn1" value="查询" /></td>
+			</tr>
+
+			<tr>
+				<td>会员类型： <a href="{:U('Member/member')}" >全部</a>
+					<volist name="levels" id="vo">
+					<a href="{:U('Member/member','searchtype=4&keyword='.$vo['id'])}" <eq name="level" value="$vo['id']">class="fc_red"</eq>>{$vo.name}</a>&nbsp;
+					</volist>
+
+				</td>
+			</tr>
+		</table>
+	</form>
+	<div class="dot"></div>
+	<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+		<tr class="toolbar">
+			<td colspan="8" class="tc">【 管理会员 】</td>
+		</tr>
+		<tr class="row0">
+			<td colspan="8"><a href="{:U('Admin/Member/addMember')}"
+				class="btnAdd">添加</a></td>
+		</tr>
+		<tr class="header">
+			<td width="60">ID</td>
+			<td width="100">用户名/微信名</td>
+			<td width="100">收件人</td>
+			<td width="120">联系电话</td>
+			<td  >Email地址</td>
+			<td>用户地址</td>
+			<td width="120">注册时间</td>
+			<td width="110">操作</td>
+		</tr>
+		<volist id="vo" name="list">
+		<tr class="row{$i % 2+1}">
+			<td><input type="checkbox" name="SelectIDs" value="{$vo.id}" />
+				{$vo.id}</td>
+			<td>{$vo.username}<notempty name="vo.weixin">/{$vo.weixin}</notempty></td>
+			<td>{$vo.userreal} </td>
+			<td>{$vo.telephone}</td>
+			<td>{$vo.email}</td>
+			<td>{$vo.address}</td>
+			<td>{$vo.addtime}</td>
+			<td><a href="{:U('Member/editMember','id='.$vo['id'])}"
+				class="btnEdit">修改</a> <a class="btnDel" href="javascript:void(0);"
+				onclick="var url='{:U("Member/deleteMember","id=".$vo['id'])}';if(confirm('您确定删除该记录吗？')){location=url;}">删除</a></td>
+		</tr>
+		</volist>
+		 
+		<tr class="row0">
+			<td colspan="10" class="tr"><input type="hidden" value="member"
+				id="ConstTbl" name="ConstTbl" /> <input type="button" class="btn2"
+				value="批量删除" id="AllDel" /> <input type="button" class="btn1"
+				value="全选" id="AllCheck" /> <input type="button" class="btn1"
+				value="反选" id="ReverseCheck" /></td>
+		</tr>
+		<tr class="footer">
+			<td colspan="10"><div class="page">{$page}</div></td>
+		</tr>
+	</table>
+	<include file="Index:footer" />
+</body>
+</html>

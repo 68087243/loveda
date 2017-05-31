@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>产地列表</title>
+<include file="Index:_js_css" />
+</head>
+<body class="bg_white">
+
+<div class="container">
+    <div class="tab_box" id="title_tab">
+        <ul>
+            <li <if condition="!isset($_REQUEST['type']) || $_REQUEST['type'] eq 1"> class="onselect"</if> data-name="origin_table" ><a href="?type=1">产地列表</a></li>
+            <li  <if condition="isset($_REQUEST['type']) && $_REQUEST['type'] eq 2"> class="onselect"</if> data-name="storage_table"><a href="?type=2">保存方法</a></li>
+        </ul>
+    </div>
+    <table class="mytables" id="origin_table" style="width: 100%;margin: 0 auto; " >
+        <tr>
+            <th width="5%">ID</th>
+            <th>产地(英文)</th>
+            <th>产地(中文)</th>
+            <th width="8%">状态</th>
+            <th width="10%">编辑</th>
+        </tr>
+        <volist name="list" id="vo">
+            <tr class="list_{$vo.id}" data-nameen="{$vo.name}" data-namecn="{$vo.namecn}" data-status="{$vo.status}">
+                <td>{$vo.id}</td>
+                <td>{$vo.name}</td>
+                <td>{$vo.namecn}</td>
+                <td align="center">
+                    <if condition="$vo['status'] eq 1">
+                        <a href="javascript:setStatus('{$vo.id}',0)">启用</a>
+                    <else/>
+                        <a href="javascript:setStatus('{$vo.id}',1)">禁用</a>
+                    </if>
+                </td>
+                <td align="center">
+                    <a href="javascript:showBox('{$vo.id}',1)">修改</a>
+                    <a href="javascript:setStatus('{$vo.id}',-1)">删除</a>
+                </td>
+            </tr>
+        </volist>
+        <tr>
+            <td colspan="5" align="right"  style="height: 40px;;">
+                <input type="submit" class="sure_btn" value="新增" onclick="showBox('',1)" />
+            </td>
+        </tr>
+    </table>
+    <table class="mytables" id="storage_table" style="width: 100%;margin: 0 auto; display: none " >
+        <tr>
+            <th width="5%">ID</th>
+            <th>保存方法(英文)</th>
+            <th>保存方法(中文)</th>
+            <th width="8%">状态</th>
+            <th width="10%">编辑</th>
+        </tr>
+        <volist name="list" id="vo">
+            <tr class="list_{$vo.id}" data-nameen="{$vo.name}" data-namecn="{$vo.namecn}" data-status="{$vo.status}">
+                <td>{$vo.id}</td>
+                <td>{$vo.name}</td>
+                <td>{$vo.namecn}</td>
+                <td align="center">
+                    <if condition="$vo['status'] eq 1">
+                        <a href="javascript:setStatus('{$vo.id}',0)">启用</a>
+                    <else/>
+                        <a href="javascript:setStatus('{$vo.id}',1)">禁用</a>
+                    </if>
+                </td>
+                <td align="center">
+                    <a href="javascript:showBox('{$vo.id}',2)">修改</a>
+                    <a href="javascript:setStatus('{$vo.id}',-1)">删除</a>
+                </td>
+            </tr>
+        </volist>
+        <tr>
+            <td colspan="5" align="right"  style="height: 40px;;">
+                <input type="submit" class="sure_btn" value="新增" onclick="showBox('',2)" />
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="origin_box" class="hide">
+    <form onsubmit="return false" id="origin_form">
+        <input type="hidden" name="id"/>
+        <input type="hidden" name="type"/>
+        <div class="row_item">
+            <label>英文名：</label>
+            <input type="text" class="input_text2" name="nameen" />
+        </div>
+        <div class="row_item">
+            <label>中文名：</label>
+            <input type="text" class="input_text2" name="namecn" />
+        </div>
+        <div class="row_item">
+            <label class="fl">状态：</label>
+            <div class="idealforms_select fl">
+                <div class="idealforms_select_obj" >
+                    <input type="hidden" value="" name="status">
+                    <input type="text" value="" readonly>
+                    <span class="caret"></span>
+                </div>
+                <ul class="idealforms_select_menu">
+                    <li data-value="1">启用</li>
+                    <li data-value="2">禁止</li>
+                </ul>
+            </div>
+            <div class="clr"></div>
+        </div>
+        <div class="tc row_item">
+            <input type="submit" onclick="modifyGoodAttr()" class="sure_btn" value="提交" />
+        </div>
+    </form>
+</div>
+<script>
+    $('table.mytables').hide();
+    $('#'+$('#title_tab li.onselect').data('name')).show();
+
+    $("#origin_form").idealforms();
+    function showBox($id,type){
+
+        $('#origin_form input[name=type]').val(type);
+        $('#origin_form input[name=id]').val($id);
+        $('#origin_form input[name=nameen]').val($('.list_'+$id).data('nameen'));
+        $('#origin_form input[name=namecn]').val($('.list_'+$id).data('namecn'));
+        if($id){
+            setSelectSelected('#origin_box input[name=status]',$('.list_'+$id).data('status'));
+        }
+        getMask().maskShow({"tit": "添加/修改产地","width":480, "cont": "#origin_box"});
+    }
+    //提交编辑
+    function modifyGoodAttr(type){
+        if(!type){
+            var type =  $('#origin_form input[name=type]').val();
+        }
+        var id = $('#origin_form input[name=id]').val(),
+            name = $('#origin_form input[name=nameen]').val(),
+            namecn = $('#origin_form input[name=namecn]').val(),
+           status = $('#origin_form input[name=status]').val();
+        if(!name){
+            clearpopj('必须填写英文名','error',true);
+            return false;
+        }
+        $.post('/admin/cms/modifyGoodAttr.html',{id:id,name:name,namecn:namecn,status:status,type:type},function(data){
+            if(data.code == 200){
+                clearpop(data.message,'','self');
+            }else{
+                clearpopj(data.message,'error',true);
+            }
+        })
+    }
+
+    function setStatus($id ,status){
+        $.post('/admin/cms/modifyGoodAttr.html',{id:$id,status:status},function(data){
+            if(data.code == 200){
+                clearpop(data.message,'','self');
+            }else{
+                clearpop(data.message);
+            }
+        })
+    }
+</script>
+</body>
+</html>

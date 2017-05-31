@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}</title>
+    <include file="Index:header" />
+</head>
+
+<body style="background: #f8f8f8">
+<include file="Index:nav2" />
+<div class="container">
+    <div class="path clr"><a href="/">Home</a> &gt; <a href="/member/index.html">My Account</a> </div>
+    <div class="content">
+        <div class="left fl">
+            <include file="left" />
+        </div>
+        <div class="right fr changpwd bg_white">
+            <div class="order_item_title ">Change password</div>
+            <hr width="965px" size="1" color="#e0e0e0" style="margin: 0 auto"/>
+            <div class="pwd_box">
+                <div class="pwd_ionput">Old Password&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" placeholder="4-20 characters" class="text_input" name="old_pwd"/></div>
+                <div class="pwd_ionput">New Password&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" placeholder="4-20 characters" class="text_input" name="pwd"/></div>
+                <div class="pwd_ionput">Confirm password&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" placeholder="4-20 characters" class="text_input"  name="pwd1"/></div>
+            </div>
+            <div class=" submitOrder_b changpwd">
+                <button onclick="changePwd();" class="submitOrder ">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clr"></div>
+<include file="Index:footer" />
+<script>
+    function changePwd(){
+        var old_pwd =$('.pwd_box input[name=old_pwd]').val(),
+            pwd =$('.pwd_box input[name=pwd]').val(),
+            pwd1 =$('.pwd_box input[name=pwd1]').val();
+        if(!old_pwd){
+            $('.pwd_box input[name=old_pwd]').val('');
+            $('.pwd_box input[name=old_pwd]').focus();
+            clearpopj("Please input old password", "error",true);
+            return false;
+        }
+        if(old_pwd.length<3){
+            $('.pwd_box input[name=old_pwd]').val('');
+            $('.pwd_box input[name=old_pwd]').focus();
+            clearpopj("Old password should be at least 4 characters.", "error",true);
+            return false;
+        }
+
+        if(!pwd){
+            $('.pwd_box input[name=pwd]').val('');
+            $('.pwd_box input[name=pwd]').focus();
+            clearpopj("Please input new password", "error",true);
+            return false;
+        }
+        if(pwd.length<3){
+            $('.pwd_box input[name=pwd]').val('');
+            $('.pwd_box input[name=pwd]').focus();
+            clearpopj("New password should be at least 4 characters.", "error",true);
+            return false;
+        }
+        if(pwd != pwd1){
+            $('.pwd_box input[name=pwd1]').val('');
+            $('.pwd_box input[name=pwd1]').focus();
+            clearpopj("The two passwords are not same.", "error",true);
+            return false;
+        }
+        $.post('/member/changeUserPwd.html',{old_pwd:old_pwd,pwd:pwd,pwd1:pwd1},function(data){
+            if(data.code == 200){
+                clearpopj(data.message, "success",true,'/login/index.html');
+            }else{
+                clearpopj(data.message, "error",true);
+            }
+        })
+    }
+</script>
+</body>
+</html>

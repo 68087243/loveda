@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <include file="Index:wap_js_css"/>
+</head>
+<body>
+<include file="user:uhead"/>
+<div class="line10 bordert-d"></div>
+<div class="hotlist bordert-d ">
+    <div class="hot_tit fontb font16 borderb-d dred">爱大叔，找到爱你的人 <span class="fr">...</span></div>
+    <div class="hot_list container">
+        <ul>
+            <volist name="list" id="vo">
+                <li  onclick="window.location.href='/index/topicInfo.html?tid={$vo.tid}'"><span class="hot_num clof tc">{$i}</span>&nbsp;&nbsp;{$vo.title}</li>
+            </volist>
+            <li><span class="hot_num clof tc">4</span>&nbsp;&nbsp;学院派妹子真心求包养</li>
+            <li><span class="hot_num clof tc">5</span>&nbsp;&nbsp;学院派妹子真心求包养</li>
+            <li><span class="hot_num clof tc">6</span>&nbsp;&nbsp;学院派妹子真心求包养</li>
+        </ul>
+    </div>
+</div>
+<include file="Index:footer"/>
+<script>
+    $(function(){
+        $('.r_recommend .r_box .rb-bgimg img').attr('width',$('.r_recommend .r_box .r-b').width());
+    })
+</script>
+</body>
+</html>

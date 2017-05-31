@@ -1,0 +1,101 @@
+<php>$user = Common\Model\UserModel::getUser();$currentuid=$user['uid'];</php>
+<link rel="stylesheet" type="text/css" href="__STATIC__/page/css/icon.css?version={:version()}"/>
+<div class="bgf navbar-fixed-top">
+    <div class="container  borderb-d">
+        <nav class="navbar" role="navigation">
+            <div class="collapse navbar-collapse relative" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav" style="height: 85px;">
+                    <li class="active">
+                       <a href="/">
+                           <!--<img src="__STATIC__/image/logo.png" width="190"  alt=""/>-->
+                           <span class="fontb clo6" style="font-size: 50px;line-height: 65px;">爱大叔</span>
+                       </a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav top_bar navbar-right" style="height: 40px;">
+                    <li class="dropdown ">
+                        <if condition="$user['uid']">
+                            <a href="/member/index.html"  style="height: 40px;" class="dropdown-toggle clo6" data-toggle="dropdown">
+                                <img src="__PUBLIC__{$user.picture|default='/static/image/noavatar_middle.gif'}" width="25" class="user_noavatar_img"/>
+                                {$user.nickname|msubstr=0,9,'UTF-8',true}&nbsp;
+                                <strong class="caret"></strong>
+                            </a>
+                        <else/>
+                            <a href="/login/index.html" class="dropdown-toggle clo3" data-toggle="">
+                               登录/注册
+                            </a>
+                        </if>
+                        <ul class="dropdown-menu" style="min-width: 100px;">
+                            <li>
+                                <a href="/member/index.html">个人中心</a>
+                            </li>
+                            <li>
+                                <a href="#">帖子文章</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="/login/logout.html">退出登录</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="clo6 "><img src="__STATIC__/image/page/home/location.png" width="15" alt=""/>设位置</a>
+                    </li>
+                    <li>
+                        <a href="#" class="clo6" style="padding: 4px 0"><img src="__STATIC__/image/page/home/mail.png" width="28" alt=""/>消息</a>
+                    </li>
+                </ul>
+                <!--<form onsubmit='return false;' id="searchForm" class="absolute nav navbar-nav navbar-right" style="top: 50px;right: 0" >
+                        <select name="proivce" onchange="checkeSupsort($(this).val(), $('#searchForm select[name=city]'));"  style="width: 80px;height: 32px;">
+                            <option value="">请选择</option>
+                            <volist name="priovce" id="vo">
+                                <option value="{$vo.aid}">{$vo.name}</option>
+                            </volist>
+                        </select>
+                        <select name="city" style="width: 80px;height: 32px;">
+                            <option value="">请选择</option>
+                        </select>
+                        <select name="ren" style="width: 80px;height: 32px;">
+                            <option value="1">游伴</option>
+                            <option value="2">游客</option>
+                        </select>
+                        <img src="__STATIC__/image/page/home/search_flat.png" width="31" alt=""/>
+                    </ul>
+                </form>-->
+            </div>
+        </nav>
+
+        <nav class="navbar navhead" role="navigation">
+            <div class="collapse navbar-collapse relative" id="bs-example-navbar-collapse-2">
+                <ul class="nav navbar-nav fl " style="height: 30px;width: 100%;">
+                    <li>
+                        <a href="/index/richkept.html" class="clo6"><img src="__STATIC__/image/page/home/pin_green.png" width="15" alt=""/>&nbsp;&nbsp;&nbsp;悬赏任务</a>
+                    </li>
+                    <li class="selected">
+                        <a href="/" class="clo6">首页</a>
+                    </li>
+                    <li>
+                        <a href="javascript:if(confirm('你没有权限，请升级你的会员等级'))window.location.href='/'" class="clo6">找美女</a>
+                    </li>
+                    <li>
+                        <a href="#" class="clo6">找土豪</a>
+                    </li>
+                    <li class="planitem">
+                        <a href="/index/planlist.html" class="clo6">养成计划</a>
+                    </li>
+                    <li>
+                        <a href="#" class="clo6">公益资助</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+<div style="height: 140px;"></div>
+<script>
+    var  $pathname = window.location.pathname.toLowerCase();
+    if($pathname.indexOf('/plan')>0){
+        $('.navbar-nav li').removeClass('selected');
+        $('.navbar-nav li.planitem').addClass('selected');
+    }
+</script>

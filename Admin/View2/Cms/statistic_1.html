@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+  <form action="" method="get" name="form1" id="form1">
+      <input type="hidden" id="report" name="report" value="1" />
+      <input type="hidden" id="export" name="export" value="" />
+    
+    <tr class="toolbar">
+      <td colspan="2" class="tc">【 {$title} 】</td>
+    </tr>
+    <tr class="row0">
+      <td class="col1" width="140">日期区间：</td>
+      <td><input type="text" class="inputText1 calendar" readonly="readonly" id="date1" name="date1" value="{$data.date1}" />
+        -
+        <input type="text" class="inputText1 calendar" readonly="readonly" id="date2" name="date2" value="{$data.date2}" /></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">报表类型：</td>
+      <td ><input type="radio" id="type_1" name="type" value="1" <neq name="data.type" value="2">checked="checked"</neq> />
+        <label for="type_1">月报</label>
+        <input type="radio" id="type_2" name="type" value="2" <eq name="data.type" value="2">checked="checked"</eq> />
+        <label for="type_2">日报</label></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">付款方式：</td>
+      <td ><input type="checkbox" id="paymethod_1" name="paymethod[]" value="4"  <if condition="(in_array(4,$data['paymethod']) eq true)">checked="checked"</if>  />
+        <label for="paymethod_1">货到付款</label>
+        <input type="checkbox" id="paymethod_2" name="paymethod[]" value="2"  <if condition="(in_array(2,$data['paymethod']) eq true)">checked="checked"</if> />
+        <label for="paymethod_2">在线支付</label></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">付款状态：</td>
+      <td ><input type="checkbox" id="pay_1" name="pay[]" value="1"   <if condition="(in_array(1,$data['pay']) eq true)">checked="checked"</if>  />
+        <label for="pay_1">已付款</label>
+        <input type="checkbox" id="pay_2" name="pay[]" value="0" <if condition="(in_array(0,$data['pay']) eq true)">checked="checked"</if>  />
+        <label for="pay_2">未付款</label></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">订单状态：</td>
+      <td >
+       <volist name=":C('config.CONFIG_STATUS_LIST')" id="type">
+      <input type="checkbox" id="status_{$key}" name="status[]" value="{$key}"    <if condition="(in_array($key,$data['status']) eq true)">checked="checked"</if> />
+        <label for="status_{$key}">{$type}</label>
+      </volist></td>
+    </tr>
+    <tr class="footer">
+      <td colspan="2" class="tc"><input class="btn2" type="submit" name="btnReport" id="btnReport" value="生成报表" onclick="$('#export').val('')" /></td>
+    </tr>
+  </form>
+</table>
+<notempty name="list">
+<div class="dot"></div>
+<eq name="data.type" value="1">
+<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+  <tr class="toolbar">
+    <td colspan="3" class="tc">【 月报 】</td>
+  </tr>
+  <tr class="row0">
+    <td colspan="5" class="tr" ><input class="btn1" type="button" name="btnExport" id="btnExport" value="导出" onclick="$('#export').val(1);$('#form1').submit();"  /></td>
+  </tr>
+  <tr class="header">
+    <td >月份</td>
+    <td >订单数</td>
+    <td >销售额</td>
+  </tr>
+  <volist name="list" id="vo">
+  <tr class="row0">
+    <td >{$vo.year}.{$vo.month}</td>
+    <td >{$vo.num}</td>
+    <td >{$vo.amount}</td>
+  </tr>
+  </volist>
+</table> 
+</eq>
+<eq name="data.type" value="2">
+<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+  <tr class="toolbar">
+    <td colspan="5" class="tc">【 日报 】</td>
+  </tr>
+  <tr class="row0">
+    <td colspan="5" class="tr" ><input class="btn1" type="button" name="btnExport" id="btnExport" value="导出" onclick="$('#export').val(1);$('#form1').submit();"  /></td>
+  </tr>
+  <tr class="header">
+    <td >日期</td>
+    <td >订单数</td>
+    <td >销售额</td>
+  </tr>
+  <volist name="list" id="vo">
+  <tr class="row0">
+    <td >{$vo.year}.{$vo.month}.{$vo.day}</td>
+    <td >{$vo.num}</td>
+    <td >{$vo.amount}</td>
+  </tr>
+  </volist>
+</table>
+</eq>
+</notempty>
+
+<include file="Index:footer" />
+</body>
+</html>

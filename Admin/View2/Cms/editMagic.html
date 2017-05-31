@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>分组产品编辑</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+<form action="__URL__/editMagic" method="post" name="form1"
+		id="form1">
+  <input type="hidden" id="id" name="id" value="{$db.id}" />
+  <input type="hidden" name="pid" id="pid" value="0" />
+  <table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
+    <tr class="toolbar">
+      <td colspan="2" class="tc">【编辑分组产品 】</td>
+    </tr>
+    <tr class="row0">
+      <td class="col1" width="140" >标题：</td>
+      <td><input type="text" class="inputText1" id="name" name="name"
+					maxlength="100" value="{$db.name}" />
+        <span class="fc_red">* </span></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">所属分类：</td>
+      <td><select name="pid" id="pid">
+          <option value="0">--选择类别--</option>
+          <volist id="vo" name="typelist">
+            <if condition="($db['pid'] eq $vo['id'])">
+              <option value="{$vo.id}" selected="selected" >
+              <?php 
+if ($vo['depth']!=='1'){
+echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
+}?>
+              {$vo.name} </option>
+              <else />
+              <option value="{$vo.id}" >
+              <?php 
+if ($vo['depth']!=='1'){
+echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
+}?>
+              {$vo.name} </option>
+            </if>
+          </volist>
+        </select></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">分组产品：</td>
+      <td><textarea type="text" title="双击清空" class="inputText1 editor1 readonly" readonly="readonly" name="contentids" id="contentids"   ondblclick="$(this).val('')" >{$db.contentids}</textarea>
+        <span class="fc_red">* </span>
+        <input type="button" class="btn1" value="选择" id="btnDish" /></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">描述：</td>
+      <td><input type="text" class="inputText1" name="remark"
+					id="remark" maxlength="100" value="{$db.remark}" /></td>
+    </tr>
+    <tr class="row0 hide">
+      <td class="col1">排序：</td>
+      <td><input type="text" class="inputText1 numeric w50"
+					name="sort" id="sort" maxlength="10" value="{$db.sort}" /></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">状态：</td>
+      <td><select name="status" id="status">
+          <option value="1">启用</option>
+          <if condition="($db.status eq 0)">
+            <option value="0" selected="selected">禁用</option>
+            <else/>
+            <option value="0">禁用</option>
+          </if>
+        </select></td>
+    </tr>
+    <tr class="footer">
+      <td colspan="2" class="tc"><input type="submit" class="btn1"
+					value="保存" />
+        <input type="button" class="btn1" value="返回"
+					onclick="history.back();" /></td>
+    </tr>
+  </table>
+</form>
+<br />
+<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+  <tr class="toolbar">
+    <td colspan="9" class="tc">【 本组产品列表 】</td>
+  </tr>
+  <tr class="row0 hide">
+    <td colspan="9"><a href="{:U('Admin/Cms/addContent')}"
+				class="btnAdd">添加</a></td>
+  </tr>
+  <tr class="header">
+    <td width="60">ID</td>
+    <td>标题</td>
+    <td>分类</td>
+    <td>供应商</td>
+    <td width="70">价格</td>
+    <td width="30">销量</td>
+    <td width="70">排序</td>
+    <td width="50">状态</td>
+    <td width="50">操作</td>
+  </tr>
+  <volist id="vo" name="list">
+    <tr class="row{$i % 2+1}" data="{$vo.indexpic}" id="col_{$vo.id}">
+      <td>        {$vo.id}</td>
+      <td>{$vo.title} </td>
+      <td>{:cutstring($vo['channelname'])}</td>
+      <td>{:cutstring($vo['supplyname'])}</td>
+      <td>{$vo.price} </td>
+      <td>{$vo.sold}</td>
+      <td><input name="Item_1" id="Item_1"
+				onchange="setVal('content','sort1',{$vo.id},$(this).val())"
+				class="inputText1 numeric w50" value="{$vo.sort1}" /></td>
+      <td><if condition="($vo.status eq 1)"> <span class="fc_red">上架</span>
+        <else />
+      <span>下架</span> </if></td>
+      <td><a class="btnDel" href="javascript:void(0);"
+				onclick="var id='{$vo.id}';if(confirm('您确定删除该记录吗？')){changeValue(false,id)}">删除</a></td>
+    </tr>
+  </volist>
+  <tr class="footer">
+    <td colspan="11" class="tr">共 {$db.num} 个产品</td>
+  </tr>
+</table>
+<include file="Index:footer" />
+<js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
+<css href="__PUBLIC__/Admin/js/alerts/jquery.alerts.css" />
+<script language="javascript">
+	$(function(){
+		$(".MainTbl tr").hover(function(event){
+	 var o=$(this);
+	 var img=o.attr("data"); 
+	 if(img!=""){
+		 var html1="";
+		 var html ="<img src=\""+img+"\" alt=\"\"/>";
+		 html1 = "<div id=\"hoverimg\" style=\"padding:10px;color:#f00\">"+html+"</div>";
+			 if($.trim(img)!=""){
+				 if($("#hoverimg").length==0){
+					 $(html1).appendTo($("body")); 
+				 } else{
+					 $("#hoverimg").html(html);
+				 };
+				 
+				$("#hoverimg").css({"left":o.position().left+60,"top":o.position().top+31}).show();	
+			 }
+		}
+	 },function(){
+		  $("#hoverimg").hide();
+	 });
+	 
+	 
+		$("#btnDish").click(function(){
+			var id="contentids";
+			var selected=$("#"+id).val();
+			jBox("<iframe src='{:U('Admin/Query/content')}?id="+id+"&rootid=2&selected="+selected+"' frameborder='0' width='550' height='440' />","请选择产品");
+		});
+	});
+	
+	
+function changeValue(b,v){
+	var $id=$("#contentids");
+	var newV=$id.val();	 
+	if(b){
+		newV+=v+",";
+	}else{
+		newV = newV.replace(v+",","");
+		$("#col_"+v).remove();
+	}
+	$id.val(newV);
+}
+
+	</script>
+</body>
+</html>

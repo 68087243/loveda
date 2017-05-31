@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>订单添加</title>
+<include file="Index:_js_css" />
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
+    <script language="javascript" type="text/javascript" src="__PUBLIC__/Admin/js/jquery.idTabs.min.js"></script>
+</head>
+<body>
+<form action="__URL__/addOrder" method="post" name="form1"
+		id="form1">
+  <table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
+    <tr class="toolbar">
+      <td colspan="2" class="tc">【 添加订单 】</td>
+    </tr>
+    <tr class="row0">
+      <td width="200" class="col1" >订单号：</td>
+      <td><input type="text" class="inputText1" id="orderno" name="orderno"
+					maxlength="100" value="" />
+        <span class="fc_red">*</span></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">姓名：</td>
+      <td><input type="text" class="inputText1" name="username"
+					id="username" maxlength="100" value="" /> <span class="fc_red">*</span> <select name="sex" id="sex">
+          <option value="1">先生</option> 
+            <option value="0">女士</option> 
+        </select></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">手机号：</td>
+      <td><input type="text" class="inputText1 " name="telephone"
+					id="telephone" maxlength="100" value="" /> <span class="fc_red">*</span>
+        </td>
+    </tr> 
+    <tr class="row0">
+      <td class="col1">所属门店：</td>
+      <td><select name="shop_id" id="shop_id">
+            <option value="0">--选择门店--</option>
+            <volist id="vo" name="shoplist">
+              <if
+							condition="($shop_id eq $vo['id'])">
+                <option value="{$vo.id}" selected="selected" data="{$vo['shop_id']}">
+                <?php 
+if ($vo['depth']!=='1'){
+echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
+}?>
+                {$vo.name}</option>
+                <else />
+                <option value="{$vo.id}" data="{$vo['shop_id']}">
+                <?php 
+if ($vo['depth']!=='1'){
+echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
+}?>
+                {$vo.name}</option>
+              </if>
+            </volist> 
+          </select>
+        </td>
+    </tr> 
+    <tr class="row0">
+      <td class="col1">用户ID：</td>
+      <td><input type="text" class="inputText1 numeric w50" name="userid"
+					id="userid" maxlength="100" value="0" />
+        </td>
+    </tr> 
+    <tr class="row0">
+      <td class="col1">状态：</td>
+      <td><select name="status" id="status">
+          	<volist name=":C('config.CONFIG_STATUS_LIST')" id="type">
+			<option value="{$key}">{$type}</option>
+		</volist>
+        </select></td>
+    </tr>
+    <tr class="footer">
+      <td colspan="2" class="tc"><input type="submit" class="btn1"
+					value="保存" />
+        <input type="button" class="btn1" value="返回"
+					onclick="history.back();" /></td>
+    </tr>
+  </table>
+</form>
+<include file="Index:footer" />
+<script>
+    upload.prototype.createContent("#content",'info');
+</script>
+</body>
+</html>

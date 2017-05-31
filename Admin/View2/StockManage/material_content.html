@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>内容添加</title>
+    <include file="Index:_js_css" />
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
+</head>
+<body class="bg_white" >
+<div class="container" style="overflow: hidden">
+    <div class="page_title">原料添加/修改</div>
+    <form onsubmit="return false" name="form1" class="contentform" id="infoform">
+        <input type="hidden" name="goodsid" value="{$db.id}"/>
+        <table border="0" style="width: 850px;">
+            <tr>
+                <td width="110"  align="right">供应商：</td>
+                <td width="300">
+                    <div class="idealforms_select fl">
+                        <div class="idealforms_select_obj" >
+                            <input type="hidden" value="" name="supplyid">
+                            <input type="text" value="" readonly>
+                            <span class="caret"></span>
+                        </div>
+                        <ul class="idealforms_select_menu">
+                            <li data-value="0">--选择供应商--</li>
+                            <volist name="supplylist" id="vo">
+                                <li data-value="{$vo.id}">{$vo.name}</li>
+                            </volist>
+                        </ul>
+                    </div>
+                </td>
+                <td width="110"  align="right"><span class="is_admin">供应商2：</span></td>
+                <td width="300">
+                    <div class="idealforms_select fl is_admin">
+                        <div class="idealforms_select_obj" >
+                            <input type="hidden" value="" name="supplyid2">
+                            <input type="text" value="" readonly>
+                            <span class="caret"></span>
+                        </div>
+                        <ul class="idealforms_select_menu">
+                            <li data-value="0">--选择供应商--</li>
+                            <volist name="supplylist" id="vo">
+                                <li data-value="{$vo.id}">{$vo.name}</li>
+                            </volist>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr class="proext ">
+                <td width="110" align="right"  >商品名：</td>
+                <td colspan="3"><input type="text" name="title" class="input_text1" value="{$db.title}" /> </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="left" style="padding-left: 21px;">
+                    <span style="padding-left: 24px">单位：</span> <input type="text" name="unit"  class="input_text3"  value="{$db.unit}" />
+                    <span style="padding-left: 28px">单价：</span><input type="text"  name="price"  class="input_text3"  value="{$db.price}" />
+                </td>
+                <td  colspan="2" align="left" >
+                    <span style="padding-left: 63px">库存数：</span><input type="text" name="stock"  class="input_text3"  value="{$db.stock|default=0}" />
+                    <span style="padding-left: 17px">库存金额：</span><input type="text" name="stock_fee"  class="input_text3"  value="{$db.stock_fee}" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <span  style="padding-left: 30px">保质期：</span> <input type="text" name="warranty" style="width: 90px;" value="{$db.warranty}" />天
+                    <span style="padding-left: 30px">规格：</span><input type="text" name="spec" class="input_text3"  value="{$db.spec}" />
+                </td>
+                <td width="110" align="right" >保存方法：</td>
+                <td width="300">
+                    <div class="idealforms_select fl" >
+                        <div class="idealforms_select_obj" >
+                            <input type="hidden" value="" name="storage_id">
+                            <input type="text" value="" readonly>
+                            <span class="caret"></span>
+                        </div>
+                        <ul class="idealforms_select_menu">
+                            <li data-value="0">--选择保存方法--</li>
+                            <volist name="storage" id="vo">
+                                <li data-value="{$vo.id}" >{$vo.namecn}</li>
+                            </volist>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <span class="fl"  style="margin-left: 6px;position: relative;top:7px;"> 产地（国家）</span>
+                    <div class="idealforms_select fl"  style="width: 120px;">
+                        <div class="idealforms_select_obj">
+                            <input type="hidden" value="" name="origin_id">
+                            <input type="text" value="" readonly>
+                            <span class="caret"></span>
+                        </div>
+                        <ul class="idealforms_select_menu">
+                            <li data-value="0">--选择产地--</li>
+                            <volist name="origin" id="vo">
+                                <li data-value="{$vo.id}" >{$vo.namecn}</li>
+                            </volist>
+                        </ul>
+                    </div>
+                    <span class="fl"  style="margin-left: 35px;position: relative;top:7px;"> 内部备注：</span> <input type="text" name="note" class="input_text2 fl" style="width: 522px;" value="{$db.note}" />
+                </td>
+            </tr>
+        </table>
+        <div style="width: 850px; ">
+            <div class="tc" style="padding: 50px 0;">
+                <input type="submit" class="sure_btn" value="保存" onclick="sub();" />
+                <input type="button" class="cancel_btn" value="返回" onclick="history.back();" />
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+<script>
+    $(function() {
+        var $loguser = $.trim($('body').data('loguser'));
+        if($loguser == 'admin' || $loguser == 'administrator'){
+            $('.is_admin').show();
+        }else{
+            $('.is_admin').hide();
+        }
+        //初始化form
+        $("#infoform").idealforms();
+        setSelectSelected('#infoform input[name=supplyid]',"{$db['supplyid']}");
+        setSelectSelected('#infoform input[name=supplyid2]',"{$db['supplyid2']}");
+        $('#infoform input[name=price]').keyup(function(){
+            var stock = $('#infoform input[name=stock]').val();
+            var price = $(this).val();
+               if(stock){
+                   $('#infoform input[name=stock_fee]').val(price*stock);
+               }
+        })
+        $('#infoform input[name=stock]').keyup(function(){
+            var price = $('#infoform input[name=price]').val();
+            var stock = $(this).val();
+            if(price){
+                $('#infoform input[name=stock_fee]').val(price*stock);
+            }
+        })
+        $('#infoform input[name=stock_fee]').keyup(function(){
+            var price = $('#infoform input[name=price]').val();
+            var stock_fee = $(this).val();
+            if(price){
+                $('#infoform input[name=stock]').val(fomatFloat(stock_fee/price));
+            }
+        })
+    })
+
+    function sub(){
+        var $data = {
+            id: $('#infoform input[name=goodsid]').val(),
+            supplyid: $('#infoform input[name=supplyid]').val(),
+            supplyid2: $('#infoform input[name=supplyid2]').val(),
+            title: $('#infoform input[name=title]').val(),
+            price: $('#infoform input[name=price]').val(),
+            unit: $('#infoform input[name=unit]').val(),
+            spec: $('#infoform input[name=spec]').val(),
+            stock: $('#infoform input[name=stock]').val(),
+            stock_fee: $('#infoform input[name=stock_fee]').val(),
+            storage_id: $('#infoform input[name=storage_id]').val(),
+            origin_id: $('#infoform input[name=origin_id]').val(),
+            warranty: $('#infoform input[name=warranty]').val(),
+            note: $('#infoform input[name=note]').val()
+        }
+        $.post('/admin/StockManage/modifyMaterial',$data, function (data) {
+            if(data.code ==200){
+                clearpop(data.message,'','self');
+            }else{
+                clearpopj(data.message, "error",true);
+            }
+        })
+    }
+</script>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Order: {$db.orderno}</title>
+<style type="text/css">
+.table1 td{height:25px;}
+.bd{border-bottom:1px #000 solid; width:210px;}
+.w710{width:710px;}
+</style>
+</head>
+<body>
+<table cellpadding="0" cellspacing="0" width="850" style="margin:0 auto; ">
+  <!--<tr>-->
+    <!--<td colspan="2"><img src="__PUBLIC__/Shop/images/logo.jpg" width="210" height="100" /></td>-->
+    <!--<td colspan="2" align="right" >&nbsp;&nbsp;   Order ID:{$db.orderno}</td>-->
+  <!--</tr>-->
+  <tr>
+    <td colspan="4" style="font-size:26px; font-weight:bold; text-align:center; border: 1px solid ">{$db.id}</td>
+  </tr>
+  <tr>
+    <td width="127">Name</td>
+    <td width="355"><div class="bd" ><eq name="vo.usertype" value="2">
+            {:get_username($db['userid'])}
+            <else/>
+            {$db.username}
+            </eq></div></td>
+    <td width="145">Phone Number</td>
+    <td width="221"><div class="bd" >{$db.telephone}</div></td>
+  </tr>
+  <tr>
+    <td>Payment Method</td>
+    <td><div class="bd" >
+        <eq name="db.paymethod" value="4">cash on delivery
+          <else/>online payment
+          </eq>
+      </div></td>
+    <td>Invoice Required</td>
+    <td><div class="bd" >
+        <eq name="db.invoice" value="1">yes
+          <else/>
+          no</eq></div></td>
+  </tr>
+  <tr>
+    <td>Order Date</td>
+    <td><div class="bd" >{$db.addtime}</div></td>
+    <td>Delivery Date</td>
+    <td><div class="bd" >{$db.delivertime}</div></td>
+  </tr>
+  <tr>
+    <td>Delivery Address</td>
+    <td colspan="3"><div class="bd w710" >{$db.address}</div></td>
+  </tr>
+</table>
+<table border="1" style="width:850px; margin:0 auto; margin-top:15px; text-align:center; " cellpadding="2" cellspacing="0" class="table1">
+  <eq name="isShop" value="true">
+    <?php
+    $subtotal=0;
+    ?> 
+     <eq name="isService" value="true">
+   <tr class="toolbar">
+      <td colspan="6" class="tc">product list</td>
+    </tr>
+            </eq>
+  <tr>
+      <td width="30">No.</td>
+      <td width="452">Product Name</td>
+      <td width="75">Unit</td>
+      <td width="65">Price</td>
+      <td width="30 ">Qty</td>
+      <td width="65">Subtotal</td>
+  </tr>
+  <volist name="list" id="vo">
+   <?php
+   if(strpos($vo['sortpath'],',2,')){ 
+    $sub=(float)$vo['price']*$vo['num'];
+    $subtotal+=$sub;
+    ?>
+    <tr align="center">
+      <td>{$i}</td>
+       <td align="left">{$vo.productname}<notempty name="vo.namecn"><br />{$vo.namecn}</notempty><notempty name="vo.supplyname">（{$vo.supplyname}）</notempty></td>
+      <td>{$vo.unit}</td>
+      <td>&yen;{$vo.price}</td>
+      <td>{$vo.num}</td>
+      <td>&yen;{:to_price($sub)}</td>
+    </tr>
+     <?php
+      }
+      ?>
+  </volist>
+  </eq>
+  
+  
+  <eq name="isService" value="true">
+    <?php
+    $subtotal=0;
+    ?> 
+     <eq name="isShop" value="true">
+   <tr class="toolbar">
+      <td colspan="6" class="tc">laundry service list</td>
+    </tr>
+            </eq>
+  <tr>
+      <td width="30">No.</td>
+      <td width="452">Product Name</td>
+      <td width="75">Unit</td>
+      <td width="65">Price</td>
+      <td width="30 ">Qty</td>
+      <td width="65">Subtotal</td>
+  </tr>
+  <volist name="list" id="vo">
+   <?php
+   if(strpos($vo['sortpath'],',3,')){ 
+    $sub=(float)$vo['price']*$vo['num'];
+    $subtotal+=$sub;
+    ?>
+    <tr align="center">
+      <td>{$i}</td>
+       <td align="left">{$vo.productname}<notempty name="vo.namecn"><br />{$vo.namecn}</notempty><notempty name="vo.supplyname">（{$vo.supplyname}）</notempty></td>
+      <td>{$vo.unit}</td>
+      <td>&yen;{$vo.price}</td>
+      <td>{$vo.num}</td>
+      <td>&yen;{:to_price($sub)}</td>
+    </tr>
+     <?php
+      }
+      ?>
+  </volist>
+  </eq>
+  
+ 
+  
+  <tr> 	
+    <td colspan="5" align="right">Shipping fee</td>
+    <td><eq name="db.shipfee" value="0">FREE
+        <else/>
+        &yen;{$db.shipfee}</eq></td>
+  </tr>
+  <neq name="db.discount" value="0">
+  <tr> 
+    <td colspan="5" align="right">Discount</td>
+    <td> 
+       - &yen;{$db.discount} </td>
+  </tr>
+  </neq>
+  <tr> 
+    <td colspan="5" align="right">Coupon</td>
+    <td> 
+       - &yen;{$db.couponamount} </td>
+  </tr>
+  <tr>
+    <td colspan="5">Total</td>
+    <td>&yen;{$db.amount}</td>
+  </tr>
+</table>
+<table style="width:850px; margin:0 auto; margin-top:20px;">
+  <tr>
+    <td>Customer Message:{$db.info}</td>
+  </tr>
+  <tr>
+     <td><br />
+内部留言： </td> 
+  </tr>
+  
+  <tr>
+     <td align="center"> <input type="button" value="打印" onclick="this.style.display='none';window.print();" /></td> 
+  </tr>
+
+</table>
+</body>
+</html>

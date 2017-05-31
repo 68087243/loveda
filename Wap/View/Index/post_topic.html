@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <include file="Index:wap_js_css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/page/css/icon.css?version={:version()}"/>
+</head>
+<body>
+    <div class="clearfix borderb-d">
+        <ul class="st-head clof top-head font14">
+            <li class=" fl font24">&lt;</li>
+            <li class="tc fl ">
+                <div class="sth-center ">
+                    <div class="font16" style="height: 22px;line-height: 25px;">发帖</div>
+                    <span class="font13">用户:倩倩</span>
+                </div>
+            </li>
+            <li class="fr" onclick="postTopic();">发送</li>
+        </ul>
+        <div class="clr"></div>
+    </div>
+    <form class=" container pst-textarea" id="pst-box">
+        <div class=" l-area">位置:新话题</div>
+        <div class="idealforms_select" style="width: 100%">
+            <div class="idealforms_select_obj">
+                <input type="hidden" value="" name="cid">
+                <input type="text" value="" readonly>
+                <span class="icaret"></span>
+            </div>
+            <ul class="idealforms_select_menu">
+                <li data-value="{$vo.cid}">请选择分类</li>
+                <volist name="club" id="vo">
+                    <li data-value="{$vo.cid}">{$vo.clubname}</li>
+                </volist>
+            </ul>
+        </div>
+        <div style="margin-top: 10px;"><input type="text" name="title" placeholder="发帖标题"/></div>
+        <div  style="margin-top: 10px;" class="textarea" id="textarea" contentEditable='true'>
+            <span>发帖内容...</span>
+        </div>
+        <div class="bordert-d"></div>
+        <div class="pst-itme">
+            <ul>
+                <li class="relative">
+                    <img src="__STATIC__/image/picture_of_pst.png" onclick="$('#file').click();" alt=""/>
+                    <input type="file" id="file" class="hide"/>
+                </li>
+            </ul>
+            <ul id="img-list-box">
+            </ul>
+        </div>
+
+    </form>
+
+    <div id="pic"  style="display: none;">
+        <div class="fullbg" onclick="$('#pic').hide()"></div>
+        <div class="pop center">
+            <div id="clipArea" style="height: 300px;;"></div>
+            <button id="clipBtn" class="btn store_btn " style="width:25%;margin: 2% 0;">完成</button>
+        </div>
+    </div>
+    <script type="text/javascript" src="__STATIC__/common/js/hammer.js"></script>
+    <script type="text/javascript" src="__STATIC__/common/js/iscroll-zoom.js"></script>
+    <script type="text/javascript" src="__STATIC__/common/js/jquery.photoClip.min.js"></script>
+    <script>
+        $("#pst-box").idealforms();
+        setSelectSelected('.idealforms_select input[name=cid]',"{$_REQUEST['cid']}");
+        function postTopic(){
+            var cid = $('#pst-box input[name=cid]').val();
+            var title = $('#pst-box input[name=title]').val();
+            var message = $('#pst-box div.textarea').html();
+            var picture = '';
+            $('#img-list-box li img').each(function(){
+                if($(this).data('path'))
+                picture+=$(this).data('path')+'|'
+            })
+            $.post('/index/subTopic.html',{cid:cid,title:title,message:message,picture:picture},function(data){
+                if(data.code == 200){
+                   clearpop(data.message,'',data.data) ;
+                }else{
+                    clearpop(data.message) ;
+                }
+            })
+        }
+
+        $(function() {
+            $("#clipArea").photoClip({
+                width: 300,
+                height: 225,
+                file: "#file",
+                view: "#view",
+                ok: "#clipBtn",
+                loadStart: function() {
+                    console.log("照片读取中");
+                },
+                loadComplete: function() {
+                    $('#pic').show()
+                },
+                clipFinish: function(dataURL) {
+                    uploadPicByBase64('topic',dataURL);
+                }
+            });
+        })
+
+        function uploadPicByBase64(scope,stream){
+            var uploadPhp = DOMAIN+'/Public/uploadForKindeditor.php';
+            var uploadJson = uploadPhp+"?scope="+scope+"&callback="+DOMAIN+"&isbase64=true&isaj=1";
+            $.post(uploadJson,{stream:stream},function(data){
+                if(data.code==100){
+                    var img = data.data.url.img;
+                   $('#img-list-box ').append('<li class="fl relative"><span class="absolute" style="left: 2px;top: 0;" onclick="$(this).parent().remove();"> <span class="del_ico" ></span></span><img src="'+(PUBLIC+img)+'" data-path="'+img+'" width="80" alt=""/></li>');
+                    $('#pic').hide()
+                }else{
+                    clearpop('上传失败');
+                }
+            },'json')
+        }
+        $('#textarea').click(function(){
+            if( $('#textarea').find('span').html()){
+                $(this).html('');
+                $(this).find('span').remove();
+            }
+        })
+    </script>
+</body>
+</html>

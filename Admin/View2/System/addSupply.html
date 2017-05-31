@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>供应商添加</title>
+<include file="Index:_js_css" />
+</head>
+<body data-loguser="{$_SESSION['adminname']}">
+
+	<form action="__URL__/addSupply" method="post" name="form1"
+		id="form1"> 
+		<table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
+			<tr class="toolbar">
+				<td colspan="2" class="tc">【 添加供应商 】</td>
+			</tr>
+			<tr class="row0 hide">
+				<td class="col1" width="200">上级：</td>
+				<td><select name="pid" id="pid">
+						<option value="0">顶级</option>
+						<volist id="vo" name="list"> <if
+							condition="($pid eq $vo['id'])">
+						<option value="{$vo.id}" selected="selected"><?php 
+if ($vo['depth']!=='1'){
+echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
+}?>{$vo.name}</option>
+						<else />
+						<option value="{$vo.id}"><?php 
+if ($vo['depth']!=='1'){
+echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
+}?>{$vo.name}</option>
+						</if></volist>
+				</select></td>
+			</tr>
+			<tr class="row0">
+				<td class="col1" >供应商名：</td>
+				<td><input type="text" class="inputText1" id="name" name="name"
+					maxlength="100" value="" /> <span class="fc_red">* </span></td>
+			</tr>
+            <tr class="row0 is_admin">
+                <td class="col1" >供应商别名：</td>
+                <td><input type="text" class="inputText1" id="title" name="title"
+                           maxlength="100" value="" /></td>
+            </tr>
+			<tr class="row0 hide">
+				<td class="col1" >折扣：</td>
+				<td><input type="text" class="inputText1 numeric w50" id="rate" name="rate"
+					maxlength="100" value="1" /> <span class="fc_red">* </span></td>
+			</tr>
+			<tr class="row0">
+				<td class="col1">描述：</td>
+				<td><input type="text" class="inputText1" name="remark"
+					id="remark" maxlength="100" value="" /></td>
+			</tr>
+			<tr class="row0">
+			  <td class="col1">形象图：</td>
+			  <td>
+                  <input type="text" class="inputText1 w350 fl" name="indexpic" id="indexpic" maxlength="100" value="" />
+                  <input type="button" class="btn1 btnUpload fl" onclick="selectPic();" value="上传" />
+
+              </td>
+		  </tr>
+			 
+			<tr class="row0">
+				<td class="col1">排序：</td>
+				<td><input type="text" class="inputText1 numeric w50"
+					name="sort" id="sort" maxlength="10" value="{$sort}" /></td>
+			</tr>
+			<tr class="row0">
+				<td class="col1">状态：</td>
+				<td><select name="status" id="status">
+						<option value="1">启用</option>
+						<option value="0">禁用</option>
+				</select></td>
+			</tr>
+			<tr class="footer">
+				<td colspan="2" class="tc"><input type="submit" class="btn1"
+					value="保存" /> <input type="button" class="btn1" value="返回"
+					onclick="history.back();" /></td>
+			</tr>
+		</table>
+	</form>
+	<include file="Index:footer" />
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
+    <div id="upload_pic" style="width: 300px;">
+        <img src="" width="100%" alt=""/>
+    </div>
+    <script>
+        /**
+         * 选择图片
+         */
+        function selectPic(){
+            upload.prototype.callback = function(url, path){
+//                $('#indexpic').siblings('.indexpic_img').show();
+//                $('#indexpic').siblings('.indexpic_img').find('img').attr('src',CONST_PUBLIC+path);
+                $('#indexpic').val(path);
+            }
+            upload.prototype.uploadPic("info");
+        }
+
+//        function lookPic(){
+//            $('#upload_pic img').attr('src',CONST_PUBLIC+$('#indexpic').val());
+//            getMask().maskShow({"tit": "上传banner图","width":330, "cont": "#upload_pic"});
+//        }
+        var $loguser = $.trim($('body').data('loguser'));
+        if($loguser == 'admin' || $loguser == 'administrator'){
+            $('.is_admin').show();
+        }else{
+            $('.is_admin').hide();
+        }
+    </script>
+</body>
+</html>

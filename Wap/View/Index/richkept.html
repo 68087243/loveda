@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <include file="Index:wap_js_css"/>
+</head>
+<body data-keyword="{$_REQUEST['keyword']}" data-type="{$_REQUEST['type']}" data-aid="{$_REQUEST['aid']}">
+<php>$user = Common\Model\UserModel::getUser();$currentuid=$user['uid']</php>
+<include file="User:uhead"/>
+<div id="content" >
+    <ul>
+        <volist name="list" id="vo">
+            <li style="border: none">
+                <div class="container" style="line-height: 25px;">
+                    {$vo.message}
+                    <div class="bordert-d" style="line-height: 30px;">
+                        <span class="red">#包养发布</span>
+                        <span>{:timeTran($vo['createtime'])}</span>
+                        <span>{$vo['read']}</span>
+                    </div>
+                </div>
+                <div class="line10"></div>
+            </li>
+        </volist>
+    </ul>
+</div>
+<div onclick="getinfolist();" class="tc clo9 font13 loadmore" >加载更多</div>
+<script>
+    var page =0;
+    function getinfolist(){
+        $.post('/index/richkept.html',{page:page},function(data){
+            page++;
+            if(data.code ==200){
+                var obj = data.data;
+                var $hmtl = topichtml(obj);
+                $('#content').append($hmtl);
+            }
+        })
+    }
+
+    getinfolist();
+
+    function topichtml(obj){
+        var $hmtl = '';
+        for(var i in obj){
+            $hmtl+='<div class="container">';
+            $hmtl+='<div class="topic-itme " onclick="window.location.href=\'/index/topicInfo.html?tid='+obj[i]['tid']+'\'">';
+            $hmtl+='<div class="container">';
+            $hmtl+='<div class="topic_tit clo3 font16 fontb">';
+            $hmtl+=obj[i]['title'];
+            $hmtl+='</div>';
+            $hmtl+='<div class="topic_content font14 clo6 ">';
+            $hmtl+=obj[i]['message'];
+            if(obj[i]['img']){
+                for(var j in obj[i]['img']){
+                    $hmtl+='<img src="__PUBLIC__/'+ obj[i]['img'][j]+'" style="max-width: 100%"  alt=""/>';
+                }
+            }
+            $hmtl+='</div>';
+            $hmtl+='<div class="topic_u_info" style="border-top: 1px dashed #dddddd">';
+            $hmtl+='<div class="fl red">#包养发布#</div>';
+            $hmtl+='<div class="clo9 fr topic-c-time font12"> <span>阅读'+ (parseInt(obj[i]['read'])+0)+'</span>';
+            $hmtl+='&nbsp;&nbsp;<span>评论'+ (parseInt(obj[i]['comments'])+0)+'</span></div>';
+            $hmtl+='</div>';
+            $hmtl+='</div>';
+            $hmtl+='</div>';
+            $hmtl+='</div>';
+            $hmtl+='<div class="line10"></div>';
+        }
+        return $hmtl;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+<title>清洁订单列表</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+  <table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+    <tr>
+      <td>
+      	<form action="{:U('Special/edit', u_pam($p, null, array('keyword')))}" method="get" name="form1" id="form1">
+      	关 键 词：
+        <input type="text" class="inputText1" id="keyword" name="keyword" value="{$p['keyword']}" />
+        <input type="submit" class="btn1" value="查询" />
+        </form>
+      </td>
+    </tr>
+  </table>
+
+	<div class="dot"></div>
+	<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+		<tr class="toolbar">
+			<td colspan="10" class="tc">【 清洁订单 】</td>
+		</tr>
+		<tr class="row0">
+			<td colspan="4"><a href="{:U('Special/add')}" class="btnAdd">添加</a></td>
+		</tr>
+		<tr class="header">
+			<td width="50">ID</td>
+			<td>专题名称</td>
+			<td width="150">创建时间</td>
+			<td width="50">操作</td>
+		</tr>
+		<volist id="vo" name="list">
+		<tr class="row{$i % 2+1}">
+			<td><input type="checkbox" name="SelectIDs" value="{$vo.id}" /> {$vo.id}</td>
+			<td>{$vo.name}</td>
+			<td>{$vo.create_time}</td>
+			<td><a href="{:U('Special/edit','id='.$vo['id'])}" class="btnEdit">编辑</a></td>
+		</tr>
+		</volist>
+		 
+		<tr class="row0">
+			<td colspan="12" class="tr">
+				<input type="hidden" value="order" id="ConstTbl" name="ConstTbl" />
+				<input type="button" class="btn2" value="批量删除" id="AllDel" />
+				<input type="button" class="btn1" value="全选" id="AllCheck" />
+				<input type="button" class="btn1" value="反选" id="ReverseCheck" />
+			</td>
+		</tr>
+		<tr class="footer">
+			<td colspan="12"><div class="page">{$page}</div></td>
+		</tr>
+	</table>
+	<include file="Index:footer" />
+</body>
+</html>

@@ -1,0 +1,34 @@
+<link rel="stylesheet" type="text/css" href="__STATIC__/page/css/icon.css?version={:version()}"/>
+<div class="footer bordert-d">
+    <ul style="position: relative;z-index: 10000">
+        <li onclick="window.location.href='/'" class="foot_home home_ico tc">
+            <span class="home_b_ico1 home_ico1">
+            <span class="home_b_ico2 home_ico2"></span>
+            </span>首页
+        </li>
+        <li onclick="window.location.href='/index/rlist.html'" class="foot_chat"><img src="__STATIC__/image/page/w_index/chat_b.png" class="f_ico"  alt=""/><div>论坛</div></li>
+        <li class="foot_center" onclick="window.location.href='/user/index.html'" ><img src="__STATIC__/image/page/w_index/compass.png" style="position: relative;top: -10px;" width="80" alt=""/></li>
+        <li class="foot_flower" onclick="window.location.href='/index/richkept.html'"><img src="__STATIC__/image/page/w_index/flower_b.png" class="f_ico"  alt=""/><div>富豪包养</div></li>
+        <li class="foot_vip"><img src="__STATIC__/image/page/w_index/group_b.png" class="f_ico"  alt=""/><div>加入VIP</div></li>
+    </ul>
+    <div class="foot-arc"></div>
+</div>
+<script>
+    $(function(){
+        var pathinfo =(window.location.pathname).toLowerCase();
+        if(pathinfo=='/index/' || pathinfo=='/index' || pathinfo.length < 3){
+            $('.foot_home .home_ico1').removeClass('home_b_ico1');
+            $('.foot_home .home_ico1').addClass('home_r_ico1');
+            $('.foot_home .home_ico2').removeClass('home_b_ico2');
+            $('.foot_home .home_ico2').addClass('home_r_ico2');
+            $('.footer .foot_home div').addClass('dred');
+        }else if(pathinfo.indexOf('rlist')>0 || pathinfo.indexOf('topic')>0){
+            $('.footer .foot_chat img').attr('src',STATIC+'/image/page/w_index/chat_r.jpg');
+            $('.footer .foot_chat div').addClass('dred');
+        }else if((pathinfo.indexOf('cart'))>0 || (pathinfo.indexOf('shop'))>0 || (pathinfo.indexOf('cashier'))>0){
+
+        }else{
+
+        }
+    })
+</script>

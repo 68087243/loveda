@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>内容列表</title>
+<include file="Index:_js_css" />
+<script src="__PUBLIC__/js/json.js"></script>
+<script src="__PUBLIC__/js/jquery.cookies.2.2.0.js"></script>
+</head>
+<body style="background:#fff; padding:0px; overflow:hidden">
+	<form action="" method="get" name="form1" id="form1">
+    	<input type="hidden" name="p" id="p" value="1" />
+        <input type="hidden" name="goodskey" value="{$_REQUEST['goodskey']}" />
+	    <input type="hidden" name="id" id="id" value="{:I('id')}" />
+		<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+			<tr>
+				<td>关 键 词： <input type="text" class="inputText1" id="keyword"
+					name="keyword" value="{$keyword}" /> <select id="searchtype"
+					name="searchtype">
+						<option value="0">标题</option>
+						<if condition="($searchtype eq 1)">
+						<option value="1" selected="selected">编号ID</option>
+						<else />
+						<option value="1">编号ID</option>
+						</if>
+						<if condition="($searchtype eq 2)">
+						<option value="2" selected="selected">分类ID</option>
+						<else />
+						<option value="2">分类ID</option>
+						</if>
+				</select> <input type="submit" class="btn1" value="查询" /></td>
+			</tr>
+ 
+		</table>
+	</form>
+	<div class="dot"></div>
+	<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+		<tr class="header">
+			<td width="60"><if condition="!isset($_REQUEST['sel']) || empty($_REQUEST['sel'])"> <input type="checkbox" name="SelectAll" id="SelectAll" value=""/></if>商品ID</td>
+			<td>标题</td>
+			<td>单位</td>
+			<td>单价</td>
+			<td>规格</td>
+			<td>备注</td>
+		</tr>
+		<volist id="vo" name="list">
+            <tr class="row{$i % 2+1}" id="js_goods_{$vo.id}" data-id="{$vo.id}"  data-name="{$vo.title}" data-unit="{$vo.unit}" data-price="{$vo.price}"  data-stock="{$vo.stock}" data-stock_fee="{$vo.stock_fee}"  >
+                <td><input type="checkbox" name="SelectIDs" value="{$vo.id}" <in name="vo.id" value="$selected"> checked="checked" </in>/>
+                    {$vo.id}</td>
+                <td>{$vo.title|cutstring} </td>
+                <td>{$vo.unit}</td>
+                <td>{$vo.price}</td>
+                <td>{$vo.spec}</td>
+                <td>{$vo.note}</td>
+              </tr>
+		</volist>
+        <if condition="!empty($page)">
+            <tr class="footer">
+                <td colspan="6"><div class="page">{$page}</div></td>
+            </tr>
+        </if>
+	</table>
+	<include file="Index:footer" />
+<script language="javascript" type="text/javascript">
+    var $key = "{$_REQUEST['goodskey']?$_REQUEST['goodskey']:'materialgood'}";
+$(function(){
+    $("input[name='SelectIDs']").click(function(){
+        $(this).attr('checked',true);
+        var ck=$(this).is(":checked");
+        var v=$(this).val();
+        if(ck){
+            if($key == 'materialgood'){
+                addgood(v,$key);
+            }else{
+                addMgoods(v,$key);
+            }
+        }else{
+            delgood(v,$key);
+        }
+    });
+
+    $("#SelectAll").click(function(){
+        $(".MainTbl input[name=SelectIDs]").each(function(){
+            $(this).click()
+            var ck=$(this).is(":checked");
+            var v=$(this).val();
+            if(ck){
+                if($key == 'materialgood'){
+                    addgood(v,$key);
+                }else{
+                    addMgoods(v,$key);
+                }
+            }else{
+                delgood(v,$key);
+            }
+        });
+    });
+
+    //设置选中
+    var myfood = $.cookie($key);
+
+    if(myfood){
+        var myfood_array = $.parseJSON(myfood);
+        if (myfood_array) {
+            for (var i in myfood_array) {
+                if(i >0){
+                    $('#js_goods_'+i).find('input[name=SelectIDs]').attr('checked',true);
+                }
+            }
+        }
+    }
+
+});
+
+    /************保存选择商品*****************/
+    function addMgoods(id,$goodKey){
+        var myfood = $.cookie($goodKey),
+            name = $('#js_goods_'+id).data("name"),
+            unit = $('#js_goods_'+id).data("unit"),
+            stock = $('#js_goods_'+id).data("stock"),
+                price = $('#js_goods_'+id).data("price"),
+            stock_fee = $('#js_goods_'+id).data("stock_fee");
+        var myfood_array  = $.parseJSON(myfood);
+        // 看该产品是否存在
+        if(myfood_array){
+            if(!myfood_array[id]){
+                myfood_array[id] = {"id":id,"name":name,"unit":unit,"price":price,"stock":stock,"stock_fee":stock_fee};
+            }
+        }else{
+            myfood_array = {};
+            myfood_array[id] = {"id":id,"name":name,"unit":unit,"price":price,"stock":stock,"stock_fee":stock_fee};
+        }
+        var json = $.toJSON(myfood_array);
+        $.cookie($goodKey,json,{
+            "path":"/"
+        });
+    }
+
+</script>
+</body>
+</html>

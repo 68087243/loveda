@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="Robots" content="noindex,nofollow,noarchive" />
+    <title>爱大叔--{$user.nickname}</title>
+    <include file="Index:wap_js_css"/>
+    <style>
+        .modifyuser li label {width: 60px;}
+    </style>
+<body pagename="login" style="overflow-x:hidden;" class="bodyg">
+<include file="User:uhead"/>
+<div class="line10"></div>
+<div class="r_box container" id="content">
+
+</div>
+<div onclick="getFavorite();" class="tc clo9 font13 loadmore" >加载更多</div>
+
+<script type="text/javascript" src="__STATIC__/common/js/hammer.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/iscroll-zoom.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/jquery.photoClip.min.js"></script>
+<script>
+    var page =0;
+   function getFavorite(){
+       $.get('/user/getFavorite.html',{page:page},function(data){
+           var $obj =data.data,$html = '';
+           if($obj){
+               page++;
+               for(var i in $obj){
+                   $html+='<div class="topic-itme " id="row_'+$obj[i]['fid']+'" >';
+                   if($obj[i]['uid']>0){
+                       $html+='<div class="topic_u_info" onclick="window.location.href=\'/user/userinfo.html?uid='+$obj[i]['uid']+'\'">';
+                       $html+='<div class="fl">';
+                       if($obj[i]['avatar']){
+                           $html+='<img src="'+(PUBLIC+$obj[i]['avatar'])+'" width="40" alt=""/>';
+                       }else{
+                           $html+='<img src="__STATIC__/image/defaultAvatar.png" width="40" alt=""/>';
+                       }
+                       $html+='<span clo3>'+$obj[i]['nickname']+'&nbsp;</span>';
+                       $html+='<a href="" class="level level_1 clof" tab="usergroup">';
+                       $html+='<span>L1</span><em class="size_x" style="">新手上路</em>';
+                       $html+='</a>';
+                       $html+='</div>';
+                       $html+='<div class="clo9 fr topic-c-time">'+$obj[i]['createtime']+'</div>';
+                       $html+='</div>';
+                   }
+                   $html+='<div class="container" onclick="window.location.href=\'/index/topicInfo.html?tid='+$obj[i]['tid']+'\'">';
+                   $html+='<div class="topic_tit clo3 font16 fontb">'+$obj[i]['title']+'</div>';
+                   $html+='<div class="topic_content font14 ">';
+                   $html+=$obj[i]['message'];
+                   $html+='</div>';
+                   $html+='<div class="topic_count">';
+                   $html+='<ul class="font12 clo9">';
+                   $html+='<li>阅读'+$obj[i]['read']+'</li>';
+                   $html+='<li>查看'+$obj[i]['comments']+'</li>';
+                   $html+='<li style="float: right" onclick="delfavorite('+$obj[i]['fid']+')">删除</li>';
+                   $html+='</ul>';
+                   $html+='<div class="clr"></div>';
+                   $html+='</div>';
+                   $html+='</div>';
+                   $html+='<div class="line10"></div>';
+                   $html+='</div>';
+               }
+               $('#content').append($html);
+           }else{
+               clearpop('没有更多了');
+               $('.loadmore').hide();
+           }
+       })
+   }
+    getFavorite();
+
+    function delfavorite(fid){
+        $.post('/user/delfavorite.html',{fid:fid},function(data){
+            clearpop(data.message);
+            if(data.code == 200){
+                $('#row_'+fid).remove();
+            }
+        })
+    }
+</script>
+</body>
+</html>

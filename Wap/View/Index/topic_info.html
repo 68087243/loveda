@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <include file="Index:wap_js_css"/>
+</head>
+<php>$user = Common\Model\UserModel::getUser();$currentuid=$user['uid']</php>
+<body data-tid="{$topic.tid}" data-currentuid="{$currentuid}" data-isself="{$isself}">
+<link rel="stylesheet" type="text/css" href="__STATIC__/page/css/icon.css?version={:version()}"/>
+<div class="clearfix">
+    <ul class="user_header top-head container">
+        <li class="fl" onclick="window.history.back(-1)"><span class="back"></span></li>
+        <li class="tc fl top-htit">
+            <if condition="$topic['type'] eq 3">
+                <span class="fontb font24 clof">富豪包养</span>
+                <else/>
+                <span class="fontb font24 clof">{$topic.clubname}</span>
+                <!--<span class="clof fr"  style="position: relative;top: 5px;"><span class="down_ico"></span></span>-->
+            </if>
+
+
+        </li>
+        <li class="fr" onclick="openside();"><span class="menu"></span></li>
+    </ul>
+    <div class="clr"></div>
+</div>
+<include file="Index:_side"/>
+
+<div class="container">
+    <div class="topic-itme">
+        <div class="topic_u_info">
+            <div class="fl">
+                <img src="__STATIC__/image/defaultAvatar.png" width="40" alt=""/>
+                <span clo3>{$topic.nickname}</span>
+                <a href="" class="level level_1 clof" tab="usergroup">
+                    <span>L1</span><em class="size_x" style="">新手上路</em>
+                </a>
+            </div>
+            <div class="clo9 fr topic-c-time">{$topic.createtime|mb_substr=11}</div>
+        </div>
+        <div class="topic_tit clo3 font16 fontb">{$topic.title}</div>
+        <div class="topic_content font14">
+            {$topic.message|htmlspecialchars_decode}
+        </div>
+        <div>
+            <volist name="topic['img']" id="img">
+                <img src="__PUBLIC__/{$img}" style="max-width: 100%" alt=""/>
+            </volist>
+        </div>
+    </div>
+    <div style="border: 1px dashed #cccccc"></div>
+    <if condition="$topic['sex'] eq 1">
+        <i class="font12 cloc">注:想看美女高清大图请联系客服查看</i>
+    </if>
+    <div class="topic_count">
+        <ul class="font13">
+            <li>阅读({$topic.read|default=0})</li>
+            <li>评论({$topic.comments|default=0})</li>
+            <li onclick="likeTopic('{$topic.tid}');">点赞({$topic.likeit|default=0})</li>
+            <!--<li>转发</li>-->
+            <li onclick="favorite('{$topic.tid}');">收藏</li>
+        </ul>
+        <div class="clr"></div>
+        <div style="border: 1px dashed #cccccc"></div>
+    </div>
+</div>
+<!--<div class="create-topic tc font18 fontb clof" onclick="window.location.href='/index/postTopic.html'"><img src="__STATIC__/image/create-topic.png" alt=""/>&nbsp;&nbsp;在富豪区发帖</div>-->
+<div class="reply-box borderb-d">
+    <div class="fontb container">评论<a href="#reply" class="green fontn fr" onclick="reply('{$topic.nickname}','{$topic.uid}')">[发评论]</a></div>
+    <div class="reply-list" id="reply_list">
+        <ul class="container borderb-d">
+        </ul>
+    </div>
+    <div class="height10"></div>
+    <div class="reply-input container bordert-d borderb-d" id="reply">
+        <input type="hidden" name="tid" value="{$topic.tid}"/>
+        <input type="hidden" name="touser" value="{$topic.nickname}"/>
+        <input type="hidden" name="picture" value=""/>
+        <input type="text" placeholder="发表自己的看法" name="message" class="fl"/><span class="fr" onclick="subReply()">发表</span>
+    </div>
+</div>
+<script>
+    var allwidth = $('#reply').width();
+    var spanwidth = $('#reply span').width();
+    $('#reply input').css('width',(allwidth-spanwidth-10)+'px');
+    getReplyByTid();
+</script>
+</body>
+</html>

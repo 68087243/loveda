@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>订座添加</title>
+<include file="Index:_js_css" />
+<script language="javascript">
+$(function(){
+	var book=$("#booktime").val();
+	var arrBook=book.split("|");
+	
+	$(".bookArea span").click(function(){
+		arrBook=book.split("|");
+		
+		var v=$(this).attr("data");
+		
+		if($.inArray(v,arrBook)>-1){
+			if(!$(this).hasClass("selected")){
+				book=book+v+"|";
+				$("#booktime").val(book);
+				$(this).addClass("selected");
+			}else{
+				book=book.replace(v+"|","");
+				$("#booktime").val(book);
+				$(this).removeClass("selected");
+			};	
+		}else{
+				book=book+v+"|";
+				$("#booktime").val(book);
+				$(this).addClass("selected");
+		}
+		
+	});
+	
+	
+	$(".bookArea span").each(function(index, element) {
+        var v=$(this).attr("data");
+		v=$.trim(v);
+		if($.inArray(v,arrBook)>-1){
+			$(this).addClass("selected");	
+		}
+    });
+});
+</script>
+
+</head>
+<body>
+<form action="__URL__/addSeat" method="post" name="form1"
+		id="form1">
+  <table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
+    <tr class="toolbar">
+      <td colspan="2" class="tc">【 添加订座 】</td>
+    </tr>
+    <tr class="row0">
+      <td width="140" class="col1" >所属门店：</td>
+      <td><select name="shop_id" id="shop_id">
+            <option value="0">--选择门店--</option>
+            <volist id="vo" name="shoplist">
+              <if
+							condition="($shop_id eq $vo['id'])">
+                <option value="{$vo.id}" selected="selected" data="{$vo['shop_id']}">
+                <?php 
+if ($vo['depth']!=='1'){
+echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
+}?>
+                {$vo.name}</option>
+                <else />
+                <option value="{$vo.id}" data="{$vo['shop_id']}">
+                <?php 
+if ($vo['depth']!=='1'){
+echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
+}?>
+                {$vo.name}</option>
+              </if>
+            </volist> 
+          </select>
+        <span class="fc_red">* </span></td>
+    </tr>
+    <tr class="row0">
+      <td width="140" class="col1" >标题：</td>
+      <td><input type="text" class="inputText1" id="title" name="title"
+					maxlength="100" value="" />
+        <span class="fc_red">* </span>如：1-2人桌，尽量简洁</td>
+    </tr>
+    <tr class="row0">
+      <td width="140" class="col1" >定金：</td>
+      <td><input type="text" class="inputText1 numeric w50" id="price" name="price"
+					maxlength="10" value="" />
+        <span class="fc_red">* </span> 预定所需支付的定金数</td>
+    </tr>
+    <tr class="row0">
+      <td width="140" class="col1" >桌数：</td>
+      <td><input type="text" class="inputText1 numeric w50" id="num" name="num"
+					maxlength="3" value="" />
+        <span class="fc_red">* </span> 每天可预定的桌数</td>
+    </tr>
+    <tr class="row0">
+      <td width="140" class="col1" > 可预定时段：</td>
+      <td><div class="bookArea">
+          <volist name=":parse_field_attr(C('config.CONFIG_BOOKTIME_LIST'))" id="type"> 
+            	<span data="{:str_replace('-',':',$type)}">{:str_replace('-',':',$type)}</span> 
+          </volist>
+        </div>
+        <input type="hidden"  id="booktime" name="booktime"  value="{$db.booktime}" />
+        </td>
+    </tr>
+    
+    <tr class="row0">
+      <td width="140" class="col1" >描述：</td>
+      <td><input type="text" class="inputText1 w350" id="remark" name="remark"
+					maxlength="100" value="" /></td>
+    </tr>
+    <tr class="row0 hide">
+      <td class="col1">排序：</td>
+      <td><input type="text" class="inputText1 numeric w50"
+					name="sort" id="sort" maxlength="10" value="{$sort}" /></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">状态：</td>
+      <td><select name="status" id="status">
+          <option value="1">启用</option>
+          <option value="0">禁用</option>
+        </select></td>
+    </tr>
+    <tr class="footer">
+      <td colspan="2" class="tc"><input type="submit" class="btn1"
+					value="保存" />
+        <input type="button" class="btn1" value="返回"
+					onclick="history.back();" /></td>
+    </tr>
+  </table>
+</form>
+<include file="Index:footer" />
+</body>
+</html>

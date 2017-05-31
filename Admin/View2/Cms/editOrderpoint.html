@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>兑换订单编辑</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+<form action="__URL__/editOrderpoint" method="post" name="form1" id="form1">
+  <input type="hidden" id="id" name="id" value="{$db.id}" />
+  <table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
+    <tr class="toolbar">
+      <td colspan="2" class="tc">【编辑兑换订单 】</td>
+    </tr>
+    <tr class="row0">
+      <td class="col1" width="140">兑换订单号：</td>
+      <td><input type="text" class="inputText1 readonly" readonly="readonly" name="orderno"
+					id="orderno" value="{$db.orderno}" /></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">姓名：</td>
+      <td><input type="text" class="inputText1" name="username"
+					id="username" maxlength="100" value="{$db.username}" />
+        <span class="fc_red">*</span>
+        </td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">手机号：</td>
+      <td><input type="text" class="inputText1 " name="telephone"
+					id="telephone" maxlength="100" value="{$db.telephone}" />
+        <span class="fc_red">*</span></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">收货地址：</td>
+      <td><input type="text" class="inputText1 w350" name="address" id="address" maxlength="10" value="{$db.proname}{$db.cityname}{$db.disname}{$db.address}" /></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">申请人：</td>
+      <td><a href="{:U('Member/editMember','id='.$db['userid'])}">{$db.userid|get_username}</a></td>
+    </tr>
+    <tr class="row0">
+      <td  colspan="2"><strong>付款信息</strong></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1 "><span class="fc_red">应扣积分：</span></td>
+      <td><span class="fc_red">{$db.amount}</span></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">积分扣除：</td>
+      <td><select name="pay" id="pay">
+          <option value="0">未扣</option>
+          <eq name="db.pay" value="1">
+            <option value="1" selected="selected">已扣</option>
+            <else/>
+            <option value="1">已扣</option>
+          </eq>
+        </select></td>
+    </tr>
+    <tr class="row0">
+       <td class="col1">扣分时间：</td>
+      <td><input type="text" class="inputText1 calendar1" readonly="readonly" name="paytime" id="paytime" maxlength="20" value="{$db.paytime}" /></td>
+    </tr>
+    <tr class="row0">
+      <td  colspan="2"><strong>兑换详情</strong></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">兑换产品：</td>
+      <td><a href="{:U('Shop/Point/view','id='.$db['productid'])}" target="_blank">{$db.productname}</a></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">兑换数量：</td>
+      <td><input type="text" class="inputText1 w50 numeric" readonly="readonly" name="num" id="num" maxlength="10" value="{$db.num}" /></td>
+    </tr>
+    <tr class="row0">
+      <td  colspan="2"><strong>订单处理</strong></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">状态：</td>
+      <td><select name="status" id="status">
+          <option value="0">未处理</option>
+          <eq name="db.status" value="1">
+            <option value="1" selected="selected">已处理</option>
+            <else/>
+            <option value="1">已处理</option>
+          </eq>
+        </select></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">处理意见：</td>
+      <td><textarea type="text" class="inputText1 editor1" name="info" id="info" >{$db.info}</textarea></td>
+    </tr>
+    <tr class="footer">
+      <td colspan="2" class="tc"><input type="submit" class="btn1" value="保存" id="btnSubmit" />
+        <input type="button" class="btn1" value="返回" onclick="history.back();" /></td>
+    </tr>
+  </table>
+</form>
+<include file="Index:footer" />
+</body>
+</html>

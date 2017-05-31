@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>收支列表</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+	<form action="" method="get" name="form1" id="form1">
+		<input type="hidden" name="status" id="status" value="{:I('status')}" />
+		<input type="hidden" name="type" id="type" value="{:I('type')}" />
+		<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+			<tr>
+				<td>关 键 词： <input type="text" class="inputText1" id="keyword"
+					name="keyword" value="{$keyword}" /> <select id="searchtype"
+					name="searchtype">
+						<option value="0">用户名</option>
+					 
+				</select> <input type="submit" class="btn1" value="查询" /></td>
+			</tr>
+            
+			<tr>
+				<td>收支类型： <a href="{:U('Member/balance')}" >全部</a>
+					<if condition="($type eq 1)"> <a
+						href="{:U('Member/balance','type=1')}" class="fc_red">收入</a> <else />
+					<a href="{:U('Member/balance','type=1')}">收入</a> </if> <if
+						condition="($type eq '0')"> <a
+						href="{:U('Member/balance','type=0')}" class="fc_red">支出</a> <else />
+					<a href="{:U('Member/balance','type=0')}">支出</a> </if>
+				</td>
+			</tr>
+
+			 
+		</table>
+	</form>
+	<div class="dot"></div>
+	<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+		<tr class="toolbar">
+			<td colspan="8" class="tc">【 管理收支 】</td>
+		</tr>
+		<tr class="row0">
+			<td colspan="8"><a href="{:U('Admin/Member/addBalance')}"
+				class="btnAdd">添加</a></td>
+		</tr>
+		<tr class="header">
+			<td width="60">ID</td>
+			<td width="100">用户名</td>
+			<td width="100">交易金额</td>
+			<td width="100">上次余额</td>
+			<td width="100">本次余额</td>
+			<td width="120">交易时间</td>
+			<td>收支描述</td>
+			<td width="110">操作</td>
+		</tr>
+		<volist id="vo" name="list">
+		<tr class="row{$i % 2+1}">
+			<td>{$vo.id}</td>
+			<td><a href="{:U('Member/editMember','id='.$vo['userid'])}">{$vo.username}</a></td>
+			<td><eq name="vo.balancetype" value="1">+<else/>-</eq> {$vo.amount}</td>
+			<td>{$vo.prebalance}</td>
+			<td>{$vo.balance}</td>
+			<td>{$vo.addtime}</td>
+			<td>【{:get_iotypename($vo['balancetypeid'])}】{$vo.remark}</td>
+			<td> <a
+				href="{:U('Member/editBalance','id='.$vo['id'])}" class="btnEdit">查看</a>
+				 </td>
+		</tr>
+		</volist>
+
+		<tr class="footer">
+			<td colspan="11"><div class="page">{$page}</div></td>
+		</tr>
+	</table>
+	<include file="Index:footer" />
+</body>
+</html>

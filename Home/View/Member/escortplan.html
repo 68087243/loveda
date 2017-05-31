@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>爱大叔--伴游计划</title>
+    <include file="Index:_js_css"/>
+</head>
+<body>
+<include file="Index:bar"/>
+<div class="container ">
+    <div class="fl" style="width: 200px;">
+        <include file="left" />
+    </div>
+    <div class="fr" style="width: 980px;border: 1px solid #F1F1F1">
+        <div class="form-group font20 r_nav_tit" >计划列表</div>
+        <ul class="right_top_nav fontb clo3">
+            <li onclick="window.location.href='?u=splan'" <if condition="(!isset($_REQUEST['u']) || $_REQUEST['u'] eq 'info') and !isset($_REQUEST['f'])"> class="selected"</if> >发布计划</li>
+            <li>|</li>
+            <li onclick="window.location.href='?u=mplan'" <if condition="(isset($_REQUEST['u']) and $_REQUEST['u'] eq 'photo') or isset($_REQUEST['f'])"> class="selected"</if>>我的计划</li>
+            <li>|</li>
+            <li onclick="window.location.href='?u=oplan'" <if condition="isset($_REQUEST['u']) && $_REQUEST['u'] eq 'chatway'"> class="selected"</if>>关注的计划</li>
+        </ul>
+        <div class="clr"></div>
+        <div class="content bordert-d">
+            <if condition="!isset($_REQUEST['u']) or $_REQUEST['u'] eq 'splan'">
+                <div id="myinfos ">
+                    <include file="Member:_splan"/>
+                </div>
+            </if>
+            <if condition="isset($_REQUEST['u']) and $_REQUEST['u'] eq 'chatway'">
+                <div id="contactways">
+                    <include file="Member:contactway"/>
+                </div>
+            </if>
+            <if condition="(isset($_REQUEST['u']) and $_REQUEST['u'] eq 'photo') or isset($_REQUEST['f'])">
+                <div id="photos">
+                    <include file="Member:photo"/>
+                </div>
+            </if>
+
+        </div>
+    </div>
+    <div class="clr"></div>
+</div>
+<script>
+
+
+</script>
+</body>
+</html>

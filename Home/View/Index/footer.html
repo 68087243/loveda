@@ -1,0 +1,56 @@
+<footer style="width: 100%">
+    <div class="footline"></div>
+    <div class="footitem">
+        <ul class=" container">
+            <li class="fl tc">
+                <p>新手上路</p>
+            </li>
+            <li class="fl tc">
+                <p>网站条款</p>
+            </li>
+            <li class="fl tc">
+                <p><a href="/index/newinfo.html?id=2" class="clo3">联系我们</a></p>
+
+            </li>
+            <li class="fl tc">
+                <p><a href="/index/newinfo.html?id=1" class="clo3">关于我们</a></p>
+            </li>
+        </ul>
+    </div>
+    <div class="footline"></div>
+    <div class="footitem" style="height: 50px;line-height: 50px;">
+        <div class=" tc">Copyright 2013-2017</div>
+    </div>
+</footer>
+<div class="feedback font18 tc clof" onclick="showfeedback();">
+    意见反馈
+</div>
+<div id="feedback" style="display: none;">
+    <form role="form" class="regform" style="width: 460px;" id="myform" onsubmit="return false;">
+        <input type="hidden" name="type" value="1"/>
+        <div class="form-group">
+            <label for="tel" class="clo6">联系方式 </label><input type="text" placeholder="请填写您的手机号" class="form-control" name="tel" id="tel" />
+        </div>
+        <div class="form-group">
+            <label for="info" class="clo6">你需要 </label><input type="text" name="note" placeholder="请用一句话概括您要做什么" id="info" class="form-control " />
+        </div>
+        <br/>
+        <div class="form-group tc">
+            <input type="submit" onclick="subfeedback();" class="clof" style="border: none;background: #FB7D24;width: 400px;height:40px;border-radius: 4px;;" value="立即提交" />
+        </div>
+    </form>
+</div>
+<script>
+    function showfeedback(){
+        getMask().maskShow({"tit": "意见反馈","width":500, "cont": "#feedback"});
+    }
+    function subfeedback(){
+        $.post('/home/index/subform.html',{tel:$('#feedback input[name=tel]').val(),note:$('#feedback input[name=note]').val()},function(data){
+           clearpop(data.message);
+            if(data.code ==200){
+                $('#feedback input[name=note]').val('');
+                $('#feedback input[name=tel]').val('');
+            }
+        })
+    }
+</script>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>My Wallet</title>
+    <include file="Index:header" />
+</head>
+
+<body pagename="order" style="background: #f8f8f8">
+<include file="Index:nav2" />
+<div class="container">
+    <div class="path clr"><a href="/">Home</a> &gt; <a href="/member/index.html">My Account</a> </div>
+    <div class="content">
+        <div class="left fl">
+            <include file="left" />
+        </div>
+        <div class="right fr order-list">
+            <div class="order_list">My Wallet</div>
+            <div class="userbalance">
+                Account Balance : <span class="fc_red">{$user.balance|default=0}</span>
+            </div>
+            <div class="userbalance_l_t"> Account details</div>
+            <table width="965px" style="margin: 0 auto" border="0" cellspacing="0" cellpadding="0">
+                <if condition="!empty($list)">
+                    <tr class="thead">
+                        <th width="145">Time</th>
+                        <th width="85">Type</th>
+                        <th width="125" >Amount</th>
+                        <th width="120">Balance</th>
+                        <th width="100">Remark</th>
+                    </tr>
+                    <volist name="list" id="vo">
+                        <tr align="center" class="order_row" id="order_row_{$vo['id']}">
+                            <td>{$vo.addtime}</td>
+                            <td>{$vo.type}</td>
+                            <td><span class="order_price">&yen;{$vo['amount']|float_fee}</span></td>
+                            <td>{$vo.balance}</td>
+                            <td>{$vo.note}</td>
+                        </tr>
+                    </volist>
+                </if>
+               <!-- <tr><td colspan="5">Coupons : <span class="fc_red">2</span></td></tr>
+                <tr>
+                    <td colspan="5">
+                        <if condition="!empty($userdiscount)">
+                            <if condition="$userdiscount['method'] eq 1">
+                                <div class="suer_coupons tc fl">
+                                    <div class="disc ">{$userdiscount.discount}% off</div>
+                                    <span>{$userdiscount.name}</span>
+                                </div>
+                            <else/>
+                                <div class="suer_coupons tc fl">
+                                    <div class="disc " style="font-size: 20px;line-height: 31px;">￥{$userdiscount.cat} OFF ￥{$userdiscount.full}+ SITEWIDE</div>
+                                    <span>Special Discount for Chongqing (5% off)</span>
+                                </div>
+                            </if>
+                        </if>
+                    </td>
+                </tr>-->
+            </table>
+            <div class="pagelist">{$page}</div>
+            <div style="height: 60px;">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clr"></div>
+<include file="Index:footer" />
+<script>
+    $(function(){
+        if($('#paybox input[name=pay]').val()==4){
+            $('.pay_btn').html('Choose');
+        }else{
+            $('.pay_btn').html('Go to pay');
+        }
+    })
+</script>
+</body>
+</html>

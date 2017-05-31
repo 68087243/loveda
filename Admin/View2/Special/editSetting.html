@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<include file="Index:_js_css" />
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/require.js" charset="utf-8"></script>
+<style>
+pre { margin:0;}
+.param-ul { float:none;}
+.param-ul li { display:block; float:none; margin:5px 0;}
+.param-ul li label { width:100px; float:left; text-align:right;}
+.json-table {  border-collapse: collapse; border: 1px solid #ddd;}
+.json-table th { border: 1px solid #ddd; text-align:left; padding:5px;}
+.json-table td { border: 1px solid #ddd !important; padding:5px !important;}
+.json-table .tit th { background:#eee;}
+.json-table .add-tit td { background:#f3f3f3; padding-top:0 !important; padding-bottom:0 !important;}
+.json-table .add-row input, .json-table .add-row select { border:none; width:100%;}
+</style>
+</head>
+<body>
+	<form action="__URL__/{:ACTION_NAME}" method="post" name="form1" id="form1"> 
+		<input type="hidden" id="id" name="id" value="{$db.id}" /> 
+		<table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
+			<tr class="toolbar">
+				<td colspan="2" class="tc">【专题 】</td>
+			</tr>
+			<tr class="row0">
+				<td colspan="2">
+					<div class="tab">
+						<ul class="idTabs">
+						<li><a href="{:U('Special/edit', 'id='.$db['id'])}" class="">基本设置</a></li>
+						<li><a href="{:U('Special/editSetting', 'id='.$db['id'])}" class="selected">高级配置</a></li>	
+						</ul>
+					</div>
+				</td>
+			</tr>
+			<tr class="row0">
+				<td class="col1">参数管理：</td>
+				<td>
+					<textarea class="inputText1 editor1" name="param_keys" style="height:40px; display:none;">{$db.param_keys}</textarea>
+					<table class="json-table">
+						<tr class="tit">
+							<th width="80px;">键名</th>
+							<th width="80px;">中文名</th>
+							<th width="50px;">类别</th>
+							<th style="width:250px;">说明</th>
+							<th width="30px;">操作</th>
+						</tr>
+						
+						<foreach name="params" item="item" key="key">
+						<tr class="" data-key="{$key}">
+							<td>{$key}</td>
+							<td>{$item.name}</td>
+							<td>
+								<switch name="item['type']">
+									<case value="2">文本域</case>
+									<default />文本框
+								</switch>
+							</td>
+							<td>{$item.remark}</td>
+							<td><a class="btn btn-remove" href="javascript:;">删除</a></td>
+						</tr>
+						</foreach>
+						<tr class="add-tit">
+							<td colspan="5">添加</td>
+						</tr>
+						<tr class="add-row">
+							<td><input type="text" name="p_key" placeholder="不可重复" /></td>
+							<td><input type="text" name="p_name" /></td>
+							<td>
+								<select name="p_type">
+									<option value="1">文本框</option>
+									<option value="2">文本域</option>
+								</select>
+							</td>
+							<td><input type="text" name="p_remark" /></td>
+							<td><a class="btn btn-add" href="javascript:;">添加</a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			
+			<tr class="row0">
+				<td class="col1" id="ttt" style="width:100px;">内容：</td>
+				<td>
+					<textarea class="inputText1" name="content" style="width: 100%; display:none;">{$db.content|htmlspecialchars}</textarea>
+					<textarea id="contentEditor">{$db.content|htmlspecialchars}</textarea>
+				</td>
+			</tr>
+			<tr class="row0">
+				<td class="col1">PHP代码：</td>
+				<td>
+					<textarea class="inputText1" name="php" style="height:150px; width:100%; display:none; box-sizing:border-box;">{$db.php}</textarea>
+					<textarea id="phpEditor">{$db.php}</textarea>
+				</td>
+			</tr>
+			<tr class="row0">
+				<td class="col1">CSS样式：</td>
+				<td>
+					<textarea class="inputText1" name="style" style="height:150px; width:100%; display:none; box-sizing:border-box;">{$db.style}</textarea>
+					<textarea id="styleEditor">{$db.style}</textarea>
+				</td>
+			</tr>
+			<tr class="row0">
+				<td class="col1">JS脚本：</td>
+				<td>
+					<textarea class="inputText1" name="script" style="height:150px; width:100%; display:none; box-sizing:border-box;">{$db.script}</textarea>
+					<textarea id="scriptEditor">{$db.script}</textarea>
+				</td>
+			</tr>
+			<tr class="footer">
+				<td colspan="2" class="tc">
+					<input type="submit" class="btn1" value="保存" />
+					<input type="button" class="btn1" value="返回" onclick="history.back();" />
+				</td>
+			</tr>
+		</table>
+	</form>
+	<include file="Index:footer" />
+	<script>
+    upload.prototype.createContent("#content",'info');
+	require.config({ paths: { "ace" : "__PUBLIC__/Admin/js/ace" } });
+	require(["ace/ace"], function(ace) {
+		var contentEditor = ace.edit("contentEditor");
+		contentEditor.setTheme("ace/theme/eclipse");
+		contentEditor.session.setMode("ace/mode/html");
+		contentEditor.setOption("maxLines", 50);
+		
+		var phpEditor = ace.edit("phpEditor");
+		//phpEditor.setTheme("ace/theme/tomorrow_night_eighties");
+		phpEditor.session.setMode("ace/mode/php");
+		phpEditor.setOption("maxLines", 50);
+		
+		var styleEditor = ace.edit("styleEditor");
+		//styleEditor.setTheme("ace/theme/tomorrow_night_eighties");
+		styleEditor.session.setMode("ace/mode/css");
+		styleEditor.setOption("maxLines", 50);
+		
+		var scriptEditor = ace.edit("scriptEditor");
+		//scriptEditor.setTheme("ace/theme/tomorrow_night_eighties");
+		scriptEditor.session.setMode("ace/mode/javascript");
+		scriptEditor.setOption("maxLines", 50);
+		
+		$('form').submit(function(){
+			$('textarea[name="content"]').val( contentEditor.getValue() );
+			$('textarea[name="php"]').val( phpEditor.getValue() );
+			$('textarea[name="style"]').val( styleEditor.getValue() );
+			$('textarea[name="script"]').val( scriptEditor.getValue() );
+		});
+	});
+	
+	
+	$('.json-table').each(function(){
+		var $tb = $(this);
+		$tb.find('.btn-remove').click(tr_remove);
+		$tb.find('.btn-add').click(function(){
+			var $keys	= $('textarea[name="param_keys"]'),
+				$key	= $tb.find('input[name="p_key"]'),
+				$name	= $tb.find('input[name="p_name"]'),
+				$type	= $tb.find('select[name="p_type"]'),
+				$remark	= $tb.find('input[name="p_remark"]'),
+				key		= $key.val(),
+				name	= $name.val(),
+				type	= $type.val(),
+				remark	= $remark.val(),
+				re = /^[a-zA-z]\w{1,32}$/;
+			
+			if( !key || !re.test(key) ){
+				return alert('键名不正确');
+			}
+			if( !name ){
+				return alert('中文名不正确');
+			}
+			
+			//添加到值中
+			var v = $keys.val();
+			var paramKeys = v ? $.parseJSON(v) : '';
+			paramKeys[key] = {'name':name, 'type':type, 'remark':remark};
+			$keys.val( JSON.stringify(paramKeys) );
+			
+			//显示到列表
+			var $new_tr = $('<tr data-key="'+key+'">'+
+					'<td>'+key+'</td>'+
+					'<td>'+name+'</td>'+
+					'<td>'+(type=='1'?'文本框':'文本域')+'</td>'+
+					'<td>'+remark+'</td>'+
+					'<td><a class="btn btn-remove" href="javascript:;">删除</a></td>'+
+					'</tr>');
+			$tb.find('.add-tit').before($new_tr);
+			$new_tr.find('.btn-remove').click(tr_remove);
+			
+			//清除表单
+			$tb.find('input[name="p_key"]').val('');
+			$tb.find('input[name="p_name"]').val('');
+			$tb.find('input[name="p_remark"]').val('');
+		});
+		
+		function tr_remove(){
+			var $tr		= $(this).parents('tr').eq(0),
+				$keydom	= $('textarea[name="param_keys"]'),
+				key		= $tr.data('key'),
+				v		= $keydom.val();
+			var paramKeys = v ? $.parseJSON(v) : '';
+			if( paramKeys.hasOwnProperty(key) ){
+				delete paramKeys[key];
+			}
+			$keydom.val( JSON.stringify(paramKeys) );
+			
+			//删除界面显示
+			$tr.remove();
+		}
+	});
+    </script>
+</body>
+</html>

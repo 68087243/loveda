@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="Robots" content="noindex,nofollow,noarchive" />
+    <title>爱大叔--{$user.nickname}</title>
+    <include file="Index:wap_js_css"/>
+<body pagename="login" style="overflow-x:hidden;">
+<include file="User:uhead"/>
+<div class="space_porfile">
+    <div class="user_noavatar tc" <if condition="isset($user['uid']) && $user['uid']"> onclick="window.location.href='/user/info.html?uid={$user['uid']}'"</if>>
+        <img id="picture" src="__PUBLIC__{$user.picture|default='/static/image/noavatar_middle.gif'}" class="user_noavatar_img"/>
+    </div>
+    <div class="user_name clof font16 tc"><span>{$user.nickname}</span>&nbsp;
+
+        <a href="" class="level level_1 clof" tab="usergroup">
+            <span>L1</span><em class="size_x" style="">新手上路</em>
+        </a>
+    </div>
+</div>
+<div class="line10"></div>
+<div class="topqlin ">
+    <ul class="tc">
+        <li class="tq_favorite fl" onclick="window.location.href='/user/favorite.html'">
+            <img src="__STATIC__/image/page/w_user/compose.png" alt=""/>
+            <div class="clo9">收藏</div>
+        </li>
+        <li class="tq_notice fl">
+            <img src="__STATIC__/image/page/w_user/message.png" alt=""/>
+            <div class="clo9 relative">短消息 <if condition="$msgrow['chat'] gt 0"><span class="badge pull-right absolute" style="right: 1px;top: -5px">{$msgrow.chat}</span></if></div>
+        </li>
+        <li class="tq_notice fl" onclick="window.location.href='/user/message.html'">
+            <img src="__STATIC__/image/page/w_user/news.png" alt=""/>
+            <div class="clo9 relative">提醒<if condition="$msgrow['tit'] gt 0"><span class="badge pull-right absolute" style="right:1px;top: -5px">{$msgrow.tit}</span></if></div>
+        </li>
+        <li class="tq_setting fl">
+            <img src="__STATIC__/image/page/w_user/set_leading.png" alt=""/>
+            <div class="clo9">设置</div>
+        </li>
+    </ul>
+</div>
+<div class="clr line10"></div>
+<div class="line10"></div>
+<div class="user_item">
+    <ul class="container">
+        <li onclick="window.location.href='/user/setup.html'"><img src="__STATIC__/image/page/w_user/card_hearts_b.png" width="23" alt=""/>&nbsp;&nbsp;&nbsp;个人设置</li>
+        <li onclick="window.location.href='/user/info.html'"><img src="__STATIC__/image/page/w_user/card_spades_r.png" width="23" alt=""/>&nbsp;&nbsp;&nbsp;个人信息</li>
+        <li onclick="window.location.href='/user/setup.html'"><img src="__STATIC__/image/page/w_user/card_hearts_g.png" width="23" alt=""/>&nbsp;&nbsp;&nbsp;活动</li>
+        <li onclick="window.location.href='/user/photo.html'"><img src="__STATIC__/image/page/w_user/card_diamonds_g.png" width="23" alt=""/>&nbsp;&nbsp;&nbsp;照片</li>
+        <li onclick="window.location.href='/user/utopic.html'"><img src="__STATIC__/image/page/w_user/card_diamonds.png" width="23" alt=""/>&nbsp;&nbsp;&nbsp;帖子</li>
+        <li onclick="window.location.href='/user/friends.html'"><img src="__STATIC__/image/page/w_user/card_hearts.png" width="23" alt=""/>&nbsp;&nbsp;&nbsp;好友</li>
+    <!--    <li onclick="window.location.href='/user/setup.html'"><img src="__STATIC__/image/page/w_user/card_spades_g.png" width="23" alt=""/>&nbsp;&nbsp;&nbsp;评论
+            <span class="badge pull-right " style="position: relative;top: 10px;">{$msgrow.topic}</span>
+        </li>-->
+        <li onclick="window.location.href='/user/guestbook.html'"><img src="__STATIC__/image/page/w_user/card_diamonds_b.png" width="23" alt=""/>&nbsp;&nbsp;&nbsp;留言</li>
+    </ul>
+</div>
+</body>
+</html>

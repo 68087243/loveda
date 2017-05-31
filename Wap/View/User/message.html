@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="Robots" content="noindex,nofollow,noarchive" />
+    <title>爱大叔--{$user.nickname}</title>
+    <include file="Index:wap_js_css"/>
+
+<body pagename="login" style="overflow-x:hidden;">
+<include file="User:uhead"/>
+
+<div id="photolist" style="padding-bottom:80px ">
+    <ul class="container">
+        <volist name="list" id="vo">
+            <li id="row_{$vo.id}" class="relative borderb-d tl"<if condition="$vo['type'] eq 5"> onclick="window.location.href='/user/msginfo.html?mid={$vo.mid}'"</if> >
+                <if condition="$vo['isread'] eq 1">
+                    <div class="absolute" style="width: 5px;height: 5px;border-radius:5px;background: red;left: -10px;top: 13px;"></div>
+                </if>
+                <if condition="$vo['type'] eq 5">
+                    <span class="clo6">【系统】{$vo.title}</span>
+                <elseif condition="$vo['type'] eq 2"/>
+                    <div style="width: 100%;line-height: 20px;" onclick="if($(this).siblings('span').hasClass('hide')){$(this).siblings('span').removeClass('hide');}else{$(this).siblings('span').addClass('hide');}">【好友】是地地道道的地地道道{$vo.message}</div>
+                    <span class="relative hide clo6" style="left: 50%;margin-left: -28px;" onclick="acceptFriends('{$vo.operator}');">【添加】</span>、
+                <elseif condition="$vo['type'] eq 6"/>
+                    <a href="/user/guestbook.html?uid={$vo.uid}&gid={$vo.tid}" class="clo6">【留言板】{$vo.message}</a>
+                <else/>
+                    <a href="/index/topicInfo.html?tid={$vo.tid}" class="clo6">【帖子】{$vo.message}</a>
+                </if>
+            </li>
+        </volist>
+    </ul>
+</div>
+<script>
+    function acceptFriends($operator){
+        $.post('/user/acceptFriends.html',{operator:$operator},function(data){
+            clearpop(data.message);
+        })
+    }
+</script>
+</body>
+</html>

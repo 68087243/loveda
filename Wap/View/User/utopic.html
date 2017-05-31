@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="Robots" content="noindex,nofollow,noarchive" />
+    <title>爱大叔--{$user.nickname}</title>
+    <include file="Index:wap_js_css"/>
+    <style>
+        .modifyuser li label {width: 60px;}
+    </style>
+<body pagename="login" style="overflow-x:hidden;" class="bodyg">
+<include file="User:uhead"/>
+<div class="line10"></div>
+<div class="r_box container">
+    <volist name="topiclist" id="vo">
+        <div class="topic-itme " id="row_{$vo.tid}" >
+            <div class="topic_u_info" onclick="window.location.href='/index/topicInfo.html?tid={$vo.tid}'">
+                <div class="fl">
+                    <img src="__STATIC__/image/defaultAvatar.png" width="40" alt=""/>
+                    <span clo3>{$vo.nickname}&nbsp;</span>
+                    <a href="" class="level level_1 clof" tab="usergroup">
+                        <span>L1</span><em class="size_x" style="">新手上路</em>
+                    </a>
+                </div>
+                <div class="clo9 fr topic-c-time">{:timeTran($vo['createtime'])}</div>
+            </div>
+            <div class="container">
+                <div class="topic_tit clo3 font16 fontb">{$vo.title}</div>
+                <div class="topic_content font14 ">
+                    {$vo.message|htmlspecialchars_decode}
+                </div>
+                <div class="topic_count">
+                    <ul class="font12 clo9">
+                        <li>阅读{$vo.read|default=0}</li>
+                        <li>查看{$vo.comments|default=0}</li>
+                        <li style="float: right" onclick="deltopic('{$vo.tid}')">删除</li>
+                    </ul>
+                    <div class="clr"></div>
+                </div>
+            </div>
+            <div class="line10"></div>
+        </div>
+    </volist>
+</div>
+</body>
+</html>

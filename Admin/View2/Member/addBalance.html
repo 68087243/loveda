@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>收支添加</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+<form action="__URL__/addBalance" method="post" name="form1"
+		id="form1">
+  <input type="hidden" name="pid" id="pid" value="0" />
+  <table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
+    <tr class="toolbar">
+      <td colspan="2" class="tc">【 添加收支 】</td>
+    </tr>
+    <tr class="row0">
+      <td class="col1" width="200" >用户名：</td>
+      <td><input type="text" class="inputText1" id="username" name="username"
+					maxlength="100" value="" />
+        <span class="fc_red">* </span></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">收支类型：</td>
+      <td><select name="balancetypeid" id="balancetypeid">
+       <volist id="vo" name="list">
+            <if condition="(2 eq $vo['id'])">
+              <option value="{$vo.id}" selected="selected">
+              {$vo.name}</option>
+              <else />
+              <option value="{$vo.id}">
+             {$vo.name}</option>
+            </if>
+          </volist>
+        </select> <span class="fc_red">* </span></td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">金额：</td>
+       <td><input type="text" class="inputText1 numeric w50" id="amount" name="amount"
+					maxlength="10" value="" />
+        <span class="fc_red">*</span> 不要填负数</td>
+    </tr>
+    <tr class="row0">
+      <td class="col1">描述：</td>
+      <td><input type="text" class="inputText1 w350" name="remark"
+					id="remark" maxlength="100" value="" /></td>
+    </tr>
+    <tr class="row0 hide">
+      <td class="col1">排序：</td>
+      <td><input type="text" class="inputText1 numeric w50"
+					name="sort" id="sort" maxlength="10" value="{$sort}" /></td>
+    </tr> 
+    <tr class="footer">
+      <td colspan="2" class="tc"><input type="submit" class="btn1"
+					value="保存" />
+        <input type="button" class="btn1" value="返回"
+					onclick="history.back();" /></td>
+    </tr>
+  </table>
+</form>
+<include file="Index:footer" />
+</body>
+</html>

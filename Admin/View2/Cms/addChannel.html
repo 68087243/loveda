@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>分类添加</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+
+	<form action="__URL__/addChannel" method="post" name="form1"
+		id="form1"> 
+		<table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
+			<tr class="toolbar">
+				<td colspan="2" class="tc">【 添加分类 】</td>
+			</tr>
+			<tr class="row0">
+				<td class="col1" width="200">上级：</td>
+				<td><select name="pid" id="pid">
+						<option value="0">顶级</option>
+						{:R('Cms/treeselect', array($tree))}
+				</select></td>
+			</tr>
+			<tr class="row0">
+				<td class="col1" >分类名：</td>
+				<td><input type="text" class="inputText1" id="name" name="name"
+					maxlength="100" value="" /> <span class="fc_red">* </span></td>
+			</tr>
+			<tr class="row0">
+				<td class="col1">描述：</td>
+				<td><input type="text" class="inputText1" name="remark"
+					id="remark" maxlength="100" value="" /></td>
+			</tr>
+			<tr class="row0">
+			  <td class="col1">形象图：</td>
+			  <td><input type="text" class="inputText1 w350" name="indexpic"
+					id="indexpic" maxlength="100" value="" /> <input type="button" class="btn1 btnUpload" id="btnUpload" value="上传" onclick="selectPic(this)" /></td>
+		  </tr>
+			<tr class="row0">
+			  <td class="col1">绑定模型：</td>
+			  <td><select name="model_id"
+					id="model_id" >
+					<option value='0'>默认</option>
+					<volist id="mo" name="modellist"><if
+							condition="($model_id eq $mo['id'])">
+						<option value="{$mo.id}" selected="selected">{$mo.name}</option>
+						<else />
+						<option value="{$mo.id}">{$mo.name}</option>
+						</if></volist>
+				</select></td>
+		  </tr>
+			<tr class="row0">
+				<td class="col1">排序：</td>
+				<td><input type="text" class="inputText1 numeric w50"
+					name="sort" id="sort" maxlength="10" value="{$sort}" /></td>
+			</tr>
+			<tr class="row0">
+				<td class="col1">状态：</td>
+				<td><select name="status" id="status">
+						<option value="1">启用</option>
+						<option value="0">禁用</option>
+				</select></td>
+			</tr>
+			<tr class="footer">
+				<td colspan="2" class="tc"><input type="submit" class="btn1"
+					value="保存" /> <input type="button" class="btn1" value="返回"
+					onclick="history.back();" /></td>
+			</tr>
+		</table>
+	</form>
+	<include file="Index:footer" />
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
+    <script>
+        /**
+         * 选择图片
+         */
+        function selectPic(obj){
+            upload.prototype.callback = function(url, path){
+                $(obj).siblings('.inputText1').val(path);
+            }
+            upload.prototype.uploadPic("info");
+        }
+    </script>
+</body>
+</html>

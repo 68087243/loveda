@@ -1,0 +1,29 @@
+<div style="border: 1px solid #F1F1F1;">
+    <div class="u_l_info tc" style="padding-top: 10px;background: #F8F8F8">
+        <div>
+            <img width="150" src="__PUBLIC__{$user.picture|default='/static/image/noavatar_middle.gif'}"/>
+        </div>
+        <div class="green">{$user.nickname}</div>
+
+        <ul class="member-lfet bgf tl">
+            <li><a href="/member/index.html" id="index" class="selected">基本资料</a></li>
+            <li><a href="/member/address.html#topic" id="topic">文章</a></li>
+            <li><a href="/member/escortplan.html#banyou" id="banyou">伴游计划</a></li>
+            <li><a href="/member/wallet.html#news" id="news">消息</a></li>
+            <li><a href="/member/favorite.html?type=1#friends" id="friends">我的好友</a></li>
+            <li><a href="/member/favorite.html?type=2#vip" id="vip">会员升级</a></li>
+            <li><a href="/member/wishlist.html#lyb" id="lyb">留言板</a></li>
+        </ul>
+    </div>
+</div>
+<script>
+     $(function(){
+         var hash =(window.location.hash).substring(1);
+         $('.member-lfet li a').each(function(){
+             if($(this).attr('id') == hash){
+                 $('.member-lfet li a').removeClass('selected');
+                 $(this).addClass('selected');
+             }
+         })
+     });
+ </script>

@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>修改密码</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+<form action="__URL__/pwd" method="post" name="form1"
+		id="form1"> 
+  <table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
+    <tr class="toolbar">
+      <td colspan="2" class="tc">【 修改密码 】</td>
+    </tr>
+   
+     <tr class="row0">
+      <td class="col1" width="140">原密码：</td>
+      <td><input type="password" class="inputText1 " name="userpwd" id="userpwd" maxlength="100" value="" /></td>
+    </tr>
+     <tr class="row0">
+      <td class="col1">新密码：</td>
+      <td><input type="password" class="inputText1 " name="userpwd1" id="userpwd1" maxlength="100" value="" /></td>
+    </tr>
+     <tr class="row0">
+      <td class="col1">确认密码：</td>
+      <td><input type="password" class="inputText1 " name="userpwd2" id="userpwd2" maxlength="100" value="" /></td>
+    </tr>
+    
+    <tr class="footer">
+      <td colspan="2" class="tc"><input type="submit" class="btn1"
+					value="保存" />
+        <input type="button" class="btn1" value="返回"
+					onclick="history.back();" /></td>
+    </tr>
+  </table>
+</form>
+<include file="Index:footer" />
+</body>
+</html>

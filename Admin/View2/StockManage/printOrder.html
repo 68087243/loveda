@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Orderno.: {$_REQUEST['orderno']}</title>
+<style type="text/css">
+.fl{float: left}
+body{font-family: '宋体'; word-break: break-all; word-wrap: break-word;font-size: 16px}
+table tr td div{line-height: 23px}
+table tr td{border: 1px solid #000000;}
+table{ border-collapse:collapse; }
+.table1 td{height:25px;}
+.table1 tr td{line-height: 30px;}
+</style>
+
+</head>
+<body>
+<div style=";width: 850px; margin:0 auto;" id="head" >
+    <div>
+        <div>
+            <div class="fl" style="margin-top: 10px;width: 200px;"><img src="__PUBLIC__/Admin/images/printLogo.png?1" width="200" /></div>
+            <div class="fl"  style="width: 400px; text-align: center">
+                <div style="font-size: 30px;font-weight: bold;">{$ordertype}</div>
+            </div>
+            <div class="fl" style="width: 250px;">
+                Order ID:{$_REQUEST['orderno']}<br/>
+                创 建 人:{$order[0]['operator']}<br/>
+                业务日期:{$order[0]['runtime']}
+            </div>
+            <hr size="1px" width="850px" color="#000000"/>
+        </div>
+        <if condition="$order[0]['note']">
+            <div style="line-height: 25px;">
+                Customer Message:{$order[0]['note']}
+                <hr size="1px" width="850px" color="#000000"/>
+            </div>
+        </if>
+    </div>
+    <div style="  height: 30px;line-height: 30px;text-align: right;">
+        <input type="button" value="打印" style="float: left;margin-top: 8px;" onclick="this.style.display='none';window.print();" />
+        单据金额: <span style="font-weight: bold;font-size: 25px; ">&yen;{$order[0]['total_fee']}</span>
+        <span style="font-size: 20px;">（{$status}）</span>
+    </div>
+</div>
+    <?php
+        $count = ceil(count($order)/25);
+        for($i=0;$i<$count;$i++){
+    ?>
+    <div id='js_content_{$i}'  style="<if condition='$i gt 0'> height: 1123px; padding-top: 30px;</if>width: 850px;;margin: 0 auto;">
+    <table style=" margin-top:15px; text-align:center;"  cellpadding="0" cellspacing="0" class="table1">
+        <tr>
+            <td width="40">序号</td>
+            <td width="50">商品ID</td>
+            <td width="">商品名</td>
+            <td width="50">类型</td>
+            <td width="50">单价</td>
+            <td width="40">数量</td>
+            <td width="50">金额</td>
+            <td width="45">实到数量</td>
+            <td width="45">核算单价</td>
+            <td width="45">核算金额</td>
+            <td width="70">生产日期</td>
+            <td width="55">有效期</td>
+            <td width="70">到期时间</td>
+            <td width="60">条码</td>
+        </tr>
+        <volist name="order" id="vo" key="o">
+            <if condition="$o gt ($i)*25 and $o elt ($i+1)*25">
+                <tr align="center">
+                    <td>{$o}</td>
+                    <td>{$vo.productid}</td>
+                    <td align="left">{$vo.title}</td>
+                    <td>
+                        <if condition="$vo['goodtype'] eq 1">
+                            补货
+                        <elseif condition="$vo['goodtype'] eq 2"/>
+                            新品
+                        <elseif condition="$vo['goodtype'] eq 3"/>
+                            新包装
+                        <elseif condition="$vo['goodtype'] eq 4"/>
+                            缺货
+                        </if>
+                    </td>
+                    <td>{$vo.price|float_fee}</td>
+                    <td>{$vo.num|float_fee}</td>
+                    <td>{$vo['amount']}</td>
+                    <td>{$vo.true_num}</td>
+                    <td>{$vo.true_price}</td>
+                    <td>{$vo.true_amount}</td>
+                    <td>{$vo.createtime}</td>
+                    <td>{$vo.leveltime}</td>
+                    <td>{$vo.dietime}</td>
+                    <td>{$vo.barcode}</td>
+                </tr>
+            </if>
+        </volist>
+
+        <if condition="$i gt 0 || $count eq 1">
+            <tr>
+                <td colspan="14"  align="left">
+                    <div style="width: 210px;float: left;">
+                        <div style="padding-left: 5px;">运费:&yen;{$order[0]['delivery_fee']|default=0}</div>
+                        <div style="padding-left: 5px;">杂费:&yen;{$order[0]['other_fee']|default=0}</div>
+                    </div>
+                    <div  style="width: 160px;float: right;">
+                        <div>商品总额:&yen;{$order[0]['total_amount']|default=0}</div>
+                        <div>单据总额:&yen;{$order[0]['total_fee']|default=0}</div>
+                    </div>
+                </td>
+            </tr>
+        </if>
+    </table>
+</div>
+<div style="clear: both;"></div>
+<div style="width: 850px;margin: 0 auto;">
+    <div class="fl" style="width: 80px;"><img src="__PUBLIC__/images/qr.jpg" width="80" alt=""/></div>
+    <div class="fl" <if condition="$count gt 1">style="width: 350px;"<else/>style="width: 600px;"</if>><br/>
+        <div style="font-weight: bold">Gathering the best</div>
+        http://www.waifood.com
+    </div>
+
+    <if condition="$count gt 1">
+        <div style="width: 250px;line-height: 80px;" class="fl">
+            page {$i+1}/{$count}
+        </div>
+    </if>
+    <div class="fl"style="width: 170px; "><br/>
+        hotline: 400-836-8081 <br/>
+        service@waifood.com
+    </div>
+    <div style="clear: both"></div>
+</div>
+<?php
+    }
+?>
+<script src="__PUBLIC__/Home/member/js/jquery-2.0.3.min.js"></script>
+<script>
+    $('#js_content_0').css('height', 1123 - parseInt($('#head').height())+'px')
+</script>
+</body>
+</html>

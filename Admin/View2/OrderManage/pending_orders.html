@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>未处理订单</title>
+    <include file="Index:_js_css" />
+</head>
+<body>
+    <table border="0" cellpadding="3" cellspacing="1" class="MainTbl" style="table-layout:word-wrap;word-break:break-all;min-width: 1100px;">
+    <tr class="header">
+        <th width="40">id</th>
+        <th width="100">用户名/电话</th>
+        <th width="150">地址</th>
+        <th width="30">城市</th>
+        <th width="50">送货时间</th>
+        <th width="75">送货时段</th>
+        <th width="55">付款方式</th>
+        <th width="50">金额</th>
+        <th width="25">发票</th>
+        <th width="80">即时采购</th>
+
+        <!--<th width="30">KC肉</th>-->
+        <!--<th width="40">自营肉</th>-->
+        <!--<th width="25">莲娜</th>-->
+        <!--<th width="25">强力</th>-->
+        <!--<th width="40">酸奶油</th>-->
+
+
+        <th width="100">内部留言</th>
+        <th>客户留言</th>
+        <th width="30">状态</th>
+        <th width="60">操作</th>
+    </tr>
+    <volist name="list" id="vo">
+        <if condition="isset($vo['memo']) && $vo['memo']">
+            <tr class="row{$i % 2+1} hasmemo" title="{$vo['memo']}" ondblclick="window.location.href='/admin/Cms/editOrder.html?id={$vo.id}'" >
+                <else/>
+            <tr class="row{$i % 2+1}"  ondblclick="window.location.href='/admin/Cms/editOrder.html?id={$vo.id}'" >
+        </if>
+            <td> <a href="{:U('Cms/editOrder','id='.$vo['id'])}" class="underline">{$vo.id}</a></td>
+            <td><a href="{:U('Member/editMember','id='.$vo['userid'])}"  class="underline">{$vo.username}</a><br/>{$vo.telephone}</td>
+            <td >{$vo.address}</td>
+            <td> {:getCityByCity($vo['cityname'])} </td>
+            <td>{$vo.date|substr=5}</td>
+            <td >{$vo.time}</td>
+            <td>
+                <if condition="$vo['paymethod'] eq 4">
+                    货到付款
+                    <else/>
+                    在线支付
+                </if>
+                <br/>
+                <eq name="vo.pay" value="0">
+                    <span class="fc_blue">未支付</span>
+                    <else/>
+                    <span class="fc_red">已支付</span>
+                </eq>
+            </td>
+            <td>
+                {$vo.amount}
+                <br/>
+                <eq name="vo.orderfrom" value="1"><span class="fc_red" title="该订单来自微信">微</span></eq>
+            </td>
+            <td><if condition="$vo['invoice'] eq 1">是</if></td>
+            <td>
+                <if condition="strpos($vo['supplyid'],'|2|-')">
+                    KC &frasl;
+                </if>
+                <if condition="strpos($vo['supplyid'],'|10|-')">
+                    自 &frasl;
+                </if>
+                <if condition="strpos($vo['supplyid'],'|3|-')" >
+                    莲 &frasl;
+                </if>
+                <if condition="strpos($vo['supplyid'],'|11|-')" >
+                    强 &frasl;
+                </if>
+                <if condition="strpos($vo['supplyid'],'|5|-')" >
+                    彼得 &frasl;
+                </if>
+            </td>
+            <td>{$vo.info2}</td>
+            <td>{$vo.info}</td>
+            <td>
+                <select onchange="setOrder(this,'{$vo.id}',true)">
+                    <volist name="statuslist" id="type" key="j">
+                        <if condition="($vo.status eq $key)">
+                            <option value="{$key}" selected="selected">{$type}</option>
+                            <else/>
+                            <option value="{$key}">{$type}</option>
+                        </if>
+                    </volist>
+                </select>
+            </td>
+            <td>
+                <p>
+                    <if condition="($vo['status'] eq 3)">
+                        <a href="{:U('Cms/editOrder','id='.$vo['id'])}" class="underline">查看</a>
+
+                        <else/>
+                        <a href="{:U('Cms/editOrder','id='.$vo['id'])}" class="underline">编辑</a>
+                    </if>
+                    <a href="/admin/orderManage/getOrderForGJP.html?id={$vo['id']}" target="_blank" class="underline">导出</a>
+                </p>
+
+                <a href="{:U('Cms/editOrder','act=print&id='.$vo['id'])}" target="_blank" class="underline">打印</a>
+                <a href="{:U('Cms/editOrder','act=print&act1=1&id='.$vo['id'])}" target="_blank" class="underline">内打</a>
+            </td>
+        </tr>
+    </volist>
+    <tr class="footer">
+        <td colspan="12">
+            <div class="page">{$page}</div>
+        </td>
+    </tr>
+</table>
+<script>
+    $(function(){
+        $('.hasmemo').css({'background':'orange','color':'#fff'});
+        $('.hasmemo td').css({'background':'orange','color':'#fff'});
+    })
+</script>
+<include file="Index:footer" />
+</body>
+</html>

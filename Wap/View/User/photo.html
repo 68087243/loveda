@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="Robots" content="noindex,nofollow,noarchive" />
+    <title>爱大叔--{$user.nickname}</title>
+    <include file="Index:wap_js_css"/>
+
+<body pagename="login" style="overflow-x:hidden;">
+<include file="User:uhead"/>
+<div id="photolist" style="padding-bottom:80px ">
+    <ul>
+        <if condition="$usersex eq 1 && !$isself">
+            <li  class="relative borderb-d tc" >
+                系统制定:所有美女图片只能联系客服查看!
+            </li>
+            <else/>
+            <volist name="photolist" id="vo">
+                <li id="img_row_{$vo.id}" class="relative borderb-d tc" >
+                    <if condition="!isset($_REQUEST['uid']) || $isself">
+                        <span class="absolute" style="right: 5px;top: 3px;" onclick="delimg('{$vo.id}')"> <span class="del_ico" ></span></span>
+                        <else/>
+                        <span class="absolute" style="right: 5px;top: 3px;">{$vo.createtime}</span>
+                    </if>
+                    <img src="__PUBLIC__/{$vo.img}" width="80%" alt=""/>
+                </li>
+            </volist>
+        </if>
+    </ul>
+</div>
+<if condition="!isset($_REQUEST['uid']) || $_REQUEST['uid'] eq $user['uid']">
+    <input type="file" id="file" class="hide"/>
+    <div class="create-topic tc font18 fontb clof" onclick="$('#file').click();">
+        上传图片
+    </div>
+    <div id="pic"  style="display: none;">
+        <div class="fullbg" onclick="$('#pic').hide()"></div>
+        <div class="pop center">
+            <div id="clipArea" style="height: 300px;;"></div>
+            <button id="clipBtn" class="btn store_btn " style="width:25%;margin: 2% 0;">完成</button>
+        </div>
+    </div>
+    <script type="text/javascript" src="__STATIC__/common/js/hammer.js"></script>
+    <script type="text/javascript" src="__STATIC__/common/js/iscroll-zoom.js"></script>
+    <script type="text/javascript" src="__STATIC__/common/js/jquery.photoClip.min.js"></script>
+    <script>
+        $(function() {
+            $("#clipArea").photoClip({
+                width: 200,
+                height: 250,
+                file: "#file",
+                view: "#view",
+                ok: "#clipBtn",
+                loadStart: function() {
+                    console.log("照片读取中");
+                },
+                loadComplete: function() {
+                    $('#pic').show()
+                },
+                clipFinish: function(dataURL) {
+                    uploadPicByBase64('photo',dataURL);
+                }
+            });
+        })
+
+        function uploadPicByBase64(scope,stream){
+            var uploadPhp = DOMAIN+'/Public/uploadForKindeditor.php';
+            var uploadJson = uploadPhp+"?scope="+scope+"&callback="+DOMAIN+"&isbase64=true&isaj=1";
+            $.post(uploadJson,{stream:stream},function(data){
+                if(data.code==100){
+                    var img = data.data.url.img;//原图
+                    var thumb = data.data.url.thumb;//缩略图
+                    $.ajax({
+                        type: "POST",
+                        url:'/user/photo.html',
+                        data: {img:img,thumb:thumb},
+                        async: false,
+                        success: function (data) {
+                            if(data.code == 200){
+                                var $listhtml = $('#photolist ul').html();
+                                var $html = '<li id="img_row_'+data.data+'" class="relative">';
+                                    $html += '<span class="absolute" style="right: 5px;top: 3px;" onclick="delimg('+(data.data)+')"> <span class="del_ico" ></span></span>';
+                                    $html += '<img src="'+(PUBLIC+img)+'" alt=""/>';
+                                    $html += '</li>';
+                                $('#photolist ul').html(($html+$listhtml));
+                            }
+                        }
+                    });
+                    $('#pic').hide();
+                }else{
+                    clearpop('上传失败');
+                }
+            },'json')
+        }
+
+        function delimg($imgid){
+            $.post('/user/delimg.html',{imgid:$imgid},function(data){
+                clearpop(data.message)
+                if(data.code ==200){
+                    $('#img_row_'+$imgid).remove();
+                }
+            })
+        }
+    </script>
+</if>
+</body>
+</html>

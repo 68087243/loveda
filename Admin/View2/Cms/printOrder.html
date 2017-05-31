@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Order: {$db.orderno}</title>
+
+<style type="text/css">
+   .fl{float: left}
+body{font-family: '宋体'; word-break: break-all; word-wrap: break-word;font-size: 16px}
+table tr td div{line-height: 23px}
+
+
+table tr td{border: 1px solid #000000;}
+table{ border-collapse:collapse; }
+
+.table1 td{height:25px;}
+.table1 tr td{line-height: 30px;}
+</style>
+
+</head>
+<body>
+<div style=";width: 850px; margin:0 auto;" id="head" >
+    <div>
+        <div>
+            <div class="fl" style="margin-top: 10px;width: 200px;"><img src="__PUBLIC__/Admin/images/printLogo.png?1" width="200" /></div>
+            <div class="fl"  style="width: 400px; text-align: center">
+                <div style="font-size: 30px;font-weight: bold;">Delivery Note <br/> 配送单</div>
+            </div>
+            <div class="fl" style="width: 250px;">
+                Order ID:{$db['orderno']} <br/>
+                Customer订购人:{:get_username($db['userid'])}<br/>
+                Fapiao发票: <if condition="$db['invoice'] eq 1">Yes<else/>No</if><br/>
+            </div>
+            <hr size="1px" width="850px" color="#000000"/>
+        </div>
+        <div style="line-height: 25px;">
+            <div class="fl" style="width: 400px;">
+                <div class="fl">Consignee收货人:</div>
+                <div class="fl" style="width: 200px;">{$db.username}({$db.telephone})</div>
+            </div>
+            <div class="fl" style="width: 400px; margin-left: 50px;">
+                <div class="fl"  style="clear: both">  Delivery Time收货时间:</div>
+                <div class="fl" style="width: 200px;word-break: normal">{$db.delivertime}</div>
+               <!--{$db.delivertime}-->
+            </div>
+            <div style="clear: both;width: 850px;">
+                <div class="fl" style="width: 170px;"> Delivery Address地址:</div>
+                <div class="fl" style="width: 670px;">{$db.address}</div>
+            </div>
+            <hr size="1px" width="850px" color="#000000"/>
+        </div>
+        <if condition="$db['info']">
+            <div style="line-height: 25px;">
+                Customer Message:{$db.info}
+                <hr size="1px" width="850px" color="#000000"/>
+            </div>
+        </if>
+    </div>
+
+    <div style="  height: 30px;line-height: 30px;text-align: right;">
+        <input type="button" value="打印" style="float: left;margin-top: 8px;" onclick="this.style.display='none';window.print();" />
+        Payable 应付金额: <span style="font-weight: bold;font-size: 25px; ">&yen;{$db.amount|default=0}</span>
+        <span style="font-size: 20px;">
+            <if condition="$db['pay'] eq 1">(Paid 已付)<else/>(Unpaid 未付)</if>
+        </span>
+    </div>
+</div>
+    <?php
+        $count = ceil(count($list)/25);
+        for($i=0;$i<$count;$i++){
+    ?>
+    <div id='js_content_{$i}'  style="<if condition='$i gt 0'> height: 1123px; padding-top: 30px;</if>width: 850px;;margin: 0 auto;">
+    <table style=" margin-top:15px; text-align:center;"  cellpadding="0" cellspacing="0" class="table1">
+        <tr>
+            <td width="30">No.</td>
+            <td width="452">Product Name</td>
+            <td width="75">Unit</td>
+            <td width="60">Price</td>
+            <td width="30 ">Qty</td>
+            <td width="60">Total</td>
+        </tr>
+        <volist name="list" id="vo" key="o">
+            <if condition="$o gt ($i)*25 and $o elt ($i+1)*25">
+            <tr align="center">
+              <td>{$o}</td>
+              <td align="left">{$vo.productname}</td>
+              <td>{$vo.unit}</td>
+              <td>{$vo.price|float_fee}</td>
+              <td>{$vo.num|float_fee}</td>
+              <td>{$vo['price']*$vo['num']|float_fee}</td>
+            </tr>
+            </if>
+        </volist>
+
+        <if condition="$i gt 0 || $count eq 1">
+            <tr>
+                <td colspan="6"  align="left">
+                    <div style="width: 210px;float: left;">
+                        <div style="padding-left: 5px;">Delivery Fee运费:&yen;{$db.shipfee|default=0}</div>
+                        <!--<div>Discount 折扣:&yen;</div>-->
+                    </div>
+                    <div style="width: 370px; float: left;">{$db.discount_info}</div>
+                    <div  style="width: 260px;float: right;">
+                        <div>Product Amount商品总额:&yen;{$db.amountall|default=0}</div>
+                        <div>Payable 应付金额:&yen;{$db.amount|default=0}</div>
+                    </div>
+                </td>
+            </tr>
+        </if>
+    </table>
+</div>
+<div style="clear: both;"></div>
+<div style="width: 850px;margin: 0 auto;">
+    <div class="fl" style="width: 80px;"><img src="__PUBLIC__/images/qr.jpg" width="80" alt=""/></div>
+    <div class="fl"  <if condition="$count gt 1">style="width: 350px;"<else/>style="width: 600px;"</if>><br/>
+        <div style="font-weight: bold">Gathering the best</div>
+        http://www.waifood.com
+    </div>
+
+    <if condition="$count gt 1">
+        <div style="width: 250px;line-height: 80px;" class="fl">
+            page {$i+1}/{$count}
+        </div>
+    </if>
+    <div class="fl"style="width: 170px; "><br/>
+        hotline: 400-836-8081 <br/>
+        service@waifood.com
+    </div>
+    <div style="clear: both"></div>
+</div>
+
+<?php
+    }
+?>
+<script src="__PUBLIC__/Home/member/js/jquery-2.0.3.min.js"></script>
+<script>
+    $('#js_content_0').css('height', 1123 - parseInt($('#head').height())+'px')
+</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+<title>清洁订单列表</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+  <table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+    <tr>
+      <td>
+      	<form action="{:U('OrderCleaning/index', u_pam($p, null, array('keyword')))}" method="get" name="form1" id="form1">
+      	关 键 词：
+        <input type="text" class="inputText1" id="keyword" name="keyword" value="{$p['keyword']}" />
+        <input type="submit" class="btn1" value="查询" />
+		订单状态： 
+        <select onchange="location.href=this.value">
+        	<option value="{:U('OrderCleaning/index', u_pam($p, null, array('status')))}" {:ec($p['status']===null?'selected':'')}>全部</option>
+      		<option value="{:U('OrderCleaning/index', u_pam($p, array('status'=>-1)))}" {:ec($p['status']===-1?'selected':'')}>取消</option>
+      		<option value="{:U('OrderCleaning/index', u_pam($p, array('status'=>0)))}" {:ec($p['status']===0?'selected':'')}>未确认</option>
+      		<option value="{:U('OrderCleaning/index', u_pam($p, array('status'=>1)))}" {:ec($p['status']===1?'selected':'')}>已确认</option>
+      		<option value="{:U('OrderCleaning/index', u_pam($p, array('status'=>2)))}" {:ec($p['status']===2?'selected':'')}>已完成</option>
+        </select>
+		付款状态：
+        <select onchange="location.href=this.value">
+        	<option value="{:U('OrderCleaning/index', u_pam($p, null, array('paid')))}" {:ec($p['paid']===null?'selected':'')}>全部</option>
+        	<option value="{:U('OrderCleaning/index', u_pam($p, array('paid'=>1)))}" {:ec($p['paid']===1?'selected':'')}>已付款</option>
+        	<option value="{:U('OrderCleaning/index', u_pam($p, array('paid'=>0)))}" {:ec($p['paid']===0?'selected':'')}>未付款</option>
+        </select>
+		支付方式：
+        <select onchange="location.href=this.value">
+        	<option value="{:U('OrderCleaning/index', u_pam($p, null, array('payment')))}" {:ec($p['payment']===null?'selected':'')}>全部</option>
+        	<option value="{:U('OrderCleaning/index', u_pam($p, array('payment'=>1)))}" {:ec($p['payment']===1?'selected':'')}>余额支付</option>
+        	<option value="{:U('OrderCleaning/index', u_pam($p, array('payment'=>2)))}" {:ec($p['payment']===2?'selected':'')}>在线支付</option>
+        	<option value="{:U('OrderCleaning/index', u_pam($p, array('payment'=>3)))}" {:ec($p['payment']===3?'selected':'')}>服务时支付</option>
+        </select>
+        </form>
+      </td>
+    </tr>
+  </table>
+
+	<div class="dot"></div>
+	<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+		<tr class="toolbar">
+			<td colspan="10" class="tc">【 清洁订单 】</td>
+		</tr>
+		<tr class="header">
+			<td width="50">ID</td>
+			<td width="80">订单号</td>
+			<td width="80">下单时间</td>
+			<td width="80">清洁时间</td>
+			<td width="100" >客户信息</td>
+			<td width="80">订单总额</td>
+			<td width="100">付款方式</td>
+			<td >备注</td>
+			<td width="100">状态</td>
+			<td width="50">操作</td>
+		</tr>
+		<volist id="vo" name="list">
+		<tr class="row{$i % 2+1}">
+			<td><input type="checkbox" name="SelectIDs" value="{$vo.order_id}" /> {$vo.order_id}</td>
+			<td>{$vo.orderno}</td>
+			<td>{$vo.create_time}<br /><eq name="vo.orderfrom" value="1"><span class="fc_red" title="该订单来自微信">微</span></eq></td>
+			<td>{$vo.start_time}</td>
+			<td>
+	            {$vo.phone} {$vo.address}
+	        </td>
+			<td>
+				{$vo.amount}<br />
+                <switch name="vo.ordertype">
+                <case value="0"><span class="fc_red">物</span></case>
+                <case value="1"><span class="fc_red">洗</span></case>
+                <case value="2"><span class="fc_red">物+洗</span></case>
+                </switch>
+            </td>
+			<td>
+				<eq name="vo.payment" value="3">货到付款<else/>在线支付</eq>
+				<br />
+				<eq name="vo.paid" value="0">
+                    <span class="fc_blue">未支付</span>
+                    <else/>  
+                    <span class="fc_red">已支付</span>
+				</eq>
+            </td>
+			<td>{$vo.remark}</td>
+			<td>
+            	<select onchange="setOrdernew(this,'{$vo.order_id}')" >
+            		<option value="-1" {:ec($vo['status']==-1?'selected':'')}>已取消</option>
+            		<option value="0" {:ec($vo['status']==0?'selected':'')}>未确认</option>
+            		<option value="1" {:ec($vo['status']==1?'selected':'')}>已确认</option>
+            		<option value="2" {:ec($vo['status']==2?'selected':'')}>已完成</option>
+				</select>
+			 </td>
+			<td>
+            <if condition="($vo['status'] eq 3)">
+            <a href="{:U('OrderCleaning/editOrder','orderno='.$vo['orderno'])}" class="btnEdit">查看</a>
+            <else/>
+            <a href="{:U('OrderCleaning/editOrder','orderno='.$vo['orderno'])}" class="btnEdit">编辑</a>
+            </if>  
+            <a href="{:U('Cms/editOrderCleaning','act=print&orderno='.$vo['orderno'])}"  target="_blank" class="btnAdd">打印</a>
+            <a href="{:U('Cms/editOrderCleaning','act=print&act1=1&orderno='.$vo['orderno'])}"  target="_blank" class="btnAdd">内打</a>
+            </td>
+		</tr>
+		</volist>
+		 
+		<tr class="row0">
+			<td colspan="12" class="tr">
+				<input type="hidden" value="ordernew" id="ConstTbl" name="ConstTbl" />
+				<input type="button" class="btn2" value="批量删除" id="AllDel" />
+				<input type="button" class="btn1" value="全选" id="AllCheck" />
+				<input type="button" class="btn1" value="反选" id="ReverseCheck" />
+			</td>
+		</tr>
+		<tr class="footer">
+			<td colspan="12"><div class="page">{$page}</div></td>
+		</tr>
+	</table>
+	<include file="Index:footer" />
+</body>
+</html>

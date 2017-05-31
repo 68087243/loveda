@@ -1,0 +1,169 @@
+<php>
+    $photolist = Common\Model\UserPhotoModel::getUserPhoto($user['uid']);
+    $con['uid'] =$user['uid'];
+    $con['type'] = Common\Model\UserPhotoModel::AVATAR_TYPE;
+    $con['status'] =  Common\Model\UserPhotoModel::IN_AUDIT;
+    $inauditAvatar =   Common\Model\UserPhotoModel::getUserPhotoByCon($con);
+</php>
+<link rel="stylesheet" type="text/css" href="__STATIC__/page/css/icon.css?version={:version()}"/>
+<div class="form-group font20 r_nav_tit" >照片管理 <span class="clof">Photo Management</span></div>
+<ul class=" avatar_nav" >
+    <li onclick="window.location.href='?f=avatar'"  <if condition="!isset($_REQUEST['f']) || $_REQUEST['f'] eq 'avatar'"> class="selected"</if>>修改头像</li>
+    <li>|</li>
+    <li  onclick="window.location.href='?f=photo'" <if condition="isset($_REQUEST['f']) && $_REQUEST['f'] eq 'photo'"> class="selected"</if>>我的相册</li>
+</ul>
+<div class="content bordert-d clr ">
+    <div <if condition="!isset($_REQUEST['f']) || $_REQUEST['f'] eq 'avatar'">class="u_l_info"<else/> class="u_l_info hide"</if> id="avater" style="margin-top: 20px;" >
+    <div class="photo_item fl relative" >
+        <if condition="!empty($inauditAvatar) and $inauditAvatar[0]['status'] eq 0">
+            <span class="absolute hide delimg" onclick="delimg('{$inauditAvatar[0].id}')" style="top: 0;right: 5px;cursor: pointer" ><span class="del_ico "></span></span>
+        </if>
+
+        <if condition="empty($inauditAvatar)">
+            <img class="avater" width="150" style="border: 1px solid #D1D1D1" src="__PUBLIC__{$user.picture}"/>
+            <else/>
+            <img class="avater" width="150" style="border: 1px solid #D1D1D1" src="__PUBLIC__{$inauditAvatar[0]['img']}"/>
+        </if>
+        <if condition="!empty($inauditAvatar) and $inauditAvatar[0]['status'] eq 0">
+            <div class="absolute clof tc fontb" style="width: 150px;height: 30px;;background: #000000;opacity: .5;bottom: 0;">审核中</div>
+        </if>
+    </div>
+    <div class="clr"></div>
+    <div>
+        <span class="upavatar_btn clof" onclick="$('#file').click();upavatar();"><img src="__STATIC__/image/page/home/cloud_upload.png" width="20" alt=""/>上传</span>
+            <span class="upavatar_btn clof" onclick="uploadPhoto($('#avater .avater').data('path'),'',2);"><img src="__STATIC__/image/page/home/disk.png" width="15" alt=""/>保存</span>
+    </div>
+    <div class="clo9 " style="padding: 20px 0;">
+        请选用清晰的本人近照，不要上传多人合影，合成图片，明显照片，卡通宠物或其他色情低俗违法图片，个人形象照只允许上传真实个人生活照片，其他照片一律删除!
+        <p>为了保证形象照的真实性，审核由客服人员人工审核(20 小时内)，请耐心等候。如果稀有加快审核进程，请联系客服优先审核</p>
+    </div>
+</div>
+<div id="photo" <if condition="isset($_REQUEST['f']) && $_REQUEST['f'] eq 'photo'"><else/> class="u_l_info hide"</if> >
+<if condition="empty($photolist)">
+    <div class="tc nophoto"  >
+        <img src="__STATIC__/image/page/home/happy_Face.png" alt=""/>
+        <div class="cloc">你还没有上传相片</div>
+    </div>
+    <else/>
+    <volist name="photolist" id="vo">
+        <div class="photo_item fl relative" id="row_{$vo.id}">
+            <span class="absolute hide delimg" onclick="delimg('{$vo.id}')" style="top: 0;right: 5px;cursor: pointer" ><span class="del_ico "></span></span>
+            <img src="__PUBLIC__{$vo.img}" width="100%" alt=""/>
+            <if condition="$vo['status'] eq 0">
+                <div class="absolute clof tc fontb" style="width: 180px;height: 30px;;background: #000000;opacity: .5;bottom: 0;">审核中</div>
+            </if>
+        </div>
+    </volist>
+</if>
+<div class="clr tc"><button class="btn clof btn-blue" onclick="if(parseInt($('#photocount'))>=12){clearpop('上传照片上限');return;};$('#pfile').click();upphoto();">上传照片</button> <span class="clo9">最多上传12张，当前已上传 <span id="photocount"><php>echo count($photolist);</php></span>张</span></div>
+</div>
+</div>
+
+<input type="file" id="file" class="hide"/>
+<input type="file" id="pfile" class="hide"/>
+<div id="pic"  style="display: none;;">
+    <div class="fullbg" onclick="$('#pic').hide()"></div>
+    <div class="pop center" style="width: 500px;left: 50%;margin-left: -250px;">
+        <div id="clipArea" style="height: 300px;"></div>
+        <button id="clipBtn" class="btn store_btn " style="width:25%;margin: 2% 0;">完成</button>
+    </div>
+</div>
+<script type="text/javascript" src="__STATIC__/common/js/hammer.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/iscroll-zoom.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/jquery.photoClip.min.js"></script>
+<script>
+    $(function() {
+        $('.photo_item').mouseover(function(){
+            $('.photo_item .delimg').removeClass('hide');
+        })
+        $('.photo_item ').mouseout(function(){
+            $('.photo_item .delimg').addClass('hide');
+        })
+        $('.photo_item .delimg span').mouseover(function(){
+            $(this).addClass('del_red_ico');
+            $('.photo_item .delimg').removeClass('hide');
+        })
+        $('.photo_item .delimg span').mouseout(function(){
+            $(this).removeClass('del_red_ico');
+        })
+    })
+    function upavatar(){
+        $("#clipArea").photoClip({
+            width: 300,
+            height: 300,
+            file: "#file",
+            view: "#view",
+            ok: "#clipBtn",
+            loadStart: function() {
+                console.log("照片读取中");
+            },
+            loadComplete: function() {
+                $('#pic').show()
+            },
+            clipFinish: function(dataURL) {
+                uploadPicByBase64('avatar',dataURL);
+            }
+        });
+    }
+    function upphoto(){
+        $("#clipArea").photoClip({
+            width: 250,
+            height: 312,
+            file: "#pfile",
+            view: "#view",
+            ok: "#clipBtn",
+            loadStart: function() {
+                console.log("照片读取中");
+            },
+            loadComplete: function() {
+                $('#pic').show()
+            },
+            clipFinish: function(dataURL) {
+                uploadPicByBase64('photo',dataURL);
+            }
+        });
+    }
+
+    function uploadPhoto(img,thumb,type){
+        if(!img){
+            clearpop('请选择图片');
+            return false;
+        }
+        $.post('/home/member/uploadPhoto.html',{img:img,thumb:thumb,type:type},function(data){
+            if(data.code == 200){
+              //  clearpop(data.message,'','self');
+            }else{
+                clearpop(data.message);
+            }
+        })
+    }
+
+    function uploadPicByBase64(scope,stream){
+        var uploadPhp = DOMAIN+'/Public/uploadForKindeditor.php';
+        var uploadJson = uploadPhp+"?scope="+scope+"&callback="+DOMAIN+"&isbase64=true&isaj=1";
+        $.post(uploadJson,{stream:stream},function(data){
+            if(data.code==100){
+                var img = data.data.url.img;
+                var thumb = data.data.url.thumb;
+                if(stream== 'photo'){
+                    uploadPhoto(img,thumb,1);
+                }else{
+                    $('#avater .avater').attr('src',PUBLIC+img);
+                    $('#avater .avater').data('path',img);
+                }
+                $('#pic').hide()
+            }else{
+                clearpop('上传失败');
+            }
+        },'json')
+    }
+
+    function delimg(imgid){
+        $.post('/member/delPhoto.html',{imgid:imgid},function(data){
+            clearpop(data.message);
+            if(data.code ==200){
+                $('#row_'+imgid).remove();
+            }
+        })
+    }
+</script>

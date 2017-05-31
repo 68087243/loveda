@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>评价添加</title>
+<include file="Index:_js_css" />
+</head>
+<body>
+
+	<form action="__URL__/addComment" method="post" name="form1"
+		id="form1"> 
+        <input type="hidden" name="pid" id="pid" value="0" />
+		<table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
+			<tr class="toolbar">
+				<td colspan="2" class="tc">【 添加评价 】</td>
+			</tr> 
+			<tr class="row0">
+				<td class="col1"  width="140">标题：</td>
+				<td><input type="text" class="inputText1" id="name" name="name"
+					maxlength="100" value="" /> <span class="fc_red">* </span></td>
+			</tr>
+             <tr class="row0">
+        <td class="col1" width="140">所属门店：</td>
+        <td><select name="shop_id" id="shop_id">
+            <option value="0">--选择门店--</option>
+            <volist id="vo" name="shoplist">
+              <if
+							condition="($shop_id eq $vo['id'])">
+                <option value="{$vo.id}" selected="selected" data="{$vo['shop_id']}">
+                <?php 
+if ($vo['depth']!=='1'){
+echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
+}?>
+                {$vo.name}</option>
+                <else />
+                <option value="{$vo.id}" data="{$vo['shop_id']}">
+                <?php 
+if ($vo['depth']!=='1'){
+echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
+}?>
+                {$vo.name}</option>
+              </if>
+            </volist> 
+          </select></td>
+      </tr>
+      
+			<tr class="row0">
+        <td class="col1" >所属分类：</td>
+        <td><select name="pid" id="pid">
+            <option value="0">--选择类别--</option>
+            <volist id="vo" name="typelist">
+              <if condition="($pid eq $vo['id'])">
+                <option value="{$vo.id}" selected="selected" >
+                <?php 
+if ($vo['depth']!=='1'){
+echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
+}?>
+                {$vo.name}</option>
+                <else />
+                <option value="{$vo.id}" >
+                <?php 
+if ($vo['depth']!=='1'){
+echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
+}?>
+                {$vo.name}</option>
+              </if>
+            </volist> 
+          </select></td>
+      </tr>
+			<tr class="row0">
+				<td class="col1">评价：</td>
+				<td><input type="text" class="inputText1" name="contentids"
+					id="contentids" maxlength="100" value=""  readonly="readonly" />
+				  <span class="fc_red">* </span> <input type="button" class="btn1" value="选择" id="btnDish" /></td>
+			</tr>　
+			<tr class="row0">
+				<td class="col1">描述：</td>
+				<td><input type="text" class="inputText1" name="remark"
+					id="remark" maxlength="100" value="" />
+				  <span class="fc_red">* </span></td>
+			</tr>　
+			<tr class="row0 hide">
+				<td class="col1">排序：</td>
+				<td><input type="text" class="inputText1 numeric w50"
+					name="sort" id="sort" maxlength="10" value="{$sort}" /></td>
+			</tr>
+			<tr class="row0">
+				<td class="col1">状态：</td>
+				<td><select name="status" id="status">
+						<option value="1">启用</option>
+						<option value="0">禁用</option>
+				</select></td>
+			</tr>
+			<tr class="footer">
+				<td colspan="2" class="tc"><input type="submit" class="btn1"
+					value="保存" /> <input type="button" class="btn1" value="返回"
+					onclick="history.back();" /></td>
+			</tr>
+		</table>
+	</form>
+	<include file="Index:footer" />
+    <script language="javascript">
+	$(function(){
+		$("#btnDish").click(function(){
+			var id="contentids";
+			var selected=$("#"+id).val();
+			jBox("<iframe src='{:U('Admin/Query/content')}?id="+id+"&rootid=2&selected="+selected+"' frameborder='0' width='350' height='400' />","请选择菜品");
+		});
+	});
+	</script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>参数设置</title>
+<include file="Index:_js_css" />
+<script language="javascript" type="text/javascript"
+	src="__PUBLIC__/Admin/js/jquery.idTabs.min.js"></script>
+<script>
+$(function(){ 
+	
+});
+</script>
+</head>
+<body>
+<form action="__URL__/setting" method="post" name="form1"
+		id="form1"> 
+  <table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
+    <tr class="toolbar">
+      <td colspan="2" class="tc">【 参数设置 】</td>
+    </tr>
+    <tr class="row0">
+      <td colspan="2"><div class="tab">
+          <ul class="idTabs">  
+   
+		<volist name="group" id="vo"> 
+		<li><a href="javascript:void(0);" rel="#autotab_{$i}">{$vo}配置</a></li> 
+		</volist>
+		
+          </ul>
+        </div></td>
+    </tr>
+  </table>
+   
+  <div id="autotab_1">
+     <table border="0" cellspacing="1" cellpadding="3" class="MainTbl"> 
+	<volist name="list" id="config">
+	<if condition="(1 eq $config['group'])">
+		 <tr class="row0">
+        <td class="col1">{$config.title}：</td>
+        <td><switch name="config.type">
+			<case value="0">
+			<input type="text" class="inputText1" name="config[{$config.name}]" value="{$config.value}" />
+			</case>
+			<case value="1">
+			<input type="text" class="inputText1 w350" name="config[{$config.name}]" value="{$config.value}" />
+			</case>
+			<case value="2"> 
+				<textarea name="config[{$config.name}]"  class="inputText1 editor1">{$config.value}</textarea> 
+			</case>
+			<case value="3"> 
+				<textarea name="config[{$config.name}]"  class="inputText1 editor1">{$config.value}</textarea> 
+			</case>
+			<case value="4">
+			<select name="config[{$config.name}]">
+				<volist name=":parse_field_attr($config['extra'])" id="vo">
+					<option value="{$key}" <eq name="config.value" value="$key">selected</eq>>{$vo}</option>
+				</volist>
+			</select>
+			</case>
+			</switch>（{$config.remark}）</td>
+      </tr>
+      </if>
+		</volist> 
+      <tr class="footer">
+        <td colspan="2" class="tc"><input type="submit" class="btn1"
+						value="保存" />
+          <input type="button" class="btn1" value="返回"
+						onclick="history.back();" /></td>
+      </tr>
+		</table> 
+  </div>
+  <div class="clr"></div>
+
+  <div id="autotab_2">
+     <table border="0" cellspacing="1" cellpadding="3" class="MainTbl"> 
+	<volist name="list" id="config">
+	<if condition="(2 eq $config['group'])">
+		 <tr class="row0">
+        <td class="col1">{$config.title}：</td>
+        <td><switch name="config.type">
+			<case value="0">
+			<input type="text" class="inputText1 numeric" name="config[{$config.name}]" value="{$config.value}" />
+			</case>
+			<case value="1">
+			<input type="text" class="inputText1 w350" name="config[{$config.name}]" value="{$config.value}" />
+			</case>
+			<case value="2"> 
+				<textarea name="config[{$config.name}]"  class="inputText1 editor1">{$config.value}</textarea> 
+			</case>
+			<case value="3"> 
+				<textarea name="config[{$config.name}]"  class="inputText1 editor1">{$config.value}</textarea> 
+			</case>
+			<case value="4">
+			<select name="config[{$config.name}]">
+				<volist name=":parse_field_attr($config['extra'])" id="vo">
+					<option value="{$key}" <eq name="config.value" value="$key">selected</eq>>{$vo}</option>
+				</volist>
+			</select>
+			</case>
+			</switch>（{$config.remark}）</td>
+      </tr>
+      </if>
+		</volist> 
+      <tr class="footer">
+        <td colspan="2" class="tc"><input type="submit" class="btn1"
+						value="保存" />
+          <input type="button" class="btn1" value="返回"
+						onclick="history.back();" /></td>
+      </tr>
+		</table> 
+  </div>
+  <div class="clr"></div>
+  
+  <div id="autotab_3" class="hide">
+     <table border="0" cellspacing="1" cellpadding="3" class="MainTbl"> 
+	<volist name="list" id="config">
+	<if condition="(3 eq $config['group'])">
+	<eq name="config.type" value="5">
+	 <tr class="row0">
+	 <td colspan="2">{$config.title}</td>
+	 </tr>
+	<else/>
+		 <tr class="row0">
+        <td class="col1">{$config.title}：</td>
+        <td><switch name="config.type">
+			<case value="0">
+			<input type="text" class="inputText1 numeric" name="config[{$config.name}]" value="{$config.value}" />
+			</case>
+			<case value="1">
+			<input type="text" class="inputText1 w350" name="config[{$config.name}]" value="{$config.value}" />
+			</case>
+			<case value="2"> 
+				<textarea name="config[{$config.name}]"  class="inputText1 editor1">{$config.value}</textarea> 
+			</case>
+			<case value="3"> 
+				<textarea name="config[{$config.name}]"  class="inputText1 editor1">{$config.value}</textarea> 
+			</case>
+			<case value="4">
+			<select name="config[{$config.name}]">
+				<volist name=":parse_field_attr($config['extra'])" id="vo">
+					<option value="{$key}" <eq name="config.value" value="$key">selected</eq>>{$vo}</option>
+				</volist>
+			</select>
+			</case> 
+			</switch>（{$config.remark}）</td>
+      </tr></eq>
+      </if>
+		</volist> 
+      <tr class="footer">
+        <td colspan="2" class="tc"><input type="submit" class="btn1"
+						value="保存" />
+          <input type="button" class="btn1" value="返回"
+						onclick="history.back();" /></td>
+      </tr>
+		</table> 
+  </div>
+  <div class="clr"></div>
+  
+  
+  <div class="hide">
+     <table border="0" cellspacing="1" cellpadding="3" class="MainTbl"> 
+	<volist name="list" id="config">
+	<if condition="(0 eq $config['group'])">
+		 <tr class="row0">
+        <td class="col1">{$config.title}：</td>
+        <td><switch name="config.type">
+			<case value="0">
+			<input type="text" class="inputText1" name="config[{$config.name}]" value="{$config.value}" />
+			</case>
+			<case value="1">
+			<input type="text" class="inputText1 w350" name="config[{$config.name}]" value="{$config.value}" />
+			</case>
+			<case value="2"> 
+				<textarea name="config[{$config.name}]"  class="inputText1 editor1">{$config.value}</textarea> 
+			</case>
+			<case value="3"> 
+				<textarea name="config[{$config.name}]"  class="inputText1 editor1">{$config.value}</textarea> 
+			</case>
+			<case value="4">
+			<select name="config[{$config.name}]">
+				<volist name=":parse_field_attr($config['extra'])" id="vo">
+					<option value="{$key}" <eq name="config.value" value="$key">selected</eq>>{$vo}</option>
+				</volist>
+			</select>
+			</case>
+			</switch>（{$config.remark}）</td>
+      </tr>
+      </if>
+		</volist> 
+      <tr class="footer">
+        <td colspan="2" class="tc"><input type="submit" class="btn1"
+						value="保存" />
+          <input type="button" class="btn1" value="返回"
+						onclick="history.back();" /></td>
+      </tr>
+		</table> 
+  </div>
+  <div class="clr"></div>
+  
+  
+  
+</form>
+<div class="clr"></div>
+<include file="Index:footer" />
+</body>
+</html>

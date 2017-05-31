@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Order: {$db.orderno}</title>
+<style type="text/css">
+.table1 td{height:25px;}
+.bd{border-bottom:1px #000 solid; width:210px;}
+.w710{width:710px;}
+</style>
+</head>
+<body>
+<table cellpadding="0" cellspacing="0" width="850" style="margin:0 auto; ">
+  <tr>
+    <td colspan="2"><img src="__PUBLIC__/images/logo.jpg" width="210" height="100" /></td>
+    <td colspan="2" align="right"  ><div style="text-align:center; float:right;"><img src="/Public/img/qr.jpg" align="Scan by WeChat" style="width:100px; height:100px;" /><br />  Shopping on Phone</div></td>
+  </tr>
+  <tr>
+    <td colspan="4" style="font-size:26px; font-weight:bold; text-align:center; padding:30px 0px 30px 10px;">Order Information</td>
+  </tr>
+  <tr>
+    <td width="127">Name</td>
+    <td width="355"><div class="bd" > <eq name="vo.usertype" value="2">
+            {:get_username($db['userid'])}
+            <else/>
+            {$db.username}
+            </eq></div></td>
+    <td width="145">Phone Number</td>
+    <td width="221"><div class="bd" >{$db.telephone}</div></td>
+  </tr>
+  <tr>
+    <td>Payment Method</td>
+    <td><div class="bd" >
+        <eq name="db.paymethod" value="4">cash on delivery
+          <else/>online payment
+          </eq>
+      </div></td>
+    <td>Invoice Required</td>
+    <td><div class="bd" >
+        <eq name="db.invoice" value="1">yes
+          <else/>
+          no</eq></div></td>
+  </tr>
+  <tr>
+    <td>Order Date</td>
+    <td><div class="bd" >{$db.addtime}</div></td>
+    <td>Delivery Date</td>
+    <td><div class="bd" >{$db.delivertime}</div></td>
+  </tr>
+  <tr>
+    <td>Delivery Address</td>
+    <td colspan="3"><div class="bd w710" >{$db.address}</div></td>
+  </tr>
+</table>
+<table border="1" style="width:850px; margin:0 auto; margin-top:15px; text-align:center; " cellpadding="2" cellspacing="0" class="table1">
+  <tr>
+    <td width="123">No.</td>
+    <td width="223">Product Name</td>
+    <td width="99">Unit</td>
+    <td width="97">Price</td>
+    <td width="93">Quantity</td>
+    <td width="213">Subtotal</td>
+  </tr>
+  <volist name="list" id="vo">
+    <tr align="center">
+      <td>{$i}</td>
+      <td align="left">{$vo.productname}</td>
+      <td>{$vo.unit}</td>
+      <td>&yen;{$vo.price}</td>
+      <td>{$vo.num}</td>
+      <td>&yen;{:to_price($vo['price']*$vo['num'])}</td>
+    </tr>
+  </volist>
+  <tr> 	
+    <td colspan="5" align="right">Shipping fee</td>
+    <td><eq name="db.shipfee" value="0">FREE
+        <else/>
+        &yen;{$db.shipfee}</eq></td>
+  </tr>
+  <neq name="db.discount" value="0">
+  <tr> 
+    <td colspan="5" align="right">Discount</td>
+    <td> 
+       - &yen;{$db.discount} </td>
+  </tr>
+  </neq>
+  <tr> 
+    <td colspan="5" align="right">Coupon</td>
+    <td> 
+       - &yen;{$db.couponamount} </td>
+  </tr>
+  <tr>
+    <td colspan="5">Total</td>
+    <td>&yen;{$db.amount}</td>
+  </tr>
+</table>
+<table style="width:850px; margin:0 auto; margin-top:20px;">
+  <tr>
+    <td>Customer Message:{$db.info}</td>
+  </tr>
+  <tr>
+    <td  height="100" align="center">{:lbl('printfooter')}<br /><input type="button" value="打印" onclick="this.style.display='none';window.print();" /></td>
+  </tr>
+</table>
+</body>
+</html>

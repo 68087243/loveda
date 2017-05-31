@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="Robots" content="noindex,nofollow,noarchive" />
+    <title>爱大叔--{$user.nickname}</title>
+    <include file="Index:wap_js_css"/>
+    <style>
+        .modifyuser li label {width: 60px;}
+    </style>
+<body pagename="login" style="overflow-x:hidden;">
+<include file="User:uhead"/>
+<div class="line10"></div>
+    <ul class="container" id="friendlist">
+
+    </ul>
+    <div onclick="loadmore(this);" class="tc clo9 font13 loadmore" >加载更多</div>
+
+<script type="text/javascript" src="__STATIC__/common/js/hammer.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/iscroll-zoom.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/jquery.photoClip.min.js"></script>
+<script>
+    $(function(){
+        $('#friendlist .uinfo').css({'width':($('#friendlist li').width()-40)+'px','overflow-x':'hidden'})
+        $('#friendlist .uinfo .item-nickname a').eq(0).css({'width':($('#friendlist li').width()-150)+'px','overflow-x':'hidden'})
+    })
+    loadmore();
+    var page = 0;
+    function loadmore(tagobj){
+        $.post('/user/getFriends.html',{page:page},function(data){
+            if(data.code == 200){
+                var $html = '',obj=data.data;
+                for(var i in obj){
+                    $html+='<li class="reply-item borderb-d" onclick="window.location.href=\'/user/userinfo.html?uid='+obj[i]['f_uid']+'\'" style="margin-bottom: 5px;">';
+                    $html+='<div class="fl picture" >';
+                    if(obj[i]['picture']){
+                        $html+='<img src="'+(PUBLIC+obj[i]['picture'])+'" width="40" alt="" style="margin-top: 4px;"/>';
+                    }else{
+                        $html+='<img src="'+(STATIC)+'/static/image/noavatar_middle.gif" width="40" style="margin-top: 4px;" alt=""/>';
+                    }
+                    $html+='</div>';
+                    $html+='<div class="fl uinfo ">';
+                    $html+='<div class="item-nickname fontb clo3 " style="height: 17px;" >';
+                    $html+='<a href="/user/userinfo.html?uid='+obj[i]['f_uid']+'">&nbsp;&nbsp;'+(obj[i]['nickname']).substring(0,18)+'&nbsp;&nbsp;</a>';
+
+                    if(obj[i]['status'] ==1){
+                        $html+='<i class="dred fr relative">待回复</i>';
+                    }else{
+                        $html+='<a href="" class="level level_1 fr clof relative" style="top: 5px;">';
+                        $html+='<span>L1</span><em class="size_x" style="">新手上路</em>';
+                        $html+='</a>';
+                    }
+                    $html+='</div>';
+                    if(obj[i]['describe']){
+                        $html+='<span class="clo9 font12">&nbsp;&nbsp;'+(obj[i]['describe']).substring(0,18)+'</span>';
+                    }else{
+                        $html+='<span class="clo9 font12" style="display: inline-block;height: 30px;overflow: hidden;">&nbsp;&nbsp;暂无消息</span>';
+                    }
+                    $html+='</div>';
+                    $html+='<div class="clr"></div>';
+                    $html+='</li>';
+                }
+                page++;
+                $('#friendlist').append($html);
+                //$('.uinfo ').css({'width':(parseInt($('reply-item').width())-parseInt($('picture').width())-10)+'px'});
+            }else{
+                clearpop('没有更多了');
+                $(tagobj).hide();
+            }
+        })
+    }
+
+
+</script>
+</body>
+</html>
