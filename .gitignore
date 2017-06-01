@@ -1,6 +1,6 @@
 #ignore these files
-Runtime
-Temp/*.php
+/Runtime/*
+Temp/
 upload/
 uploadfile/
 .buildpath
