@@ -365,7 +365,7 @@ class IndexController extends Controller {
             $this->assign('list',$list);
             apiReturn(CodeModel::CORRECT, '', $list);
         }
-        $this->assign('headtitle','富豪包养');
+        $this->assign('headtitle','悬赏');
         $this->display('richkept');
     }
 
