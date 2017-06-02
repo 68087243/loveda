@@ -2,8 +2,10 @@
 namespace Wap\Controller;
 
 use Common\Model\AreaModel;
+use Common\Model\BannerModel;
 use Common\Model\ClubModel;
 use Common\Model\CodeModel;
+use Common\Model\EscortPlanModel;
 use Common\Model\FavoriteModel;
 use Common\Model\HotWordModel;
 use Common\Model\ReplyModel;
@@ -44,6 +46,7 @@ class IndexController extends Controller {
         $this->assign("user",UserModel::getUser());
         $club = ClubModel::getClub();
         $this->assign('club',$club);
+        $this->assign ( "bannerlist",BannerModel::getBannerByType(BannerModel::WX_BANNER));
         $this->display();
     }
 
@@ -356,13 +359,12 @@ class IndexController extends Controller {
     public function richkept(){
         if (IS_POST) {
             $p = I('page', 0);
-            $offset = 40;
-            $star = $p * $offset;
-            $con['status'] = array('neq',TopicModel::DEL);
-            $con['type'] = TopicModel::TYPE_RICHKEPT;
-            $list = M('topic')->where($con)->order('rank desc,tid desc')
-                ->limit($star, $offset)->select();
-            $this->assign('list',$list);
+            $where['status'] = EscortPlanModel::NORMAL;
+            $row = 20;
+            $order = 'rank desc,pid desc';
+            $star = $p * $row;
+            $list = D( "escortplan" )->where ( $where )->order($order)->limit($star,$row)->select();
+            $this->assign ( "list", $list );
             apiReturn(CodeModel::CORRECT, '', $list);
         }
         $this->assign('headtitle','悬赏');

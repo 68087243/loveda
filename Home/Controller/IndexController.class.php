@@ -1,6 +1,7 @@
 <?php
 namespace Home\Controller;
 use Common\Model\AreaModel;
+use Common\Model\BannerModel;
 use Common\Model\ClubModel;
 use Common\Model\CodeModel;
 use Common\Model\ContentModel;
@@ -31,21 +32,45 @@ class IndexController extends Controller {
         $this->assign ( "dashu",TopicModel::getTopicByCid(1));
         $this->assign ( "gongyi",ContentModel::getHotContent(5,ContentModel::PUBLIC_FUNDING));
         $this->assign ( "hotcontent",ContentModel::getHotContent(10));
+        $this->assign ( "bannerlist",BannerModel::getBannerByType(BannerModel::PC_BANNER));
         $this->display();
     }
 
     public function richkept(){
-        $con['status'] =TopicModel::NORMAL;
-        $con['type'] = TopicModel::TYPE_RICHKEPT;
-        $count = M('topic')->where($con)->count();
+        if (!empty($_REQUEST['feestar']) && empty($_REQUEST['feeend'])) { //如果只有开始
+            $where['budgetfee'] = array("egt",$_REQUEST['feestar']);
+        }
+        if (empty($_REQUEST['feestar']) && !empty($_REQUEST['feeend'])) { //如果只有结束
+            $where['budgetfee'] = array("elt",$_REQUEST['feeend']);
+        }
+        if(!empty($_REQUEST['feestar']) && !empty($_REQUEST['feeend'])){  //如果有开始和结束
+            $where['budgetfee'] = array(array("egt",$_REQUEST['feestar']),array("elt",$_REQUEST['feeend']));
+        }
+
+        if (!empty($_REQUEST['startime']) && empty($_REQUEST['startime'])) { //如果只有开始时间
+            $where['startime'] = array("egt",$_REQUEST['startime']." 00:00:00");
+        }
+        if (empty($_REQUEST['startime']) && !empty($_REQUEST['startime'])) { //如果只有结束时间
+            $where['startime'] = array("elt",$_REQUEST['startime']." 23:59:59");
+        }
+        if(!empty($_REQUEST['startime']) && !empty($_REQUEST['startime'])){  //如果有开始和结束时间
+            $where['startime'] = array(array("egt",$_REQUEST['startime']." 00:00:00"),array("elt",$_REQUEST['startime']." 23:59:59"));
+        }
+
+        if(!empty($_REQUEST['keyword'])){
+            $where['_string'] = "`title` like '%{$_REQUEST['keyword']}%' or `title` like '%{$_REQUEST['keyword']}%' or `cityname` like '%{$_REQUEST['keyword']}%' or `proivcename` like '%{$_REQUEST['keyword']}%'or `contentcn` like '%{$_REQUEST['keyword']}%'"; // 标题，内容，位置
+        }
+        $where['status'] = EscortPlanModel::NORMAL;
         $row = 20;
+        $order = 'pid desc';
+        $count = D( "escortplan" )->where ( $where )->count();
         $page = new \Think\Page ( $count, $row );
-        $list = M('topic')->where($con)->order('rank desc,tid desc')
-            ->limit($page->firstRow,$page->listRows)->select();
+        $list = D( "escortplan" )->where ( $where )->
+            order($order)->limit($page->firstRow,$page->listRows)->select();
         $this->assign ( "list", $list );
         $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
-        $this->assign ( "content", ContentModel::getHotContent());
         $this->assign ( "page", $page->show() );
+        $this->assign ( "content", ContentModel::getHotContent());
         $this->display();
     }
 
@@ -72,10 +97,16 @@ class IndexController extends Controller {
     //计划详情
     public function plan(){
         $plan =  EscortPlanModel::getPlanById($_REQUEST['pid']);
+        if($plan &&$plan['uid']){
+            $puser = UserModel::getUserById($plan['uid']);
+            $plan['level'] = $puser['level'];
+            $plan['nickname'] = $puser['nickname'];
+            $plan['sex'] = $puser['sex'];
+            $plan['avatar'] = $puser['picture'];
+        }
         $this->assign ( "plan", $plan);
         $order = 'pid desc';
         $this->assign ( "list", EscortPlanModel::getPlanBySort($order,10));
-
         $rcon['r.tid'] = $_REQUEST['pid'];
         $rcon['r.type'] = ReplyModel::PLAN;
         $rcount = M('reply')->alias('r')->join('t_member as m on m.uid=r.uid')
@@ -102,43 +133,6 @@ class IndexController extends Controller {
 
     //计划列表
     public function planlist(){
-        if (!empty($_REQUEST['feestar']) && empty($_REQUEST['feeend'])) { //如果只有开始
-            $where['budgetfee'] = array("egt",$_REQUEST['feestar']);
-        }
-        if (empty($_REQUEST['feestar']) && !empty($_REQUEST['feeend'])) { //如果只有结束
-            $where['budgetfee'] = array("elt",$_REQUEST['feeend']);
-        }
-        if(!empty($_REQUEST['feestar']) && !empty($_REQUEST['feeend'])){  //如果有开始和结束
-            $where['budgetfee'] = array(array("egt",$_REQUEST['feestar']),array("elt",$_REQUEST['feeend']));
-        }
-
-        if (!empty($_REQUEST['startime']) && empty($_REQUEST['startime'])) { //如果只有开始时间
-            $where['startime'] = array("egt",$_REQUEST['startime']." 00:00:00");
-        }
-        if (empty($_REQUEST['startime']) && !empty($_REQUEST['startime'])) { //如果只有结束时间
-            $where['startime'] = array("elt",$_REQUEST['startime']." 23:59:59");
-        }
-        if(!empty($_REQUEST['startime']) && !empty($_REQUEST['startime'])){  //如果有开始和结束时间
-            $where['startime'] = array(array("egt",$_REQUEST['startime']." 00:00:00"),array("elt",$_REQUEST['startime']." 23:59:59"));
-        }
-
-        if(!empty($_REQUEST['keyword'])){
-            $where['_string'] = "`title` like '%{$_REQUEST['keyword']}%' or `title` like '%{$_REQUEST['keyword']}%' or `cityname` like '%{$_REQUEST['keyword']}%' or `proivcename` like '%{$_REQUEST['keyword']}%'or `contentcn` like '%{$_REQUEST['keyword']}%'"; // 标题，内容，位置
-        }
-        $where['e.status'] = EscortPlanModel::NORMAL;
-        $row = 20;
-        $order = 'e.pid desc';
-        $count = D( "escortplan" )->alias('e')->join('t_member as m on m.uid=e.uid')
-           ->field('e.*,m.picture,m.level,m.nickname')->where ( $where )->count();
-        $page = new \Think\Page ( $count, $row );
-        $list = D( "escortplan" )->alias('e')->join('t_member as m on m.uid=e.uid')
-            ->field('e.*,m.picture,m.level,m.nickname')->where ( $where )->
-            order($order)->limit($page->firstRow,$page->listRows)->select();
-
-        $this->assign ( "list", $list );
-        $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
-        $this->assign ( "page", $page->show() );
-
         $areas =  AreaModel::getAreaAll();
         $priovce = array();
         $city = array();
@@ -149,6 +143,7 @@ class IndexController extends Controller {
                 array_push($city, $area);
             }
         }
+        $this->assign ( "content", ContentModel::getHotContent());
         $this->assign('priovce',$priovce);
         $this->assign('city',$city);
         $this->display();
@@ -320,4 +315,18 @@ class IndexController extends Controller {
         }
     }
 
+    public function charitable(){
+        $con['status'] = ContentModel::NORMAL;
+        $con['type'] = ContentModel::PUBLIC_FUNDING;
+        $count = M('content')->where($con)->count();
+        $row = 12;
+        $page = new \Think\Page ( $count, $row );
+        $order = 'rank desc,id desc';
+        $list = M('content')->where($con)->limit($page->firstRow,$page->listRows)->order($order)->select();
+        $this->assign ( "list", $list );
+        $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
+        $this->assign ( "page", $page->show() );
+        $this->assign ( "content", ContentModel::getHotContent());
+        $this->display();
+    }
 }

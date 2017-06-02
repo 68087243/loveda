@@ -52,7 +52,7 @@
                         {$vo.title} <span class="clo6 font12 fontn">({:timeTran($vo['createtime'])})</span>
                     </div>
                     <div class="topic_content font14 clo6 " style="padding-bottom:30px ;"  >
-                        {$vo.message|msubstr=0,200}
+                        {$vo.message|htmlspecialchars_decode|msubstr=0,200}
                         <if condition="$vo['sex'] neq 1">
                             <if condition="$vo['img']">
                                 <volist name="vo['img']" id="img">
@@ -72,6 +72,7 @@
                     </div>
                 </div>
             </volist>
+        </div>
         </div>
 
         <div class="page tc">{$page}</div>

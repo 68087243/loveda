@@ -19,23 +19,17 @@
         <div class="column">
             <div class="carousel slide" id="carousel-991335">
                 <ol class="carousel-indicators">
-                    <li class="active" data-slide-to="0" data-target="#carousel-991335">
-                    </li>
-                    <li data-slide-to="1" data-target="#carousel-991335">
-                    </li>
-                    <li data-slide-to="2" data-target="#carousel-991335">
-                    </li>
+                    <volist name="bannerlist" id="vo">
+                        <li <if condition="$i eq 1">class="active"</if>data-slide-to="{$i}" data-target="#carousel-991335">
+                        </li>
+                    </volist>
                 </ol>
                 <div class="carousel-inner">
-                    <div class="item active">
-                        <img alt="" src="__STATIC__/image/b1.png" />
-                    </div>
-                    <div class="item">
-                        <img alt="" src="__STATIC__/image/b1.png" />
-                    </div>
-                    <div class="item">
-                        <img alt="" src="__STATIC__/image/b1.png" />
-                    </div>
+                    <volist name="bannerlist" id="vo">
+                        <div <if condition="$i eq 1">class="item active"<else/>class="item" </if>>
+                            <img alt="" src="__PUBLIC__{$vo.indexpic}" />
+                        </div>
+                    </volist>
                 </div>
                 <a class=" hide carousel-control" href="#carousel-991335" id="next" data-slide="next"></a>
             </div>

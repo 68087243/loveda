@@ -31,9 +31,8 @@ class EscortPlanModel extends Model
     }
 
     public static function getPlanById($pid){
-        $con['e.pid'] = $pid;
-        return D('escortplan')->alias('e')->join('t_member as m on m.uid=e.uid')
-            ->field('e.*,m.sex,m.level,m.nickname,m.picture as avatar')->where($con)->find();
+        $con['pid'] = $pid;
+        return D('escortplan')->where($con)->find();
     }
 
     public static function getPlanBySort($order,$limit = 10){

@@ -4,8 +4,10 @@ namespace Home\Controller;
 
 
 use Common\Model\AreaModel;
+use Common\Model\ClubModel;
 use Common\Model\CodeModel;
 use Common\Model\EscortPlanModel;
+use Common\Model\TopicModel;
 use Common\Model\UserModel;
 use Common\Model\UserPhotoModel;
 Use \Think\Controller;
@@ -158,5 +160,64 @@ class MemberController extends BaseController {
         }
     }
 
+    public function topic(){
+        if(isset($_REQUEST['tid']) && $_REQUEST['tid']){
+            $this->assign('topic',TopicModel::getTopicByid($_REQUEST['tid']));
+        }
+        $this->assign('userid',$this->userid);
+        $this->assign('club',ClubModel::getClub());
+        $this->display();
+    }
+
+    public function subPost(){
+        $cid = I('post.cid');
+        $title = I('post.title');
+        $message = I('post.message');
+        if(!regex($cid,'number')){
+            apiReturn(CodeModel::ERROR,'请选择分类');
+        }
+        if(!$title){
+            apiReturn(CodeModel::ERROR,'请填写标题');
+        }
+        if(!$message){
+            apiReturn(CodeModel::ERROR,'请填写内容');
+        }
+
+        $tid = I('post.tid');
+        $data = I('post.');
+        if(regex($tid,'number')){
+            $topic = TopicModel::getTopicByid($_REQUEST['tid']);
+            if($topic['uid'] != $this->userid){
+                apiReturn(CodeModel::ERROR,'该帖子不是你的，你无权修改');
+            }
+            if(false !== TopicModel::modifyTopic($tid,$data)){
+                apiReturn(CodeModel::CORRECT,'修改成功');
+            }else{
+                apiReturn(CodeModel::ERROR,'修改失败');
+            }
+        }else{
+            $user = UserModel::getUser();
+            $data['uid'] = $this->userid;
+            $data['nickname'] = $user['nickname'];
+            if(TopicModel::addTopic($data)){
+                apiReturn(CodeModel::CORRECT,'发布成功');
+            }else{
+                apiReturn(CodeModel::ERROR,'发布失败');
+            }
+        }
+    }
+
+    public function deltopic(){
+        $tid = I('post.tid');
+        if(regex($tid,'number')){
+            if(false !== TopicModel::delTopic($tid,$this->userid)){
+                apiReturn(CodeModel::CORRECT,'删除成功');
+            }else{
+                apiReturn(CodeModel::ERROR,'删除失败');
+            }
+        }else{
+            apiReturn(CodeModel::ERROR,'删除失败，请刷新重试');
+        }
+    }
 }
 ?>

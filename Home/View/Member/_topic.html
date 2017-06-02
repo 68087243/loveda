@@ -1,0 +1,32 @@
+<style>
+    a:hover{text-decoration: none}
+</style>
+<php>
+    $topiclist = Common\Model\TopicModel::getTopicByUid($userid)
+</php>
+<div class="form-group font20 r_nav_tit fontb" >我的帖子 <span class="clof">My post</span></div>
+<ul>
+    <volist name="topiclist" id="vo">
+        <li class="borderb-d" id="row_{$vo.id}">
+            <h3 class="helplist_tit clo3"> <a href="/index/newinfo.html?id={$vo.id}">{$vo.title} </a></h3>
+            <p class="clo9">
+                发布时间：{:timeTran($vo['createtime'])}&nbsp;&nbsp;&nbsp;&nbsp;
+                <span>阅读量：{$vo.read|default=0}人次</span>
+                <a class="fr" href="javascript:deltopic('{$vo.tid}');" >删除</a>
+                <a class="fr" href="/member/topic.html?tid={$vo.tid}" >编辑&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            </p>
+            <span class="clr"></span>
+        </li>
+    </volist>
+</ul>
+<script>
+
+    function deltopic(tid){
+        $.post('/member/deltopic.html',{tid:tid},function(data){
+            clearpop(data.message);
+            if(data.code == 200){
+                $('#row_'+tid).remove();
+            }
+        })
+    }
+</script>

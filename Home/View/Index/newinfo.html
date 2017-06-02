@@ -26,8 +26,10 @@
                 <ul class="clo6">
                     <volist name="content" id="vo">
                         <li class="borderb-d" style="padding: 5px 0;">
-                            <div> <a href="/newinfo.html?id={$vo.id}" class="clo3">{$vo['title']|msubstr=0,25}</a></div>
-                            <div class="font12 clo6" style="height: 20px;;">{:timeTran($vo['addtime'])}</div>
+                            <a href="/index/newinfo.html?id={$vo.id}" class="clo6">
+                                <span style="display: inline-block;width: 10px;height: 10px ;background: #ffff00;border-radius: 10px;;"></span>&nbsp;
+                                <if condition="isset($vo['title']) && $vo['title']">{$vo['title']|msubstr=0,12}<else/>{$vo['message']|msubstr=0,12}</if>
+                            </a>
                         </li>
                     </volist>
                 </ul>

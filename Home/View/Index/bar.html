@@ -78,13 +78,13 @@
                         <a href="javascript:if(confirm('你没有权限，请升级你的会员等级'))window.location.href='/'" class="clo6">找美女</a>
                     </li>
                     <li>
-                        <a href="#" class="clo6">找土豪</a>
+                        <a href="/index/topiclist.html?cid=1" class="clo6" >找土豪</a>
                     </li>
-                    <li class="planitem">
-                        <a href="/index/planlist.html" class="clo6">养成计划</a>
-                    </li>
-                    <li>
-                        <a href="#" class="clo6">公益资助</a>
+                    <!--<li class="planitem">-->
+                        <!--<a href="/index/planlist.html" class="clo6">养成计划</a>-->
+                    <!--</li>-->
+                    <li class="charitable">
+                        <a href="/index/charitable.html" class="clo6">公益资助</a>
                     </li>
                 </ul>
             </div>
@@ -94,8 +94,8 @@
 <div style="height: 140px;"></div>
 <script>
     var  $pathname = window.location.pathname.toLowerCase();
-    if($pathname.indexOf('/plan')>0){
+    if($pathname.indexOf('/charitable')>0 || $pathname.indexOf('/newinfo')>0){
         $('.navbar-nav li').removeClass('selected');
-        $('.navbar-nav li.planitem').addClass('selected');
+        $('.navbar-nav li.charitable').addClass('selected');
     }
 </script>

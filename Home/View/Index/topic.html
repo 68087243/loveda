@@ -13,12 +13,13 @@
             <div>
                 <div class="fl" style="width:100px;">
                     <img id="picture" src="__PUBLIC__{$topic.avatar|default='/static/image/noavatar_middle.gif'}" width="80" /><br/>
-                    <div>{$topic.nickname}</div>
+                    <div></div>
                     <!--<div><if condition="$topic['city']">{:getAreaByAid($topic['city'])}<elseif condition="$topic['proivce']"/>{:getAreaByAid($topic['proivce'])}</if></div>-->
                 </div>
                 <div class="fl" style="width: 700px;">
                     <div class="fontb font18">{$topic.title}</div>
                     <div>
+                        作者：<a href="javascript: void(0);" class="fontb">{$topic.nickname}</a> &nbsp;
                         <a href="javascript: likeTopic('{$topic.tid}');">点赞</a>({$topic.likeit|default=0}) &nbsp;
                         <a href="javascript: favorite('{$topic.tid}');">收藏</a>  &nbsp;
                         <a href="javascript: $('#reply textarea[name=message]').focus();">评论</a>({$topic.comments|default=0})
@@ -28,7 +29,7 @@
                 <div class="clr"></div>
             </div>
             <div class="topic_content font14 clo6 " style="padding-bottom:30px ;"  >
-                {$topic.message}
+                {$topic.message|htmlspecialchars_decode}
                 <if condition="$topic['sex'] neq 1">
                     <if condition="$topic['img']">
                         <volist name="vo['img']" id="img">
@@ -55,7 +56,8 @@
                 </div>
             </div>
         </div>
-        <div class="reply-box borderb-d" style="border: 2px solid #BCEFEB;margin-top: 10px;">
+        <if condition="!empty($reply)">
+            <div class="reply-box borderb-d" style="border: 2px solid #BCEFEB;margin-top: 10px;">
             <ul class="" style="width: 860px;margin: 20px;">
                 <volist name="reply" id="vo">
                     <li class="reply-item bordert-d">
@@ -79,7 +81,7 @@
             </ul>
             <div class="tc">{$page}</div>
         </div>
-
+        </if>
     </div>
     <div class="fr column" style="width: 295px;">
         <div class="panel panel-default">
@@ -91,8 +93,10 @@
                 <ul class="clo6">
                     <volist name="content" id="vo">
                         <li class="borderb-d" style="padding: 5px 0;">
-                            <div> <a href="/index/newinfo.html?id={$vo.id}" class="clo3">{$vo['title']|msubstr=0,25}</a></div>
-                            <div class="font12 clo6" style="height: 20px;;">{:timeTran($vo['addtime'])}</div>
+                            <a href="/index/newinfo.html?id={$vo.id}" class="clo6">
+                                <span style="display: inline-block;width: 10px;height: 10px ;background: #ffff00;border-radius: 10px;;"></span>&nbsp;
+                                <if condition="isset($vo['title']) && $vo['title']">{$vo['title']|msubstr=0,12}<else/>{$vo['message']|msubstr=0,12}</if>
+                            </a>
                         </li>
                     </volist>
                 </ul>

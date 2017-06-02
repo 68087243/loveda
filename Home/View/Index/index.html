@@ -12,23 +12,18 @@
         <div class="fl column" style="width:920px ;">
             <div class="carousel slide" id="carousel-128668">
                 <ol class="carousel-indicators">
-                    <li data-slide-to="0" data-target="#carousel-128668">
-                    </li>
-                    <li data-slide-to="1" data-target="#carousel-128668">
-                    </li>
-                    <li data-slide-to="2" data-target="#carousel-128668" class="active">
-                    </li>
+                    <volist name="bannerlist" id="vo">
+                        <li <if condition="$i eq 1">class="active"</if>data-slide-to="{$i}" data-target="#carousel-128668">
+                        </li>
+                    </volist>
                 </ol>
                 <div class="carousel-inner">
-                    <div class="item">
-                        <img alt="" src="__STATIC__/image/page/home/default.png" />
-                    </div>
-                    <div class="item">
-                        <img alt="" src="__STATIC__/image/page/home/default1.png" />
-                    </div>
-                    <div class="item active">
-                        <img alt="" src="__STATIC__/image/page/home/default2.png" />
-                    </div>
+                    <volist name="bannerlist" id="vo">
+                        <div <if condition="$i eq 1">class="item active"<else/>class="item" </if>>
+                            <img alt="" width="100%" src="__PUBLIC__{$vo.indexpic}" />
+                        </div>
+                    </volist>
+
                 </div> <a class="left carousel-control" href="#carousel-128668" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-128668" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
             </div>
         </div>
@@ -60,7 +55,7 @@
                                     <a href="/index/topic.html?tid={$vo.tid}">
                                         <img src="__PUBLIC__{$vo.avatar|default='/static/image/noavatar_middle.gif'}" width="65" class="fl"/>
                                         <div class="fr" style="width: 195px;line-height: 35px;">
-                                            <div class="font16 clo6"><if condition="isset($vo['title']) && $vo['title']">{$vo['title']|msubstr=0,11}<else/>{$vo['message']|msubstr=0,11}</if></div>
+                                            <div class="font16 clo6"><if condition="isset($vo['title']) && $vo['title']">{$vo['title']|msubstr=0,11}<else/>{$vo['message']|htmlspecialchars_decode|msubstr=0,11}</if></div>
                                             <div class="font12 clo9">{:date('Y/m/d-H/i',strtotime($vo['createtime']))}</div>
                                         </div>
                                     </a>
@@ -81,7 +76,7 @@
                         <volist name="gongyi" id="vo">
                             <if condition="!empty($vo)">
                                 <li style="border-bottom:1px dashed #cccccc">
-                                    <if condition="isset($vo['title']) && $vo['title']">{$vo['title']|msubstr=0,11}<else/>{$vo['message']|msubstr=0,11}</if>
+                                    <if condition="isset($vo['title']) && $vo['title']">{$vo['title']|msubstr=0,11}<else/>{$vo['message']|htmlspecialchars_decode|msubstr=0,11}</if>
                                 </li>
                             </if>
                         </volist>
@@ -90,7 +85,7 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading" style="background: #C6F2EF" >
-                    <span class="panel-title clof">热门文章</span><span class="fr">更多&gt;&gt;</span>
+                    <span class="panel-title clof">热门文章</span>
                     <div class="clr"></div>
                 </div>
                 <div class="panel-body">
@@ -98,9 +93,10 @@
                         <volist name="hotcontent" id="vo">
                             <if condition="!empty($vo)">
                                 <li class="borderb-d" style="padding: 5px 0;">
+                                <li class="borderb-d" style="padding: 5px 0;">
                                     <a href="/index/newinfo.html?id={$vo.id}" class="clo6">
                                         <span style="display: inline-block;width: 10px;height: 10px ;background: #ffff00;border-radius: 10px;;"></span>&nbsp;
-                                        <if condition="isset($vo['title']) && $vo['title']">{$vo['title']|msubstr=0,12}<else/>{$vo['message']|msubstr=0,11}</if>
+                                        <if condition="isset($vo['title']) && $vo['title']">{$vo['title']|msubstr=0,12}<else/>{$vo['message']|htmlspecialchars_decode|msubstr=0,12}</if>
                                     </a>
                                 </li>
                             </if>
@@ -131,21 +127,17 @@
                         <div class="panel-body">
                             <div class="carousel slide" id="carousel-1286681">
                                 <ol class="carousel-indicators">
-                                    <li data-slide-to="0" data-target="#carousel-1286681">
+                                    <li class="active" data-slide-to="0" data-target="#carousel-1286681">
                                     </li>
                                     <li data-slide-to="1" data-target="#carousel-1286681">
                                     </li>
-                                    <li data-slide-to="2" data-target="#carousel-1286681" class="active">
-                                    </li>
                                 </ol>
                                 <div class="carousel-inner">
-                                    <div class="item">
+                                    <div class="item active">
                                         <img alt="" src="__STATIC__/image/page/home/d1.png" />
                                     </div>
+
                                     <div class="item">
-                                        <img alt="" src="__STATIC__/image/page/home/d2.png" />
-                                    </div>
-                                    <div class="item active">
                                         <img alt="" src="__STATIC__/image/page/home/d1.png" />
                                     </div>
                                 </div> <a class="left carousel-control" href="#carousel-1286681" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-1286681" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
@@ -168,7 +160,7 @@
                                             <a href="/index/topic.html?tid={$vo.tid}">
                                                 <img src="__PUBLIC__{$vo.avatar|default='/static/image/noavatar_middle.gif'}" width="65" class="fl"/>
                                                 <div class="fr" style="width: 195px;line-height: 35px;">
-                                                    <div class="font16 clo6"><if condition="isset($vo['title']) && $vo['title']">{$vo['title']|msubstr=0,11}<else/>{$vo['message']|msubstr=0,11}</if></div>
+                                                    <div class="font16 clo6"><if condition="isset($vo['title']) && $vo['title']">{$vo['title']|msubstr=0,11}<else/>{$vo['message']|htmlspecialchars_decode|msubstr=0,11}</if></div>
                                                     <div class="font12 clo9">{:date('Y/m/d-H/i',strtotime($vo['createtime']))}</div>
                                                 </div>
                                             </a>
@@ -238,5 +230,8 @@
     </div>
 </div>
 <include file="Index:footer"/>
+<script>
+    setInterval(function(){ $('#next').click();},3000);
+</script>
 </body>
 </html>

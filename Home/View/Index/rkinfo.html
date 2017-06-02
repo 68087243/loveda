@@ -14,7 +14,7 @@
 <div class="container" style="margin-top: 30px;padding: 0 0 50px 0 ;">
     <div class="fl column" style="width: 910px;">
         <div style="height: 50px;line-height: 50px;text-indent: 10px;" class="font24">{$info.title}<span class="font12 clo9">{$info.createtime}</span></div>
-        <div>{$info.message}</div>
+        <div>{$info.message|htmlspecialchars_decode}</div>
     </div>
     <div class="fr column" style="width: 295px;">
         <div class="panel panel-default">
@@ -26,8 +26,10 @@
                 <ul class="clo6">
                     <volist name="content" id="vo">
                         <li class="borderb-d" style="padding: 5px 0;">
-                            <div> <a href="/index/newinfo.html?id={$vo.id}" class="clo3">{$vo['title']|msubstr=0,25}</a></div>
-                            <div class="font12 clo6" style="height: 20px;;">{:timeTran($vo['addtime'])}</div>
+                            <a href="/index/newinfo.html?id={$vo.id}" class="clo6">
+                                <span style="display: inline-block;width: 10px;height: 10px ;background: #ffff00;border-radius: 10px;;"></span>&nbsp;
+                                <if condition="isset($vo['title']) && $vo['title']">{$vo['title']|msubstr=0,12}<else/>{$vo['message']|htmlspecialchars_decode|msubstr=0,12}</if>
+                            </a>
                         </li>
                     </volist>
                 </ul>

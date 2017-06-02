@@ -22,7 +22,7 @@
                 <div class="clr"></div>
             </div>
             <div class="topic_content font14 clo6 " style="padding-bottom:30px ;"  >
-                {$plan.contentcn}
+                {$plan.contentcn|htmlspecialchars_decode}
                 <if condition="$plan['sex'] neq 1">
                     <if condition="$plan['img']">
                         <volist name="vo['img']" id="img">

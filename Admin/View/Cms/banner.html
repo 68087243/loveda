@@ -18,6 +18,7 @@
                 <th width="10%">图片</th>
                 <th width="25%">连接</th>
                 <th>标题/介绍</th>
+                <th width="50">位置</th>
                 <th width="50">排序</th>
                 <th width="5%">状态</th>
                 <th width="10%">操作</th>
@@ -28,6 +29,7 @@
                     <td><img src="__PUBLIC__/{$vo.indexpic}" width="120" alt=""/></td>
                     <td>{$vo.picurl}</td>
                     <td>{$vo.info}</td>
+                    <td><if condition="$vo['type'] eq 1">网站<else/>微信</if></td>
                     <td><input type="text" size="5" value="{$vo.rank}" onchange="setBanner('rank','{$vo.id}',$(this).val())" /></td>
                     <td align="center"><if condition="$vo['status'] eq 1"><span style="cursor: pointer" onclick="setBanner('status','{$vo.id}',2)">启用</span><else/><span style="cursor: pointer" onclick="setBanner('status','{$vo.id}',1)">禁用</span></if></td>
                 <td style="text-align: center">

@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>爱大叔</title>
+    <title>爱大叔--发布悬赏任务</title>
     <include file="Index:_js_css"/>
     <style>
         table{border: 1px solid #E4E4E4}
@@ -12,13 +12,11 @@
 <body>
 <style>
     span.triangle_ico{height:40px; width:40px; display:block; position:relative;}
-
     span.triangle_ico:before{content:''; height:0; width:0; display:block; border:10px transparent solid; border-right-width:0; border-left-color:#7EE0D9; position:absolute; top:25px; left:200px;}
-
 </style>
 <include file="Index:bar"/>
 <div class="container" style="margin-top: 30px;padding: 0 0 50px 0 ;">
-    <div class="fl column" style="width: 910px;">
+    <div class="fl column" style="width: 910px;height: 80%; padding-bottom: 150px;;">
         <div id="postPlan">
             <div class="pp_left fl">
                 <img src="__STATIC__/image/page/home/pp_left_y.JPG" style="height: 130px;;border-radius: 130px;margin: 25px 0 0 35px; " width="130" alt=""/>
@@ -110,73 +108,30 @@
             </div>
             <div class="clr"></div>
         </div>
-        <form role="form" id="seachform" style="margin: 20px 0">
-            <input type="text"  class="form-control fl" name="keyword" style="width: 280px;" placeholder="请输出:目的地,计划标题，内容等关键字" value="{$_REQUEST['keyword']}"/>
-            <span class="fl">&nbsp;&nbsp;</span>
-            <input type="text" placeholder="费用" class="form-control fl" style="width: 80px;" name="feestar" value="{$_REQUEST['feestar']}"/>
-            <span class="fl clo9">--</span>
-            <input type="text" placeholder="费用" class="form-control fl" style="width: 80px;" name="feeend" value="{$_REQUEST['feeend']}"/>
-            <span class="fl clo9">元</span>
-            <span class="fl">&nbsp;&nbsp;</span>
-            <input type="text" id="seachstime"  value="{$_REQUEST['startime']}" class="form-control fl"  placeholder="选择时间" style="width: 100px;" name="startime"/>
-            <span class="fl">&nbsp;&nbsp;</span>
-            <input type="text" id="seachetime"  value="{$_REQUEST['startime']}" class="form-control fl"  placeholder="选择时间" style="width: 100px;" name="startime"/>
-            <span class="fl">&nbsp;&nbsp;</span>
-            <button type="submit" style="background: #7EE0D9" class=" btn clof " >搜索</button>
-            <div class="clr"></div>
-        </form>
-        <table class="list-task" width="910">
-        <tr class="borderb-d" >
-            <th width="560">计划名称</th>
-            <th width="50">费用</th>
-            <th width="100">目的地</th>
-            <th width="100">出发时间</th>
-            <th width="100">发布人</th>
-        </tr>
-        <colgroup><col><col width="110px"><col width="130px"><col width="105px"></colgroup>
-        <volist name="list" id="vo">
-            <tr onclick="window.location.href='/index/plan.html?pid={$vo.pid}'" >
-                <td><em class="list-task-reward font14 font6"> {:str_ireplace($_REQUEST['keyword'],'<span class="red">'.$_REQUEST['keyword'].'</span>',$vo['title'])}</em></td>
-                <td>{$vo.budgetfee}</td>
-                <td><if condition="$vo['city']">{:getAreaByAid($vo['city'])}<elseif  condition="$vo['proivce']"/>{:getAreaByAid($vo['proivce'])}<else/>{$vo.addr}</if></td>
-                <td>{$vo.startime|msubstr=0,11,'utf-8',false}</td>
-
-                <td><img src="__PUBLIC__{$vo.picture}" width="30" style="height: 30px;;border-radius: 30px;;" alt=""/><span>{$vo.level}</span><span>{$vo.nickname}</span>
-                </td>
-            </tr>
-            <tr class="borderb-d">
-                <td colspan="3" class="font13 clo9">{:timeTran($vo['createtime'])}</td>
-                <td colspan="2" align="right">
-                    <span class="btn btn-default btn-primary" style="padding: 3px 12px;margin: -5px 20px 0 0;">回复({$vo.comtents|default=0})&nbsp;&nbsp;回复({$vo.read|default=0})</span>
-                </td>
-            </tr>
-        </volist>
-    </table>
-        <div class="page tc">{$page}</div>
     </div>
     <div class="fr column" style="width: 295px;">
         <div class="panel panel-default">
-            <div class="panel-heading" style="background: #f8f8f8" >
-                <span class="panel-title fontb yellow">达人</span>
+            <div class="panel-heading" style="background: #7EE0D9" >
+                <span class="panel-title fontb clo3">热门文章</span>
                 <div class="clr"></div>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" style="background: #F9F9F9">
                 <ul class="clo6">
-                    <li class="borderb-d" style="padding: 5px 0;">
-                        <img src="__PUBLIC__{$vo.avatar|default='/static/image/noavatar_middle.gif'}" width="65" class="fl"/>
-                        <div class="fr" style="width: 195px;line-height: 22px;">
-                            <div><if condition="isset($vo['title']) && $vo['title']">{$vo['title']|msubstr=0,12}<else/>{$vo['message']|msubstr=0,12}</if></div>
-                            <div>{:date('Y/m/d-H/i',strtotime($vo['createtime']))}</div>
-                            <div><span class="bgy clof">聘请</span> <span></span><span class="fontb">{$vo.read}</span></div>
-                        </div>
-                        <div class="clr"></div>
-                    </li>
+                    <volist name="content" id="vo">
+                        <if condition="!empty($vo)">
+                            <li class="borderb-d" style="padding: 5px 0;">
+                                <a href="/index/newinfo.html?id={$vo.id}" class="clo6">
+                                    <span style="display: inline-block;width: 10px;height: 10px ;background: #ffff00;border-radius: 10px;;"></span>&nbsp;
+                                    <if condition="isset($vo['title']) && $vo['title']">{$vo['title']|msubstr=0,12}<else/>{$vo['message']|htmlspecialchars_decode|msubstr=0,12}</if>
+                                </a>
+                            </li>
+                        </if>
+                    </volist>
                 </ul>
             </div>
         </div>
         <div class="tc qr-index">
             <img src="__STATIC__/image/page/home/qr.png" width="200" alt=""/>
-
         </div>
     </div>
     <div class="clr"></div>
@@ -184,9 +139,6 @@
 <div class="clr"></div>
 <include file="Index:footer"/>
 <script src="__STATIC__/common/js/jquery.lhgcalendar.min.js"></script>
-<script>
-
-</script>
 <script>
     $('#pp_startime').calendar({
         format: 'yyyy-MM-dd',
