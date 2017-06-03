@@ -1,8 +1,6 @@
 #ignore these files
 /Runtime/*
 Temp/
-upload/
-uploadfile/
 .buildpath
 .project
 .settings/
