@@ -448,7 +448,7 @@ function version($v=false){
     if($v !==false){
         return $v; //自定义版本
     }else{
-        return 'v.6.1-3'; //日期号
+        return 'v.6.12-1'; //日期号
     }
 }
 
