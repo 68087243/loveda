@@ -37,15 +37,12 @@ return array(
 
 
       /* Cookie设置 */
-    'COOKIE_DOMAIN' => '.lovehou.com', // Cookie有效域名
     'COOKIE_EXPIRE' => 1800, // Coodie有效期
     'COOKIE_PATH' => '/', // Cookie路径
     'COOKIE_PREFIX' => '', // Cookie前缀 避免冲突
-    "DOMAIN"=>"lovehou.com",
 
     //SESSION 设置
     'SESSION_OPTIONS'=>array(
-        'domain'=>'.lovehou.com', //域名
         'expire'=>43200,          //过期时间
 //        'type'=>'Redis',   // redis
 //        'db'=>15,    // db index
@@ -53,7 +50,7 @@ return array(
     'URL_ROUTER_ON' =>'true',    //开启路由
     'URL_ROUTE_RULES' => array(
         '/^superadmin/' =>'/index.php/admin',
-        '/^buyorder$/' =>'index/buyorder',
+        '/^escortplan$/' =>'member/escortplan',
         '/^resorder$/' => '/resorder/index',
         '/^res(\w*)$/' =>'index/res?id=:1',
         '/^start(\w+)$/'=>'start/index?id=:1',

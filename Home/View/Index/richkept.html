@@ -1,34 +1,29 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>爱大叔--悬赏任务</title>
+<html class="webkit safari chrome win">
+<head>
+    <title>名叔馆--悬赏任务</title>
     <include file="Index:_js_css"/>
     <style>
         /*table{border: 1px solid #E4E4E4}*/
+        a:hover,a:active{text-decoration: none}
         table tr th:first-child,table tr td:first-child{text-indent: 10px;}
     </style>
 </head>
-<body>
-<style>
-    span.triangle_ico{height:40px; width:40px; display:block; position:relative;}
-    span.triangle_ico:before{content:''; height:0; width:0; display:block; border:10px transparent solid; border-right-width:0; border-left-color:#7EE0D9; position:absolute; top:25px; left:200px;}
-</style>
+<body style="background: #f6f8f8">
 <include file="Index:bar"/>
-<div class="container" style="margin-top: 30px;padding: 0 0 50px 0;min-height: 65%;">
-    <div class="fl column" style="width: 910px;" id="content">
+<style>
+    .container.page-content {padding: 10px 30px 65px; }
+    .container textarea {border-color: #cccccc;width: 860px;height: 50px;resize: none;margin-top: 20px;text-indent: 5px;}
+</style>
+<div class="container page-content profile light-bg bordert-d" style="width: 960px;">
+    <div class="topic-itme "  style="width: 850px;margin:40px 0;border-bottom: 1px dashed #cccccc;">
         <div style="height: 50px;line-height: 50px;background: #7EE0D9;text-indent: 10px;" class="font24">悬赏列表</div>
         <form role="form" id="seachform" style="margin: 20px 0">
             <input type="text"  class="form-control fl" name="keyword" style="width: 280px;" placeholder="请输出:目的地,计划标题，内容等关键字" value="{$_REQUEST['keyword']}"/>
             <span class="fl">&nbsp;&nbsp;</span>
-            <input type="text" placeholder="费用" class="form-control fl" style="width: 80px;" name="feestar" value="{$_REQUEST['feestar']}"/>
-            <span class="fl clo9">--</span>
-            <input type="text" placeholder="费用" class="form-control fl" style="width: 80px;" name="feeend" value="{$_REQUEST['feeend']}"/>
-            <span class="fl clo9">元</span>
+            <input type="text" id="seachstime"  value="{$_REQUEST['startime']}" class="form-control fl"  placeholder="选择开始日期" style="width: 100px;" name="startime"/>
             <span class="fl">&nbsp;&nbsp;</span>
-            <input type="text" id="seachstime"  value="{$_REQUEST['startime']}" class="form-control fl"  placeholder="选择时间" style="width: 100px;" name="startime"/>
-            <span class="fl">&nbsp;&nbsp;</span>
-            <input type="text" id="seachetime"  value="{$_REQUEST['startime']}" class="form-control fl"  placeholder="选择时间" style="width: 100px;" name="startime"/>
+            <input type="text" id="seachetime"  value="{$_REQUEST['startime']}" class="form-control fl"  placeholder="选择开始日期" style="width: 100px;" name="startime"/>
             <span class="fl">&nbsp;&nbsp;</span>
             <button type="submit" style="background: #7EE0D9" class=" btn clof " >搜索</button>
             <button onclick="getMask().maskShow({'tit': '发布需求','width':500, 'cont': '#rkbox'});return false;" class=" btn clof " >发布悬赏</button>
@@ -36,7 +31,6 @@
         </form>
         <table class="list-task" width="910">
 
-            <colgroup><col><col width="110px"><col width="130px"><col width="105px"></colgroup>
             <volist name="list" id="vo">
                 <tr onclick="window.location.href='/index/plan.html?pid={$vo.pid}'" >
                     <td class="borderb-d " style="padding:  10px 0; ">
@@ -44,6 +38,7 @@
                             <em class="list-task-reward font18 fontb clo3">
                                 {:str_ireplace($_REQUEST['keyword'],'<span class="red">'.$_REQUEST['keyword'].'</span>',$vo['title'])}
                             </em>
+                            <span></span>
                             <span class="font13 clo6 fr">{:timeTran($vo['createtime'])}</span>
                             <div class="clr"></div>
                         </a>
@@ -52,32 +47,9 @@
             </volist>
         </table>
         <div class="page tc">{$page}</div>
+
     </div>
-    <div class="fr column" style="width: 295px;">
-        <div class="panel panel-default">
-            <div class="panel-heading" style="background: #7EE0D9" >
-                <span class="panel-title fontb clo3">热门文章</span>
-                <div class="clr"></div>
-            </div>
-            <div class="panel-body" style="background: #F9F9F9">
-                <ul class="clo6">
-                    <volist name="content" id="vo">
-                        <if condition="!empty($vo)">
-                            <li class="borderb-d" style="padding: 5px 0;">
-                                <a href="/index/newinfo.html?id={$vo.id}" class="clo6">
-                                    <span style="display: inline-block;width: 10px;height: 10px ;background: #ffff00;border-radius: 10px;;"></span>&nbsp;
-                                    <if condition="isset($vo['title']) && $vo['title']">{$vo['title']|msubstr=0,12}<else/>{$vo['message']|htmlspecialchars_decode|msubstr=0,12}</if>
-                                </a>
-                            </li>
-                        </if>
-                    </volist>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="clr"></div>
 </div>
-<div class="clr"></div>
 <include file="Index:footer"/>
 <div id="rkbox" style="display: none;">
     <form role="form" class="regform" style="width: 460px;" id="myform" onsubmit="return false;">
@@ -89,14 +61,26 @@
             <label for="info" class="clo6">你需要 </label><input type="text" name="note" placeholder="请用一句话概括您要做什么" id="info" class="form-control " />
         </div>
         <div class="form-group">
-            <em>不懂怎么发布,提交让管理员代发</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/index/planlist.html">我要自己发布需求</a>
+            <em>不懂怎么发布,提交让管理员代发</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/index/planpost.html">我要自己发布需求</a>
         </div>
         <div class="form-group tc">
             <input type="submit" onclick="sub();" class="clof" style="border: none;background: #FB7D24;width: 400px;height:40px;border-radius: 4px;;" value="立即提交" />
         </div>
     </form>
 </div>
+<script src="__STATIC__/common/js/jquery.lhgcalendar.min.js"></script>
 <script>
+    $('#exampleInputBirthdate1').calendar({
+        format: 'yyyy-MM-dd',
+        minDate: '%y-%M-%d',
+        btnBar: false
+    });
+    $('#exampleInputBirthdate1').calendar({
+        format: 'yyyy-MM-dd',
+        minDate: '%y-%M-%d',
+        btnBar: false
+    });
+
     function sub(){
         $.post('/home/index/subform.html',{tel:$('#rkbox input[name=tel]').val(),type:$('#rkbox input[name=type]').val(),note:$('#rkbox input[name=note]').val()},function(data){
             clearpop(data.message);

@@ -1,40 +1,168 @@
 <?php
 namespace Home\Controller;
 use Common\Model\AreaModel;
-use Common\Model\BannerModel;
 use Common\Model\ClubModel;
 use Common\Model\CodeModel;
 use Common\Model\ContentModel;
 use Common\Model\EscortPlanModel;
 use Common\Model\FormModel;
+use Common\Model\FriendsModel;
 use Common\Model\MessageModel;
 use Common\Model\ReplyModel;
 use Common\Model\TopicModel;
 use Common\Model\UserModel;
 use Think\Controller;
 class IndexController extends Controller {
-    public function index(){
-        if(isset($_REQUEST['od'])){
-            $order =$_REQUEST['od']. ' desc';
-        }else{
-            $order = 'logintime desc';
+    public function _initialize(){
+        $user = UserModel::getUser();
+        if(!empty($user)){
+            session('user',$user,1800);//重置缓存时间
         }
-        $where['status'] = array('neq',UserModel::NOUSERSTATE);
-        $row = 10;
-        $count = M ( "member" )->where ( $where )->count();
-        $page = new \Think\Page ( $count, $row );
-        $userlist = D ( "member" )->where ( $where )->order($order)->limit($page->firstRow,$page->listRows)->select();
-        $this->assign ( "userlist", $userlist );
-        $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
-        $this->assign ( "page", $page->show() );
+    }
 
-        $this->assign ( "nvsheng",TopicModel::getTopicByCid(2));
-        $this->assign ( "dashu",TopicModel::getTopicByCid(1));
-        $this->assign ( "gongyi",ContentModel::getHotContent(5,ContentModel::PUBLIC_FUNDING));
-        $this->assign ( "hotcontent",ContentModel::getHotContent(10));
-        $this->assign ( "bannerlist",BannerModel::getBannerByType(BannerModel::PC_BANNER));
+    public function index(){
         $this->display();
     }
+
+    public function newinfo(){
+        if(isset($_REQUEST['type']) && $_REQUEST['type']=='sm'){
+            $info = MessageModel::getMsgByMid($_REQUEST['id']);
+            MessageModel::readMesUp($_REQUEST['id']);
+            $this->assign ( "info",$info);
+        }else{
+            $info = ContentModel::getContentById($_REQUEST['id']);
+            $data['hits'] =intval($info['hits'])+1;
+            ContentModel::modifyContent($_REQUEST['id'],$data);
+            if(!empty($info) && $info['status'] == ContentModel::NORMAL){
+                $this->assign ( "info",$info);
+            }
+        }
+
+        $this->display();
+    }
+    //用户列表
+    public function ulist(){
+        if (!empty($_REQUEST['age-s']) && empty($_REQUEST['age-e'])) { //如果只有开始
+             $where['birthdate'] = array("elt",getBirthday($_REQUEST['age-s']));
+        }
+        if (empty($_REQUEST['age-s']) && !empty($_REQUEST['age-e'])) { //如果只有结束
+            $where['birthdate'] = array("egt",getBirthday($_REQUEST['age-e']));
+        }
+        if(!empty($_REQUEST['age-s']) && !empty($_REQUEST['age-e'])){  //如果有开始和结束
+            $where['birthdate'] = array(array("elt",getBirthday($_REQUEST['age-s'])),array("egt",getBirthday($_REQUEST['age-e'])));
+        }
+
+        if (!empty($_REQUEST['priovce'])) {
+            $where['proivce'] = $_REQUEST['priovce'];
+        }
+        if (!empty($_REQUEST['loginstatus'])) {
+            $where['loginstatus'] = $_REQUEST['loginstatus'];
+        }
+        $where['status'] = UserModel::NORMAL_USERS;
+        $row = 20;
+        $order = 'recommend desc,rank desc,uid desc';
+        $count = D( "member" )->where($where)->count();
+        $page = new \Think\Page ( $count, $row );
+        $list = D( "member" )->where ( $where )->order($order)
+            ->limit($page->firstRow,$page->listRows)->select();
+        $this->assign ( "list", $list );
+        $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
+        $this->assign ( "page", $page->show() );
+        $areas =  AreaModel::getAreaAll();
+        $priovce = array();
+        foreach ($areas as $area) {
+            if ($area["parentid"] == 0 && $area["parentid"] !== null) { //排除中国和俄罗斯
+                array_push($priovce, $area);
+            }
+        }
+        $this->assign('priovce',$priovce);
+        $this->display();
+    }
+    //用户详情
+    public function uinfo(){
+        $user = UserModel::getUserById($_REQUEST['uid']);
+        if($user && $user['hobbyids']){
+            $con['_string'] = "hid in({$user['hobbyids']})";
+            $habby = D('habby')->where($con)->select();
+            $habbys = '';
+            foreach($habby as $val){
+                if($val){
+                    $habbys.=$val['name'].'   ';
+                }
+            }
+            $this->assign('habbys',$habbys);
+        }
+        $currentuser = UserModel::getUser();
+        $this->assign('isfriends', FriendsModel::isfriend($currentuser['uid'],$_REQUEST['uid']));
+        $this->assign('user', $user);
+        $this->display();
+    }
+
+    public function addFrinds(){
+        $fuid = I('post.fuid');
+        $currentuser = UserModel::getUser();
+        if(regex($fuid,'number')){
+            $isfriend = FriendsModel::isfriend($currentuser['uid'],$fuid);
+            if($isfriend ==FriendsModel::REPLY_TO){
+                apiReturn(CodeModel::ERROR,'你已申请该会员为好友，请耐心等待回复！');
+            }elseif($isfriend ==FriendsModel::FRIENDS){
+                apiReturn(CodeModel::ERROR,'你与该会员已经是为好友关系！');
+            }
+            $adddata['uid'] = $currentuser['uid'];
+            $adddata['f_uid'] = $fuid;
+            if(FriendsModel::addFriends($adddata)){
+                //发送提示消息
+                $msg['type'] = MessageModel::ADD_FRIENDS_MSG;
+                $msg['message'] = "[{$currentuser['nickname']}]申请成为你的好友！";
+                $msg['uid'] = $fuid;
+                $msg['operator'] =  $currentuser['uid'];
+                apiReturn(CodeModel::CORRECT,'发送成功');
+
+            }else{
+                apiReturn(CodeModel::ERROR,'操作失败');
+            }
+        }else{
+            apiReturn(CodeModel::ERROR,'操作失败,请刷新重试！');
+        }
+    }
+
+    //发送传情
+    public function contact(){
+        if(IS_POST){
+            $user = UserModel::getUser();
+            if(empty($user)){
+                session('to','/index/contact.html?uid='.$_REQUEST['uid']);
+                apiReturn(CodeModel::ERROR,'请先登录');
+            }
+            $message = getcontact($_REQUEST['main_wink']);
+            if($_REQUEST['main_wink']==4 ){
+                if(!$_REQUEST['turnsmeon']){
+                    apiReturn(CodeModel::ERROR,'请选择');
+                }
+                $message = $message.'&nbsp;&nbsp;'.$_REQUEST['turnsmeon'];
+            }elseif($_REQUEST['main_wink']==5){
+                if(!$_REQUEST['cantwait']){
+                    apiReturn(CodeModel::ERROR,'请选择');
+                }
+                $message = $message.'&nbsp;&nbsp;'.$_REQUEST['cantwait'];
+            }
+            $user = UserModel::getUser();
+            //发送提示消息
+            $msg['type'] = MessageModel::FRIENDS_MSG;
+            $msg['message'] = "[传情讯息]$message";
+            $msg['uid'] =  $_REQUEST['uid'];
+            $msg['operator'] =  $user['uid'];
+            if(MessageModel::addMsg($msg)){
+                apiReturn(CodeModel::CORRECT,'发送成功');
+            }else{
+                apiReturn(CodeModel::ERROR,'发送失败');
+            }
+        }else{
+            $this->assign('user', UserModel::getUserById($_REQUEST['uid']));
+            $this->display();
+        }
+    }
+
 
     public function richkept(){
         if (!empty($_REQUEST['feestar']) && empty($_REQUEST['feeend'])) { //如果只有开始
@@ -70,7 +198,21 @@ class IndexController extends Controller {
         $this->assign ( "list", $list );
         $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
         $this->assign ( "page", $page->show() );
-        $this->assign ( "content", ContentModel::getHotContent());
+        $this->display();
+    }
+
+
+    //计划详情
+    public function plan(){
+        $plan =  EscortPlanModel::getPlanById($_REQUEST['pid']);
+        if($plan &&$plan['uid']){
+            $puser = UserModel::getUserById($plan['uid']);
+            $plan['level'] = $puser['level'];
+            $plan['nickname'] = $puser['nickname'];
+            $plan['sex'] = $puser['sex'];
+            $plan['avatar'] = $puser['picture'];
+        }
+        $this->assign ( "plan", $plan);
         $this->display();
     }
 
@@ -84,55 +226,8 @@ class IndexController extends Controller {
         $this->display();
     }
 
-
-    public function newinfo(){
-        $info = ContentModel::getContentById($_REQUEST['id']);
-        if(!empty($info) && $info['status'] == ContentModel::NORMAL){
-            $this->assign ( "info",$info);
-        }
-        $this->assign ( "content", ContentModel::getHotContent());
-        $this->display();
-    }
-
-    //计划详情
-    public function plan(){
-        $plan =  EscortPlanModel::getPlanById($_REQUEST['pid']);
-        if($plan &&$plan['uid']){
-            $puser = UserModel::getUserById($plan['uid']);
-            $plan['level'] = $puser['level'];
-            $plan['nickname'] = $puser['nickname'];
-            $plan['sex'] = $puser['sex'];
-            $plan['avatar'] = $puser['picture'];
-        }
-        $this->assign ( "plan", $plan);
-        $order = 'pid desc';
-        $this->assign ( "list", EscortPlanModel::getPlanBySort($order,10));
-        $rcon['r.tid'] = $_REQUEST['pid'];
-        $rcon['r.type'] = ReplyModel::PLAN;
-        $rcount = M('reply')->alias('r')->join('t_member as m on m.uid=r.uid')
-            ->where($rcon)->count();
-        $row = 12;
-        $page =  new \Think\Page($rcount,$row);
-        $reply = M('reply')->alias('r')->join('t_member as m on m.uid=r.uid')
-            ->where($rcon)->field('r.*,m.picture')->limit($page->firstRow,$page->listRows)
-            ->order ( 'r.pid desc' )->select();
-        foreach($reply as &$val){
-            if($val['message'] && strpos($val['message'],'@')!==false){
-                $arr =  explode(' ',$val['message']);
-                $username = mb_substr($arr[0],1);
-                $touser = UserModel::getuserByUsername($username);
-                $touserlink = "<a href='/user/userinfo.html?uid={$touser['uid']}'>@{$touser['nickname']}&nbsp;</a>";
-                $val['message'] = $touserlink.mb_substr($val['message'],(strlen($username)+2));
-            }
-        }
-        $this->assign('reply',$reply);
-        $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
-        $this->assign ( "page", $page->show() );
-        $this->display();
-    }
-
-    //计划列表
-    public function planlist(){
+    //发布计划
+    public function planpost(){
         $areas =  AreaModel::getAreaAll();
         $priovce = array();
         $city = array();
@@ -314,6 +409,9 @@ class IndexController extends Controller {
             apiReturn(CodeModel::CORRECT,'留言成功');
         }
     }
+
+
+
 
     public function charitable(){
         $con['status'] = ContentModel::NORMAL;

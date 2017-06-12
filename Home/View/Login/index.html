@@ -1,66 +1,68 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html class="webkit safari chrome win">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>爱大叔--登录</title>
-    <include file="Index:_js_css" />
+    <title>名叔馆 | 登录</title>
+    <include file="Index:_js_css"/>
+    <style>
+        .col-centered {float: none;margin: 20px auto 120px; background: #f6f8f8;  width: 400px; height: auto; border-radius: 3px;box-shadow: 0 12px 15px 0 rgba(0,0,0,.3); }
+        .smallprint { font-size: 12px; color: #454545;padding: 10px 0; text-align: center;width: 280px;margin-left: 50px; }
+        .main-header .menu-nav-section .public-nav li a{font-size: 14px;;}
+        select{font-weight: 400; color: #454545; border: 1px solid #b8c2cc;border-radius: 3px; background-color: #fff;width: 100%; height: 33px;font-size: 14px; font-family: Helvetica,Arial,sans-serif;}
+        .submitBtn{display: block;color: #FFF;font-size: 14px; position: relative; width: 278px;height: 37px -moz-border-radius: 10px;  -webkit-border-radius: 10px; border-radius: 3px; cursor: pointer;border: 1px solid #1693D5; background: #1693D5; text-transform: uppercase;margin: 0 auto 10px 50px; text-indent: 0;}
+
+        .landing-footer-section{position: relative; border-top: 1px solid #eee; padding: 0 0 0 20px ; bottom: 0; height: 100px; width: 100%;}
+        .landing-footer-section span, .landing-footer-section .copyright-section p a , .landing-footer-section .footer-navs li a{font-size: 12px; font-family: Helvetica,Arial,sans-serif; font-weight: 100;color: #454545; margin-bottom: 8px;}
+    </style>
 </head>
-<body style="background: url('__STATIC__/image/page/home/loginbg.jpg') #e1e1e1 ">
-<div class="container">
-    <div class="row clearfix absolute"  style="width: 300px;height: 300px;left: 50%; top: 20%;margin: 0px 0 0 -170px;; background: #FFffff;border: 1px solid #CCCABA">
-        <form role="form" onsubmit="return false;" style="width: 250px;margin: 0 auto; ">
-            <div class="form-group" style="margin-top: 15px;">
-                <label class="font24 clo6">账号登录</label>
-            </div>
-            <div class="form-group">
-               <input type="text" name="username" class="form-control" placeholder="用户名" />
-            </div>
-            <div class="form-group">
-                <input type="password" name="userpwd" class="form-control"  placeholder="密码" />
-            </div>
-            <div class="form-group">
-                <input type="text"  placeholder="验证码"  class="form-control" name="verify" style="width: 120px;" maxlength="6"  />
+<body>
+<header class="navbar navbar-default main-header public-pages">
+    <div class="menu-nav-section pull-right">
+        <div class="navbar-collapse" id="main-public-nav">
+            <ul class="nav navbar-nav public-nav pull-left">
+                <li class="pull-left"><a href="/" title="首页">首页</a></li>
+                <li class="pull-left"><a href="/login/register.html" title="注册">注册</a></li>
+                <li class="pull-left"><a href="/index/newinfo.html?id=3" title="常见问题">常见问题</a></li>
+                <li class="pull-left"><a href="/index/newinfo.html?id=1" rel="nofollow" title="联络我们">联络我们</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<div class="main-content container">
+    <div id="content" >
+        <div class="content">
+            <div class="col-centered  col-centered col-xs-5 login-extra-padding">
+                <h1 class="text-center" style="padding-top: 10px;">登录</h1>
+                <form role="form" onsubmit="return false;" id="loginform" name="lost-pass-form" class="forgotpwd-form">
+                    <div class="form-group pure-g">
+                        <label for="exampleInputUsername1">用户名</label>
+                        <input type="text" class="form-control" name="username" id="exampleInputUsername1" />
+                    </div>
+                    <div class="form-group pure-g">
+                        <label for="exampleInputPwd1">密码</label>
+                        <input type="password" name="userpwd" class="form-control" id="exampleInputPwd1" />
+                    </div>
 
-                <img class="fr relative" style="cursor:pointer; top: -34px; width:100px; height:34px;" title="看不清楚?换一张!" alt="" onclick="this.src='/home/index/verify.html?random='+Math.random()" src="/home/index/verify.html" />
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" style="position: relative;top: 2px;" name="autologin" />记住登录</label>
-                <span class="fr borderb-d font12 cloc"><a href="/login/register.html">去注册！</a></span>
-                <div class="clr"></div>
-            </div>
-            <button type="submit" class="btn clof btn-blue" onclick="login();">登录</button>
 
-        </form>
+                    <input type="submit" id="submitBtn" class="submitBtn" onclick="login();" value="登录">
+                </form>
+                <div class="smallprint">
+                    <p class="login-box-link text-center"><a href="https://www.ashleymadison.com/app/public/loginlost.p">忘记用户名称或密码？</a></p>
+                    <hr class="login-box-divider">
+                    <a href="/login/register.html"><p class="btn btn-default" style="padding:6px 125px;">注册</p></a>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
+<include file="Index:footer"/>
+<script src="__STATIC__/common/js/jquery.lhgcalendar.min.js"></script>
 <script>
-    function login(){
-        var username =$.trim($("form input[name=username]").val());
-        var pwd =$.trim($("form input[name=userpwd]").val());
-        var verify =$.trim($("form input[name=verify]").val());
-        if(username==""){
-            clearpop('账号不能为空');
-            $("form input[name=username]").focus();
-            return false;
-        }
-        if(pwd==""){
-            clearpop('密码不能为空');
-            $("form input[name=userpwd]").focus();
-            return false;
-        }
-        if(verify==""){
-            clearpop('验证码不能为空');
-            $("form input[name=verify]").focus();
-            return false;
-        }
-        $.post('/home/login/login.html',{username:username,password:pwd,verify:verify},function(data){
-            if(data.code==200){
-                clearpop(data.message,'',data.data);
-            }else{
-                clearpop(data.message);
-            }
-        })
-    }
+    $('#exampleInputBirthdate1').calendar({
+        format: 'yyyy-MM-dd',
+        minDate: '%y-%M-%d',
+        btnBar: false
+    });
 </script>
 </body>
 </html>

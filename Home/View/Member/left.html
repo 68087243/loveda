@@ -1,29 +1,48 @@
-<div style="border: 1px solid #F1F1F1;">
-    <div class="u_l_info tc" style="padding-top: 10px;background: #F8F8F8">
-        <div>
-            <img width="150" src="__PUBLIC__{$user.picture|default='/static/image/noavatar_middle.gif'}"/>
-        </div>
-        <div class="green">{$user.nickname}</div>
+<div class="left-menu-nav">
+    <ul class="nav nav-pills nav-stacked list-left-nav">
+        <li class=" active">
+            <a id="my_information" href="/member/index.html"><i class="material-icons"></i> 个人资料</a>
+        </li>
+        <li class="">
+            <a id="profile_options" href="/member/topic.html"><img src="__STATIC__/image/page/home/topic.png" alt=""/> 帖子管理</a>
+        </li>
+        <li class="">
+            <a id="perfect_match" href="/member/pairing.html"><i class="material-icons"></i> 完美配对</a>
+        </li>
+        <li class="">
+            <a id="personal_interests" href="/member/hobby.html"><i class="material-icons"></i> 个人兴趣</a>
+        </li>
 
-        <ul class="member-lfet bgf tl">
-            <li><a href="/member/index.html" id="index" class="selected">基本资料</a></li>
-            <li><a href="/member/topic.html#topic" id="topic">文章</a></li>
-            <li><a href="/member/escortplan.html#banyou" id="banyou">伴游计划</a></li>
-            <li><a href="#news" id="news">消息</a></li>
-            <li><a href="#friends" id="friends">我的好友</a></li>
-            <li><a href="#vip" id="vip">会员升级</a></li>
-            <li><a href="#lyb" id="lyb">留言板</a></li>
-        </ul>
-    </div>
+        <li class="">
+            <a id="contact_options" href="/member/news.html"><i class="material-icons"></i> 消息管理
+                <if condition="$newscount gt 0">
+                    <span id="newsCount" class="label badge inline pull-right">{$newscount}</span>
+                </if>
+            </a>
+        </li>
+        <li class="">
+            <a href="/member/friends.html">
+                <i class="material-icons md-21"></i>
+                我的好友
+                <if condition="$friendcount gt 0">
+                    <span id="favoritesCount" class="label badge inline pull-right">{$friendcount}</span>
+                </if>
+            </a>
+        </li>
+        <li class="">
+            <a id="manage_photos" href="/member/photos.html"><i class="material-icons"></i> 相片管理</a>
+        </li>
+    </ul>
+
 </div>
 <script>
-     $(function(){
-         var hash =(window.location.hash).substring(1);
-         $('.member-lfet li a').each(function(){
-             if($(this).attr('id') == hash){
-                 $('.member-lfet li a').removeClass('selected');
-                 $(this).addClass('selected');
-             }
-         })
-     });
- </script>
+    $(function(){
+        var hash =(window.location.hash).substring(1);
+        $('.member-lfet li a').each(function(){
+            if($(this).attr('id') == hash){
+                $('.member-lfet li a').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        })
+    });
+</script>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html class="webkit safari chrome win">
+<head>
+    <title>名叔馆</title>
+    <include file="Index:_js_css"/>
+</head>
+<body style="background: #f6f8f8">
+<include file="Index:bar"/>
+<div class="container page-content profile light-bg" style="width: 960px;">
+    <div class="box-center ">
+        <div id="resultsTable" class="light-bg  content-700" style="height: 400px;line-height: 100px;;">
+            <div class="box-pad-lg box-vmarg-xlg tc">
+                <h3>对不起！由于您长时间未使用，系统已为您退出了登录状态。</h3>
+                <p>您将在 <span id="time">5</span>秒后重新导向到登录页面。</p>
+                <p>如果您没有自动跳转，请点击这里<a target="_top" id="toindex" href="/login/index.html">重新登录</a>。</p>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="Index:footer"/>
+<script type="text/javascript">
+    window.onload =function(){
+        var time=document.getElementById("time").innerHTML;
+        var over=window.setInterval(function(){
+            time--;
+            document.getElementById("time").innerHTML=time;
+            if(time<=0){
+                over=window.clearInterval(over);
+                document.getElementById("toindex").click();
+            }
+        },1000);
+    }
+</script>
+</body>
+</html>

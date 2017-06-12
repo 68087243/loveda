@@ -1,184 +1,69 @@
-<div class="form-group font20 r_nav_tit" >基本资料 <span class="clof">Basic data</span></div>
 
-<form role="form" class="regform" id="myform" onsubmit="return false;" style="padding-bottom: 50px;">
-    <input type="hidden" name="uid" value="{$user.uid}"/>
-    <div class="form-group">
-        <div class="fg-l tr fl">昵称：</div>
-        <div class="fg-r fr"><input type="text" name="nickname" value="{$user.nickname}" class="form-control fr" /></div>
-        <div class="clr"></div>
-    </div>
-    <div class="form-group">
-        <div class="fg-l tr fl">手机号码：</div>
-        <div class="fg-r fr"><input type="text" value="{$user.tel}" class="form-control fr" name="tel" /></div>
-        <div class="clr"></div>
-    </div>
-    <div class="form-group">
-        <div class="fg-l tr fl">邮箱：</div>
-        <div class="fg-r fr"><input type="text" value="{$user.email}" class="form-control fr" name="email" /></div>
-        <div class="clr"></div>
-    </div>
-    <div class="form-group">
-        <div class="fg-l tr fl">性别：</div>
-        <div class="fg-r fr">
-            &nbsp;
-            <if condition="$user['sex'] eq 2">
-                <label  style="cursor: pointer" class="clo3 fontn">实力大叔(男) </label>
-                <else/>
-                <label  style="cursor: pointer" class="fontn clo3">美女萝莉(女)</label>
-            </if>
-        </div>
-        <div class="clr"></div>
-    </div>
-    <div class="form-group">
-        <div class="fg-l tr fl">年龄：</div>
-        <div class="fg-r fr">
-            &nbsp;
-            <select name="age" style="width: 100px;">
-                <option value="">请选择</option>
-                <?php
-                             for($i=15;$i<80;$i++){
-                            ?>
-                <option value="{$i}" <if condition="$user['age'] eq $i">selected</if> >{$i}</option>
-                <?php
-                                }
-                            ?>
-            </select>
-        </div>
-        <div class="clr"></div>
-    </div>
+<!DOCTYPE html>
+<html class="no-js webkit safari chrome win"><head>
 
-    <div class="form-group">
-        <div class="fg-l tr fl">所在城市：</div>
-        <div class="fg-r fr">
-            &nbsp;
-            <select name="proivce" onchange="checkeSupsort($(this).val(), $('#myform select[name=city]'));" style="width: 100px;">
-                <option value="">请选择</option>
-                <volist name="priovce" id="vo">
-                    <option <if condition="$user['proivce'] eq $vo['aid']">selected</if>  value="{$vo.aid}">{$vo.name}</option>
-                </volist>
-            </select>
-            <select name="city" style="width: 100px;">
-                <option value="">请选择</option>
-            </select>
-        </div>
-        <div class="clr"></div>
-    </div>
+    <title>名叔馆-{$user.nickname}</title>
+    <include file="Index:_js_css"/>
 
-    <div class="form-group hide" id="bwh">
-        <div class="fg-l tr fl">三围：</div>
-        <div class="fg-r fr">
-            &nbsp;
-            <input type="text" name="bust" value="{$user.bust}" placeholder="胸围/cm" class="form-control fl" style="width: 100px;"/>
-            <input type="text" name="waist" value="{$user.waist}" placeholder="腰围/cm" class="form-control fl"  style="width: 100px;margin-left: 4px;"/>
-            <input type="text" name="hip"  value="{$user.hip}" placeholder="臀围/cm" class="form-control fl"  style="width: 100px;margin-left: 4px;"/>
-        </div>
-        <div class="clr"></div>
-    </div>
+    <style>
+        a:hover,a:active{text-decoration: none}
+    </style>
+    <!--<link rel="stylesheet" href="https://static-cdn.ashleymadison.com/v4/build/css/main.c0c09578.css">-->
 
-    <div class="form-group">
-        <div class="fg-l tr fl">身高：</div>
-        <div class="fg-r fr">
-            &nbsp;
-            <select name="height" style="width: 100px;">
-                <option value="">请选择</option>
-                <?php
-                                   for($i=145;$i<210;$i++){
-                                ?>
-                <option <if condition="$user['height'] eq $i">selected</if> value="{$i}">{$i} cm</option>
-                <?php
-                                   }
-                               ?>
-            </select>
-        </div>
-        <div class="clr"></div>
-    </div>
+    <!--<link rel="stylesheet" href="https://static-cdn.ashleymadison.com/v4/fonts/material-icons/material-icons.css">-->
+<link rel="stylesheet" type="text/css" href="__STATIC__/page/css/icon.css?version={:version(3)}"/>
+<body marginwidth="0" marginheight="0"  style="background: #f6f8f8">
+<include file="Index:bar"/>
+<div class="container page-content light-bg profile">
+    <!--<link rel="stylesheet" href="https://static-cdn.ashleymadison.com/v4/build/css/theme-profile.d7eb6858.css">-->
+    <div class="box-center ">
+        <div id="viewprofile_container" class="block box-pad-t">
+            <div id="profileContainer" class="full-width">
+                <div id="profileLeft" class="profileLeft pull-left">
+                    <div>
+                        <a href="/member/photos.html" title=" :: 将图片上载到您的简介页面或私人相簿。"  class="non-photo uploadpic male">
+                            <img src="__PUBLIC__{$user.picture|default='/static/image/noavatar_middle.gif'}" width="200" alt=""/>
+                            <span class="tc clof" style="display: block;width: 200px;height: 35px;line-height: 35px;opacity: .8;position: relative; bottom: 35px;left: 0;background: #e43774;">上传相片</span>
+                        </a>
+                    </div>
+                    <div class="profileDetailsBorder neighbour-top">
+                        <div class="left-link-container">
+                            <i class="material-icons md-dark md-18"></i>
+                            <a class="profile-left-links font14" href="/member/index.html">编辑我的简介</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="profileMiddle" class="pull-left profileMiddle ">
+                    <div class="profileHeader">
+                        <div>
+                            <span class="collapse-margin display-name">{$user.nickname}</span>
+                            <a id="onlineStatus" href="#" data-toggle="tooltip" data-placement="bottom" class="middle inline neighbour status-online" title=" :: 此会员目前在线上。"></a>
+                            <div id="caption" class="translate_me caption-msg" translated="no">{$user.describe}</div>
+                        </div>
+                        <div></div>
+                    </div>
+                    <div class="no-border">
+                        <ul class="profileDetails results-info neighbour-bottom">
+                            <li><span class="profile-details-label">年龄: </span> <span class="profile-details-data">{:getAge($user['birthdate'])}岁({:get_constellation($user['birthdate'])})</span></li>
+                            <li><span class="profile-details-label">位置: </span> <span class="profile-details-data">{:getAreaByAid($user['proivce'])}&nbsp;&nbsp;{:getAreaByAid($user['city'])}</span></li>
+                            <li><span class="profile-details-label">身高: </span> <span class="profile-details-data">{$user['height']}cm</span></li>
+                            <li><span class="profile-details-label">体重: </span> <span class="profile-details-data">{$user['weight']}kg&nbsp;&nbsp;{:getUserShape($user['shape'])}</span></li>
+                            <li><span class="profile-details-label">性别: </span> <span class="profile-details-data"><if condition="$user['sex'] eq 1">女士<else/>男士 </if></span></li>
+                        </ul>
+                    </div>
+                    <div class="thumbnails box-marg-t"></div>
+                </div>
 
-    <div class="form-group">
-        <div class="fg-l tr fl">学历：</div>
-        <div class="fg-r fr">
-            &nbsp;
-            <select name="education" style="width: 100px;">
-                <option value="">请选择</option>
-                <option <if condition="$user['education'] eq '初中及以下'">selected</if> value="初中及以下">初中及以下</option>
-                <option <if condition="$user['education'] eq '中专'">selected</if> value="中专">中专</option>
-                <option <if condition="$user['education'] eq '高中'">selected</if> value="高中">高中</option>
-                <option <if condition="$user['education'] eq '专科'">selected</if> value="专科">专科</option>
-                <option <if condition="$user['education'] eq '本科'">selected</if> value="本科">本科</option>
-                <option <if condition="$user['education'] eq '硕士'">selected</if> value="硕士">硕士</option>
-                <option <if condition="$user['education'] eq '博士'">selected</if> value="博士">博士</option>
-            </select>
+                <div class="clear"></div>
+                <div class="profileInterest full-width " style="margin-top: 20px;">
+                    <a href="/member/pairing.html" class="btn-link">通过增加您的简介 "甚麽真正打动我" 详细资料以获取通知。</a><br><br>
+                    <a href="/member/hobby.html" class="btn-link">通过增加您的简介 "我在寻找甚麽" 详细资料以获取通知。</a><br><br>
+                </div>
+            </div>
         </div>
-        <div class="clr"></div>
     </div>
-    <div class="form-group">
-        <div class="fg-l tr fl">婚姻状况：</div>
-        <div class="fg-r fr">
-            &nbsp;
-            <select name="marriage" style="width: 100px;">
-                <option value="">请选择</option>
-                <option <if condition="$user['marriage'] eq '未婚'">selected</if> value="未婚">未婚</option>
-                <option <if condition="$user['marriage'] eq '离异'">selected</if> value="离异">离异</option>
-                <option <if condition="$user['marriage'] eq '丧偶'">selected</if> value="丧偶">丧偶</option>
-                <option <if condition="$user['marriage'] eq '非单身'">selected</if> value="非单身">非单身</option>
-            </select>
-        </div>
-        <div class="clr"></div>
-    </div>
-    <div class="form-group">
-        <div class="fg-l tr fl">月收入：</div>
-        <div class="fg-r fr">
-            &nbsp;
-            <select name="income" style="width: 100px;">
-                <option value="">请选择</option>
-                <option <if condition="$user['income'] eq '3000元以下'">selected</if> value="3000元以下">3000元以下</option>
-                <option <if condition="$user['income'] eq '3001元-5000元'">selected</if> value="3001元-5000元" >3001元-5000元</option>
-                <option <if condition="$user['income'] eq '5001元-8000元'">selected</if> value="5001元-8000元">5001元-8000元</option>
-                <option <if condition="$user['income'] eq '8001元-12000元'">selected</if> value="8001元-12000元">8001元-12000元</option>
-                <option <if condition="$user['income'] eq '12001元-20000元'">selected</if> value="12001元-20000元">12001元-20000元</option>
-                <option <if condition="$user['income'] eq '20001元-50000元'">selected</if> value="20001元-50000元">20001元-50000元</option>
-                <option <if condition="$user['income'] eq '50001元以上'">selected</if> value="50001元以上">50001元以上</option>
-            </select>
-        </div>
-        <div class="clr"></div>
-    </div>
+</div>
+<include file="Index:footer"/>
+</body>
+</html>
 
-    <div class="form-group">
-        <div class="fg-l tr fl">爱好：</div>
-        <div class="fg-r fr">&nbsp;<input type="text" name="hobby" value="{$user.hobby}" class="form-control fr" /></div>
-        <div class="clr"></div>
-    </div>
-
-    <div class="form-group">
-        <div class="fg-l tr fl">自我介绍：</div>
-        <div class="fg-r fr">&nbsp;
-            <textarea name="describe" style="resize: none" placeholder="自我介绍，300字以内">{$user.describe}</textarea>
-            <span class="red font12">不能包含手机邮箱QQ微信等任何提示相关联系方式，否则禁号处理！</span>
-        </div>
-        <div class="clr"></div>
-    </div>
-    <button type="submit" style="margin-left: 100px;" class=" fl btn clof btn-blue" onclick="modifyuser();">修改</button>
-</form>
-<script>
-    checkeSupsort('{$user.proivce}', $('#myform select[name=city]'));
-    $('#myform select[name=city] option').each(function(){
-        if('{$user.city}' == $(this).val()){
-            $(this).attr('selected',true);
-        }
-    })
-    window.subBlock = false;
-    function modifyuser(){
-        if(subBlock){
-            return false;
-        }
-        subBlock = true;//阻塞
-        var $data = $("#myform").serialize();
-        $.post('/home/member/modifyuser.html', $data, function (data) {
-            subBlock = false;//解除阻塞
-            if (data.code == 200) {
-                clearpop(data.message);
-            } else {
-                clearpop(data.message);
-            }
-        })
-    }
-</script>

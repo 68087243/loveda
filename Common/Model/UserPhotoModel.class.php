@@ -68,7 +68,7 @@ class UserPhotoModel extends Model
                 if($type ==  self::PHOTO_TYPE){
                     $con['type'] = self::PHOTO_TYPE;
                 }
-                $list = D('member_photo')->where($con)->select();
+                $list = D('member_photo')->where($con)->order('status asc ,rank desc,id desc')->select();
                 S($key,$list,86400*30);
             }
             return $list;

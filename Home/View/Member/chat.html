@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html class="webkit safari chrome win">
+<head>
+    <title>名叔馆-发送传情</title>
+    <include file="Index:_js_css"/>
+</head>
+<style>
+    .inputMessage textarea,#viewHistory{height: 150px;width: 611px;overflow-y: scroll; border: 1px solid #ccc;  -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;}
+    .box-pad-sm{text-indent: 10px}
+    .box-pad-sm .pull-to-edges{border-bottom: 1px dashed #cccccc}
+</style>
+<body style="background: #f6f8f8 ;overflow-x: hidden">
+<include file="Index:bar"/>
+<div class="container page-content profile content-960 light-bg" >
+    <div class="box-center tc ">
+        <div id="resultsTable" class="light-bg content-780">
+            <div id="contactMessageContainer" class="content-750 rtl-theme neighbour-bottom" >
+                <div id="messageHeader">
+                        <div id="profileImage" class="col-xs-4"style="max-width: 225px;">
+                            <img border="0" src="__PUBLIC__{$user.picture|default='/static/image/noavatar_middle.gif'}" class="messageImage preview-thumb">
+                        </div>
+                        <div id="messageInfo" class="winkHeader col-xs-8">
+                                <span class="inline  font18">至:</span>
+                                <span class="messageRecipient inline font18">{$user.nickname}</span>
+                                <a id="viewProfile" href="javascript:void(0);" style="margin-left: 20px;" class="btn-link font14">查看简介</a>
+                                <a href="/index/uinfo.html?uid={$user.uid}" class="fr font12">返回简介</a>
+                            <div class="clr"></div>
+                            <div id="profileInfo" class="" style="display: none">
+                                <span class="inline font-color pink">简介详细资讯</span>: <a href="/index/uinfo.html?uid={$user.uid}">(移至会员简介)</a>
+                                <div class="search-results no-border row">
+                                    <ul class="col-xs-6 results-info">
+                                        <li><span>年龄: </span>{:getAge($user['birthdate'])}岁({:get_constellation($user['birthdate'])})</li>
+                                        <li><span>身高: </span> {$user['height']}cm</li>
+                                        <li><span>体重: </span> {$user['weight']}kg -{:getUserShape($user['shape'])}</li>
+                                    </ul>
+                                    <ul class="col-xs-6 results-info">
+                                        <li><span>位置&nbsp;: </span>{:getAreaByAid($user['proivce'])} {:getAreaByAid($user['city'])}</li>
+                                        <li><span>性别: </span><if condition="$user['sex'] eq 1">女士<else/>男士</if></li></ul>
+                                </div>
+                                <hr>
+                            </div>
+                            <form role="form" id="myform"  onsubmit="return false;"  style="margin-bottom: 50px;">
+                                <input type="hidden" name="uid" value="{$_REQUEST['uid']}"/>
+                                <div class="inputMessage">
+                                    <textarea id="contact_message" name="contact_message" style="resize: none;" class="pure-u-1" wrap="soft"></textarea>
+                                    <div id="usedChars">
+                                        包括空格您已经使用了<span id="count" class="bold">0</span>个字元。(最大：2,000)
+                                        <a href="javascript:void(0)" id="history" class="fr">查看聊天记录</a>
+                                        <div class="clr"></div>
+                                    </div>
+                                </div>
+                                <div id="actions" style="margin: 10px 0; ">
+                                    <button type="submit" id="sendButton"  class="btn btn-primary">发送消息</button>
+                                </div>
+                            </form>
+                            <div class="clearboth"></div>
+                            <div id="viewHistory" class="thin-border" style="display: block;">
+                                <div class="box-pad-sm">
+                                    <div class="pink">
+                                        您与此会员的对话。
+                                    </div>
+                                    <if condition="empty($chatlist)">
+                                        <p class="clo3">暂无消息</p>
+                                        <else/>
+                                        <volist name="chatlist" id="vo">
+                                            <div class="box-pad-sm clearfix">
+                                                <div class="pull-left full-width pull-to-edges collapse-top">
+                                                    <p><span class="col-xs-2 no-gutter clo6">日期:</span><span class="col-xs-10 clo3">{:timeTran($vo['createtime'])}</span></p>
+                                                    <span class="col-xs-2 clo6 no-gutter">发送人:</span><span class="col-xs-10 clo3">{:getUsername($vo['operator'])}</span><br><br>
+                                                    <p class="message-font clo6">讯息</p>
+                                                    <p class="clo3">{$vo.message}</p>
+                                                </div>
+                                            </div>
+                                        </volist>
+                                    </if>
+                                    <div><hr></div>
+                                    <div>
+                                        <p>只显示您最近接收的15条讯息。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="Index:footer"/>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#viewProfile').click(function(){
+            if($('#profileInfo').css('display')=='none'){
+                $('#profileInfo').show();
+                $(this).html('查看简介');
+            }else{
+                $('#profileInfo').hide();
+                $(this).html('隐藏个人简介');
+            }
+        })
+
+        $('#history').click(function(){
+            if($('#viewHistory').css('display')=='none'){
+                $('#viewHistory').show();
+                $(this).html('查看聊天记录');
+            }else{
+                $('#viewHistory').hide();
+                $(this).html('隐藏聊天记录');
+            }
+        })
+
+        $('#sendButton').click(function(){
+            $.post('/member/chat.html',{uid:$('#myform input[name=uid]').val(),message:$('#myform textarea[name=contact_message]').val()},function(data){
+                if(data.code ==200){
+                    clearpop(data.message,'','self');
+                }else{
+                    clearpop(data.message);
+                }
+            })
+        })
+    });
+</script>
+</body>
+</html>
+

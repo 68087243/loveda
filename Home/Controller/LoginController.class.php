@@ -18,8 +18,10 @@ class LoginController extends Controller {
      */
     public function login() {
         //验证码
-        if( !isVerifyCorrect()){
-            apiReturn(CodeModel::ERROR,'验证码错误！');
+        if(isset($_POST['verify'])){
+            if( !isVerifyCorrect()){
+                apiReturn(CodeModel::ERROR,'验证码错误！');
+            }
         }
         $username = I("post.username", '', 'string');
         $password = I("post.password", '', 'string');
@@ -30,10 +32,8 @@ class LoginController extends Controller {
             if(false===UserModel::login($username, $password,$remember,'web')){
                 apiReturn(CodeModel::ERROR ,'登录失败');
             }else{
-                if(session('to') == 'escortplan'){
-                    $url = '/member/escortplan.html';
-                }else if(session('to') == 'member'){
-                    $url = '/member/index.html';
+                if(session('to')){
+                    $url = session('to');
                 }else{
                     $url = '/';
                 }
@@ -41,6 +41,7 @@ class LoginController extends Controller {
             }
         }
     }
+
     public function reg(){
         $data = M('member')->create();
         if($data){
@@ -54,8 +55,10 @@ class LoginController extends Controller {
             if(!$data['sex']){
                 apiReturn(CodeModel::ERROR,'请选择性别');
             }
-            if(!$data['nickname']){
+            if(!$data['account']){
                 apiReturn(CodeModel::ERROR,'请填写昵称');
+            }else{
+                $data['nickname'] = $data['account']; //注册时昵称默认为登录账户
             }
             if(!$data['proivce'] || !$data['city']){
                 apiReturn(CodeModel::ERROR,'请选择所在城市');
@@ -74,15 +77,15 @@ class LoginController extends Controller {
             if(UserModel::isExistTel($data['tel'])){
                 apiReturn(CodeModel::ERROR,'该电话号码已存在');
             }
-            if(UserModel::isExistNickname($data['nickname'])){
-                apiReturn(CodeModel::ERROR,'昵称已存在');
+            if(UserModel::isExistNickname($data['account'])){
+                apiReturn(CodeModel::ERROR,'账户已存在');
             }
             $password = $data['password'];
             $data['password'] = md5($password);
             $id = UserModel::reg($data);
             if($id){
                 //注册完后自动登录
-                if(true===UserModel::login($data['tel'],$password,false,'web')){//注册后自动登录
+                if(true===UserModel::login($data['account'],$password,false,'web')){//注册后自动登录
                     apiReturn(CodeModel::CORRECT,'注册成功','/member/index.html');
                 }else{
                     apiReturn(CodeModel::CORRECT,'注册成功','/login/index?returnurl=/member/index');
@@ -113,6 +116,14 @@ class LoginController extends Controller {
         $this->display();
 	}
 
+	public function failure() {
+        $this->display();
+	}
+
+	public function findpwd() {
+        $this->display();
+	}
+
 	public function logout() {
         UserModel::setUser(null);
 		session_unset ();
@@ -125,11 +136,8 @@ class LoginController extends Controller {
      * 找回密码
      */
     public function findpwdAction(){
-        if( !isVerifyCorrect()){
-            apiReturn(CodeModel::ERROR,'Wrong captcha code.');
-        }
-        $keywrod = I('post.keywrod');
-        UserModel::reSetPwd($keywrod);
+        $email = I('post.email');
+        UserModel::reSetPwd($email);
     }
 }
 ?>

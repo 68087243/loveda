@@ -5,12 +5,13 @@ use Think\Model;
 
 class UserModel extends Model
 {
+    const LOG_IN = 1;//登录状态
 	const MALE = 1;//男
 	const FEMALE = 0;//女
-
 	const NORMAL_USERS = 1;//正常使用的账号
     const NOUSERSTATE = -1;//禁用
     const TEL_STATE_UN = 0;//没有认证
+    const VISITOR_MEMBER = 1;//普通会员
     const WAP = 'wap';//移动端登录
     const WEB = 'web';//pc端登录
     const NOR_USER_WEB_COOKIE_KEY = "user_web_token";
@@ -27,6 +28,7 @@ class UserModel extends Model
 
     public static function setUser($user){
         session('user',$user);
+        session('loginstatus',true,1800);//登录状态半小时
     }
 
     public static function getUser(){
@@ -43,7 +45,7 @@ class UserModel extends Model
     }
 
     public static function isExistNickname($nickname){
-        $con['nickname'] = $nickname;
+        $con['account'] = $nickname;
         $user = self::getUserByCon($con);
         if(!empty($user)){
             return true;
@@ -100,6 +102,7 @@ class UserModel extends Model
         }
         $data["loginip"] = ip2long($_SERVER["REMOTE_ADDR"]);
         $data["logintime"] = date("Y-m-d H;i;s", time());
+        $data["loginstatus"] = self::LOG_IN;
         $saveResult = D("member")->where(array("uid"=>$userId))->save($data);
         if($saveResult === false){
             return false;
@@ -172,7 +175,7 @@ class UserModel extends Model
             }elseif(regex($username,'email')){
                 $con['email'] = $username;
             }else{
-                $con['nickname'] = $username;
+                $con['account'] = $username;
             }
             $con['password'] = md5($userpwd);
             $user = D("member")->where($con)->find();
@@ -234,6 +237,56 @@ class UserModel extends Model
             return $db;
         }
         return false;
+    }
+
+    /**重置密码
+     * @param $keywrod
+     */
+    public static function reSetPwd($email){
+        $con['email'] = $email;
+        $user = self::getUserByCon($con);
+        if($user){
+            $ctrl=new \Org\Util\String();
+            $pwd = $ctrl->randString(6,1);
+            $body=lbl('tpl_findpwd');
+            if(isN($body)){
+                apiReturn(CodeModel::ERROR,'发送邮件失败，请联系客服');
+            }
+            $preg="/{(.*)}/iU";
+            $n=preg_match_all($preg,$body,$rs);
+            $rs=$rs[1];
+            if($n>0){
+                foreach($rs as $v){
+                    if(trim($v)=='name'){
+                        $oArr[]='{ name }';
+                        $tArr[]= $user['nickname']?$user['nickname']:$email;
+                        $body=str_replace($oArr,$tArr,$body);
+                    }
+                    if(trim($v) == 'pwd'){
+                        $oArr[]='{ pwd }';
+                        $tArr[]= $pwd;
+                        $body=str_replace($oArr,$tArr,$body);
+                    }
+                }
+            }
+            $subject='[名叔馆]重置密码';
+            if(send_mail($email,$subject,$body)){
+                $where['uid']=$user['uid'];
+                if( M('member')->where($where)->setField('password',md5($pwd))){
+                    list($name,$end)=explode('@',$email);
+                    if(strlen($name)>5){
+                        $email =  substr($name,0,3).'***@'.$end;
+                    }else{
+                        $email =  substr($name,0,1).'***@'.$end;
+                    }
+                    apiReturn(CodeModel::CORRECT,"新密码已发送到你的邮箱: $email,请注意查收",'/login/index.html');
+                }
+            }else{
+                apiReturn(CodeModel::ERROR,'发送邮件失败');
+            }
+        }else{
+            apiReturn(CodeModel::ERROR,'该邮箱地址还没有被注册绑定');
+        }
     }
 
 }

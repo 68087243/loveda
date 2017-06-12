@@ -1,3 +1,62 @@
+window.subBlock = false;
+function login(){
+    if(subBlock){
+        return false;
+    }
+    var username =$.trim($("#loginform input[name=username]").val());
+    var pwd =$.trim($("#loginform input[name=userpwd]").val());
+    if(!username){
+        clearpopj('账号不能为空111', "error",true);
+        $("#loginform input[name=username]").focus();
+        subBlock = false;
+        return false;
+    }
+    if(pwd==""){
+        clearpopj('密码不能为空', "error",true);
+        $("#loginform input[name=userpwd]").focus();
+        subBlock = false;
+        return false;
+    }
+    subBlock = true;
+    $.post('/login/login.html',{username:username,password:pwd},function(data){
+        subBlock = false;
+        if(data.code==200){
+            window.location.href = data.data;
+        }else{
+            clearpopj(data.message, "error",true);
+        }
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //选择所属省市——省
 function checkeSupsort(pid,toobj){
     $.ajax({

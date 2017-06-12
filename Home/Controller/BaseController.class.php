@@ -21,8 +21,17 @@ class BaseController extends Controller
                 }
             };
         }else{
-            $this->assign('user',$user);
-            $this->userid = $user['uid'];
+            if(session('loginstatus')){//登录状态
+                session('user',$user,1800);//重置缓存时间
+                $this->assign('user',$user);
+                $this->userid = $user['uid'];
+            }else{
+                $data['loginstatus'] = 0;//取消登录状态
+                UserModel::modifyMember($user['uid'],$data);
+                UserModel::setUser('');
+                redirect('/login/failure');
+            }
+
         }
     }
 

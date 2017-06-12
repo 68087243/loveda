@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <meta name="Robots" content="noindex,nofollow,noarchive" />
-    <title>爱大叔--{$user.nickname}</title>
+    <title>名叔馆--{$user.nickname}</title>
     <include file="Index:wap_js_css"/>
 
 <body pagename="login" style="overflow-x:hidden;">
@@ -17,12 +17,12 @@
                     <div class="absolute" style="width: 5px;height: 5px;border-radius:5px;background: red;left: -10px;top: 13px;"></div>
                 </if>
                 <if condition="$vo['type'] eq 5">
-                    <span class="clo6">【系统】{$vo.title}</span>
+                    <span class="clo6">【系统消息】</span>
                 <elseif condition="$vo['type'] eq 2"/>
-                    <div style="width: 100%;line-height: 20px;" onclick="if($(this).siblings('span').hasClass('hide')){$(this).siblings('span').removeClass('hide');}else{$(this).siblings('span').addClass('hide');}">【好友】是地地道道的地地道道{$vo.message}</div>
+                    <div style="width: 100%;line-height: 20px;">【好友申请】</div>
                     <span class="relative hide clo6" style="left: 50%;margin-left: -28px;" onclick="acceptFriends('{$vo.operator}');">【添加】</span>、
-                <elseif condition="$vo['type'] eq 6"/>
-                    <a href="/user/guestbook.html?uid={$vo.uid}&gid={$vo.tid}" class="clo6">【留言板】{$vo.message}</a>
+                <elseif condition="$vo['type'] eq 4"/>
+                    <a href="/member/chat.html?uid={$vo.uid}" class="clo6">【留言板】{$vo.message}</a>
                 <else/>
                     <a href="/index/topicInfo.html?tid={$vo.tid}" class="clo6">【帖子】{$vo.message}</a>
                 </if>

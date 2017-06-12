@@ -6,8 +6,6 @@ img{vertical-align:middle}
 table{border-collapse:collapse;empty-cells:show}
 a:link,a:visited{text-decoration:none;cursor:pointer}
 .u,a.u,a:hover{text-decoration:underline}
-.nou,a.nou{text-decoration:none}
-.lineu,.lineu:hover{text-decoration:line-through}
 .clo0,a.clo0{color:#000}
 .clo3,a.clo3{color:#333}
 .clo6,a.clo6{color:#666}
@@ -29,35 +27,15 @@ a:link,a:visited{text-decoration:none;cursor:pointer}
 .font24{font-size:24px}
 .fontb{font-weight:bold}
 .fontn{font-weight:normal}
-.fontyahei{font-family:"Microsoft Yahei",微软雅黑}
 .fl{float:left}
 .fr{float:right}
-.iblock{display:inline-block;*display:inline;*zoom:1}
-.middle{vertical-align:middle}
 .tr{text-align:right}
 .tc{text-align:center}
 .tl{text-align:left}
-.ovh{overflow:hidden}
 .hide{display:none}
-.pointer,input[type=button],input[type=submit]{cursor:pointer}
-.mlr3{margin:0 3px}
-.mlr5{margin:0 5px}
-.ml5{margin-left:5px}
-.ml10{margin-left:10px}
-.mr10{margin-right:10px}
-.mt10{margin-top:10px}
-.ml35{margin-left:35px}
-.ml60{margin-left:59px}
-.cmlr3 a,.cmlr3 input{margin:0 3px}
-.wth40{width:40px}
-.wth80{width:80px}
-.wth200{width:200px}
-.wth300{width:300px}
-.ablock{display:block;width:100%;height:100%}
-.relative{position:relative}
-.absolute{position:absolute}
-.clr{clear:both}
-
+.clr{clear: both}
+.absolute{position: absolute}
+.relative{position: relative}
 /*弹出可拖拽的功能型遮罩层*/
 .maskWrap{position:fixed;z-index:10000;top:0;left:0;width:100%;background:#000;filter:alpha(opacity=00);-moz-opacity:0.00;opacity:0.00}
 .homepop{position:absolute;z-index:10001;min-height:150px;background:#fff;display:none}
@@ -65,16 +43,6 @@ a:link,a:visited{text-decoration:none;cursor:pointer}
 .move a{float:right;color:#757575;padding-right:15px;cursor:pointer}
 .move a:hover{color: red}
 .inside{padding:16px;}
-
-/*background*/
-.b_c{ background:#f65d5b; }
-.b_g{ background:#f3cbcb; }
-.b_f{ background:#fff; }
-.b_l{ background:#f6f6f6; }
-.b_e{ background:#eee; }
-.b_i{ background:#fcfbf3; }
-.b_w{ background:#33ccff; }
-.b_d{ background:#ddd; }
 
 
 .borderb-d{border-bottom: 1px solid #DDDDDD;}

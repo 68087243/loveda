@@ -22,5 +22,8 @@ class CodeModel extends Model
        Log::record($msg,$level);
     }
 
+    public static function loginfall(){
+
+    }
 
 }

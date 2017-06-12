@@ -1,110 +1,105 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>爱大叔--帖子列表</title>
+<html class="webkit safari chrome win">
+<head>
+    <title>名叔馆--帖子列表</title>
     <include file="Index:_js_css"/>
+    <link rel="stylesheet" href="https://static-cdn.ashleymadison.com/v4/fonts/material-icons/material-icons.css" />
 </head>
-<body>
+<body style="background: #f6f8f8">
 <include file="Index:bar"/>
-<div class="container" style="margin-top: 30px;padding: 0 0 50px 0 ;">
-    <div class="fl column" style="width: 910px;">
-        <table border="0" width="100%" style="margin: 10px 0;" >
-            <tr>
-                <td>分类：
-                    <volist name="club" id="vo">
-                        <a class="clo3" href="/index/topiclist.html?cid={$vo.id}">{$vo.clubname}</a> &nbsp;&nbsp;&nbsp;
-                    </volist>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span class="fl">区域 ：</span>
-                    <select name="proivce" class="fl" onchange="checkeSupsort($(this).val(), $('#seachform select[name=city]'));" style="width: 100px;;">
-                        <option value="">请选择</option>
-                        <volist name="priovce" id="vo">
-                            <option value="{$vo.aid}">{$vo.name}</option>
-                        </volist>
-                    </select>
-                    <span class="fl">&nbsp;&nbsp;</span>
-                    <select name="city" class="fl" style="width: 100px;">
-                        <option value="">请选择</option>
-                    </select>
-                    <span class="fl">&nbsp;&nbsp;</span>
-                    <input type="text"  class="form-control fl" name="keyword" style="width: 280px;" placeholder="请输出:目的地,计划标题，内容等关键字" value="{$_REQUEST['keyword']}"/>
-                    <span class="fl">&nbsp;&nbsp;</span>
-                    <button type="submit" style="background: #7EE0D9" class="fl btn clof " >搜索</button>
-                    <div class="clr"></div>
-                </td>
-            </tr>
-        </table>
-        <div id="content" class="bordert-d" >
-            <volist name="list" id="vo">
-                <div class="topic-itme "  style="width: 850px;margin:40px 0;border-bottom: 1px dashed #cccccc;">
-                    <div class="topic_tit clo3 font16 fontb">
+<div class="go-to-z-top fix-top-left simple-box-filled box-pad-xsm box-bdr-b text-center" style="background: #f6f8f8;border-bottom: 2px solid #D9D9D9">
+    <form id="frmQuickSearch2" name="frmQuickSearch2" action="" method="POST" target="main" class=''>
+        <input type="hidden" name="sid" value="">
+        <input type="hidden" name="" value="1">
+            <span id="tdAgeMin">
+                <select class="selectpicker col-1 search-select" name="age-s">
+                    <?php
+                    for($i=18;$i<70;$i++){
+                    ?>
+                    <option value="{$i}"<if condition="$_REQUEST['age-s'] eq $i">selected</if>>{$i}</option>
+                    <?php
+                    }
+                    ?>
+                    <option value="70" <if condition="$_REQUEST['age-s'] eq 70">selected</if>>70+</option>
+                </select>
+            </span>
+        <span class="inline searchText">到</span>
+        <span id="tdAgeMax">
+             <select class="selectpicker col-1 search-select" name="age-e">
+                 <?php
+                    for($i=18;$i<70;$i++){
+                 ?>
+                 <option value="{$i}" <if condition="$_REQUEST['age-e'] eq $i">selected</if>>{$i}</option>
+                 <?php
+                }
+                ?>
+                 <option value="70" <if condition="$_REQUEST['age-e'] eq 70">selected</if>>70+</option>
+             </select>
+        </span>
+        <span id="tdLocation">
+            <span id="dLocation">
+            <select id="area" name="priovce" class="selectpicker col-1 search-select">
+                <option value="">全部地区</option>
+                <volist name="priovce" id="vo">
+                    <option value="{$vo.aid}" <if condition="$_REQUEST['priovce'] eq $vo['aid']">selected</if>>{$vo.name}</option>
+                </volist>
+            </select>
+            </span>
+        </span>
+
+        <span id="tdLoginStatus">
+            <select id="loginstatus" name="loginstatus" class="selectpicker col-1 search-select">
+                <option value="">全部</option>
+                <option value="1" <if condition="$_REQUEST['loginstatus'] eq 1">selected</if>>目前在线</option>
+                <option value="2" <if condition="$_REQUEST['loginstatus'] eq 2">selected</if>>过去8小时</option>
+                <option value="3" <if condition="$_REQUEST['loginstatus'] eq 3">selected</if>>过去24小时</option>
+                <option value="4" <if condition="$_REQUEST['loginstatus'] eq 4">selected</if>>过去48小时及以上</option>
+            </select>
+        </span>
+        <button class="btn btn-default search-btn" id="quickSearchButton" type="submit">搜寻</button>
+    </form>
+</div>
+<style>
+    .topic-itme{padding: 0 30px;width: 750px;cursor: pointer}
+    .topic-itme:hover,.topic-itme:active{background: #F8F8F8}
+</style>
+<div class="container page-content profile light-bg " style="width: 960px;">
+        <volist name="list" id="vo">
+            <div class="topic-itme "  style="margin-bottom:40px;border-bottom: 1px dashed #cccccc;">
+                <div class="topic_tit clo3 font16 fontb">
                         <span class="red">
                             <if condition="$vo['city']">
                                 [{:getAreaByAid($vo['city'])}]
-                            <elseif condition="$vo['proivce']"/>
+                                <elseif condition="$vo['proivce']"/>
                                 [{:getAreaByAid($vo['proivce'])}]
                             </if>
                         </span>
-                        {$vo.title} <span class="clo6 font12 fontn">({:timeTran($vo['createtime'])})</span>
-                    </div>
-                    <div class="topic_content font14 clo6 " style="padding-bottom:30px ;"  >
-                        {$vo.message|htmlspecialchars_decode|msubstr=0,200}
-                        <if condition="$vo['sex'] neq 1">
-                            <if condition="$vo['img']">
-                                <volist name="vo['img']" id="img">
-                                    <img src="__PUBLIC__/{$img}" style="max-width: 100%"  alt=""/>
-                                </volist>
-                            </if>
-                            <else/>
-                            <i>想看美女照片,请联系客服!</i>
-                        </if>
-                    </div>
-                    <div class="topic_u_info">
-                        <div class="clo9 fl topic-c-time font12">  <a href="/index/topic.html?tid={$vo.tid}">阅读</a>({$vo.read})
-                            &nbsp;<a href="/index/topic.html?tid={$vo.tid}">评论</a>({$vo.comments})
-                        </div>
-                        <div class="clo9 fr topic-c-time font12"> <a href="/index/topic.html?tid={$vo.tid}">阅读全文&gt;&gt;</a></div>
-                        <div class="clr"></div>
-                    </div>
+                    {$vo.title} <span class="clo6 font12 fontn">({:timeTran($vo['createtime'])})</span>
                 </div>
-            </volist>
-        </div>
-        </div>
-
-        <div class="page tc">{$page}</div>
-    </div>
-    <div class="fr column" style="width: 295px;">
-        <div class="panel panel-default">
-            <div class="panel-heading" style="background: #f8f8f8" >
-                <span class="panel-title fontb yellow">达人</span>
-                <div class="clr"></div>
+                <div class="topic_content font14 clo6 " style="padding-bottom:30px ;"  >
+                    {$vo.message|htmlspecialchars_decode|msubstr=0,200}
+                    <if condition="$vo['sex'] neq 1">
+                        <volist name="vo['img']" id="img">
+                            <if condition="$img">
+                                <img src="__PUBLIC__/{$img}" style="max-width: 100%"  alt=""/>
+                            </if>
+                        </volist>
+                    </if>
+                </div>
+                <div class="topic_u_info">
+                    <div class="clo9 fl topic-c-time font12">  <a href="/index/topic.html?tid={$vo.tid}">阅读</a>({$vo.read})
+                        &nbsp;<a href="/index/topic.html?tid={$vo.tid}">评论</a>({$vo.comments})
+                    </div>
+                    <div class="clo9 fr topic-c-time font12"> <a href="/index/topic.html?tid={$vo.tid}">阅读全文&gt;&gt;</a></div>
+                    <div class="clr"></div>
+                </div>
             </div>
-            <div class="panel-body">
-                <ul class="clo6">
-                    <li class="borderb-d" style="padding: 5px 0;">
-                        <img src="__PUBLIC__{$vo.avatar|default='/static/image/noavatar_middle.gif'}" width="65" class="fl"/>
-                        <div class="fr" style="width: 195px;line-height: 22px;">
-                            <div><if condition="isset($vo['title']) && $vo['title']">{$vo['title']|msubstr=0,12}<else/>{$vo['message']|msubstr=0,12}</if></div>
-                            <div>{:date('Y/m/d-H/i',strtotime($vo['createtime']))}</div>
-                            <div><span class="bgy clof">聘请</span> <span></span><span class="fontb">{$vo.read}</span></div>
-                        </div>
-                        <div class="clr"></div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="tc qr-index">
-            <img src="__STATIC__/image/page/home/qr.png" width="200" alt=""/>
-
-        </div>
+        </volist>
+    <div class="full-width tc box-pad-lg" style="margin: 20px 0">
+        {$page}
     </div>
-    <div class="clr"></div>
 </div>
-<div class="clr"></div>
+
 <include file="Index:footer"/>
 </body>
 </html>

@@ -1,0 +1,178 @@
+<style>
+    #myform input[type=text]{width: 400px;}
+</style>
+<h3 style="margin:30px 100px;color: #7CE0D8">我的计划 <span class="fontn font14 clo6">(*为必填)</span></h3>
+<form role="form" class="regform" id="myform" onsubmit="return false;" style="padding-bottom: 50px;">
+    <input type="hidden" name="uid" value="{$user.uid}"/>
+    <div class="form-group">
+        <div class="fg-l tr fl">标题：</div>
+        <div class="fg-r fr"> <span class="red fl">*</span><input type="text" name="title" class="form-control fl" /></div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group">
+        <div class="fg-l tr fl">目的地：</div>
+        <div class="fg-r fr">
+            <span class="red fl">*</span>
+            <select name="proivce"  class="fl" onchange="checkeSupsort($(this).val(), $('#myform select[name=city]'));" style="width: 100px;">
+                <option value="">请选择</option>
+                <volist name="priovce" id="vo">
+                    <option value="{$vo.aid}">{$vo.name}</option>
+                </volist>
+            </select>
+            <select name="city" class="fl" style="width: 100px;">
+                <option value="">请选择</option>
+            </select>
+           <input type="text" style="width: 200px" class="form-control fl" name="addr" /></div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group">
+        <div class="fg-l tr fl">开始日期：</div>
+        <div class="fg-r fr"><span class="red fl">*</span><input type="text"  class="form-control fl" name="startime" /></div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group">
+        <div class="fg-l tr fl">共几天：</div>
+        <div class="fg-r fr">
+            <span class="red fl">*</span>
+            <select name="duration" style="width: 100px;">
+                <option value="">请选择</option>
+                <option value="1">3天</option>
+                <option value="2">5天</option>
+                <option value="3">7天</option>
+                <option value="4">一个月</option>
+                <option value="5">三个月</option>
+                <option value="6">长期有效</option>
+            </select>
+        </div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group">
+        <div class="fg-l tr fl">诚意金：</div>
+        <div class="fg-r fr">
+            <span class="red fl">*</span>
+            <input type="text"  class="form-control fl" name="earnestfee" />
+            <span class="fl">元/天</span>
+        </div>
+        <div class="clr"></div>
+    </div>
+
+    <div class="form-group">
+        <div class="fg-l tr fl">费用预算：</div>
+        <div class="fg-r fr">
+            <span class="red fl">*</span>
+            <input type="text" class="form-control fl" name="budgetfee" />
+            <span class="fl">元/天</span>
+        </div>
+        <div class="clr"></div>
+    </div>
+
+    <div class="form-group">
+        <div class="fg-l tr fl">支付方式：</div>
+        <div class="fg-r fr">
+            <span class="red fl">*</span>
+            <select name="payway" style="width: 100px;">
+                <option value="">请选择</option>
+                <option value="1">现金</option>
+                <option value="2">微信</option>
+                <option value="3">QQ</option>
+                <option value="4">支付宝</option>
+                <option value="5">PayPal</option>
+                <option value="6">银行卡</option>
+                <option value="7">其他</option>
+            </select>
+        </div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group" >
+        <div class="fg-l tr fl">计划说明：</div>
+        <div class="fg-r fr">
+            <span class="red fl">*</span>
+            <textarea name="contentcn"  id="contentcn"></textarea>
+        </div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group" ><h3 style="margin:30px 100px;color: #7CE0D8">对伴游的要求 <span class="fontn font14 clo6">(选填)</span></h3></div>
+    <div class="form-group">
+        <div class="fg-l tr fl">服务内容：</div>
+        <div class="fg-r fr">
+            <input type="text"  class="form-control" name="demand" />
+        </div>
+        <div class="clr"></div>
+    </div>
+
+    <div class="form-group">
+        <div class="fg-l tr fl">年龄：</div>
+        <div class="fg-r fr">
+            <select name="height" style="width: 100px;">
+                <option value="">请选择</option>
+                <?php
+                   for($i=15;$i<80;$i++){
+                ?>
+                <option <if condition="$user['age'] eq $i">selected</if> value="{$i}">{$i}</option>
+                <?php
+                   }
+               ?>
+            </select>
+        </div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group">
+        <div class="fg-l tr fl">身高：</div>
+        <div class="fg-r fr">
+            <select name="height" style="width: 100px;">
+                <option value="">请选择</option>
+                <?php
+                   for($i=145;$i<210;$i++){
+                ?>
+                <option value="{$i}">{$i} cm</option>
+                <?php
+                   }
+               ?>
+            </select>
+        </div>
+        <div class="clr"></div>
+    </div>
+
+    <div class="form-group">
+        <div class="fg-l tr fl">学历：</div>
+        <div class="fg-r fr">
+            <select name="education" style="width: 100px;">
+                <option value="">请选择</option>
+                <option value="1">初中及以下</option>
+                <option value="2">中专</option>
+                <option value="3">高中</option>
+                <option value="4">专科</option>
+                <option value="5">本科</option>
+                <option value="6">硕士</option>
+                <option value="7">博士</option>
+            </select>
+        </div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group">
+        <div class="fg-l tr fl">体重：</div>
+        <div class="fg-r fr">
+            <input type="text" class="form-control fl" name="weight" />
+            <span class="fl">kg</span>
+        </div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group">
+        <div class="fg-l tr fl">兴趣爱好：</div>
+        <div class="fg-r fr">
+            <input type="text"  class="form-control fl" name="hobby" />
+        </div>
+        <div class="clr"></div>
+    </div>
+
+    <button type="submit" style="margin-left: 100px;" class=" fl btn clof btn-success " onclick="subPlan();">发布计划</button>
+    <button type="submit" style="margin-left: 100px;" class=" fl btn btn-default" onclick="window.history.back(-1);">取消</button>
+</form>
+<link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+<script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/upload.js?{:version()}"></script>
+
+<script>
+    upload.prototype.createContent("#contentcn",'pyplan',670);
+</script>
