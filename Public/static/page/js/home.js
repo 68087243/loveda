@@ -28,7 +28,15 @@ function login(){
     })
 }
 
-
+function addFrinds($uid){
+    $.post('/index/addFrinds.html',{fuid:$uid},function(data){
+        if(data.code == 200){
+            clearpop(data.message,'','self');
+        }else{
+            clearpop(data.message);
+        }
+    })
+}
 
 
 

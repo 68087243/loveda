@@ -11,6 +11,7 @@ use Common\Model\MessageModel;
 use Common\Model\ReplyModel;
 use Common\Model\TopicModel;
 use Common\Model\UserModel;
+use Common\Model\UserPhotoModel;
 use Think\Controller;
 class IndexController extends Controller {
     public function _initialize(){
@@ -93,6 +94,9 @@ class IndexController extends Controller {
             $this->assign('habbys',$habbys);
         }
         $currentuser = UserModel::getUser();
+        if($currentuser['level'] > UserModel::VISITOR_MEMBER){
+            $this->assign('photolist', UserPhotoModel::getUserPhoto($_REQUEST['uid']));
+        }
         $this->assign('isfriends', FriendsModel::isfriend($currentuser['uid'],$_REQUEST['uid']));
         $this->assign('user', $user);
         $this->display();
@@ -101,6 +105,12 @@ class IndexController extends Controller {
     public function addFrinds(){
         $fuid = I('post.fuid');
         $currentuser = UserModel::getUser();
+        if(empty($currentuser)){
+            apiReturn(CodeModel::ERROR,'请先登录！');
+        }
+        if($currentuser['uid'] == $fuid){
+            apiReturn(CodeModel::ERROR,'不能添加自己为好友！');
+        }
         if(regex($fuid,'number')){
             $isfriend = FriendsModel::isfriend($currentuser['uid'],$fuid);
             if($isfriend ==FriendsModel::REPLY_TO){

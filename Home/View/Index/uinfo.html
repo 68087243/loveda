@@ -27,16 +27,19 @@
                             <a class="tm_ad_trigger  profile-left-links" href="/index/contact.html?uid={$user.uid}">发送传情</a>
                             <div class="clearfix"></div>
                         </div>
-                        <if condition="$isfriends eq 1">
-                            <div class="left-link-container favorite"><i class="material-icons md-18"></i><a class="addFav icon-heart clo6" href="javascript:void(0);">已申请好友</a></div>
-                            <elseif condition="$isfriends eq 2"/>
-                                <div class="left-link-container favorite"><i class="favorite material-icons md-dark md-18"></i><a class="cloc" href="javascript:void(0);">已经是我的好友</a></div>
-                            <else/>
-                                <div class="left-link-container favorite"><i class="favorite material-icons md-dark md-18"></i><a class="addFav icon-heart profile-left-links" href="javascript:addFrinds('{$user.uid}')">新增到我的好友</a></div>
+                        <!--不是本人-->
+                        <if condition="$currentuid neq $user['uid']">
+                            <if condition="$isfriends eq 1">
+                                <div class="left-link-container favorite"><i class="material-icons md-18"></i><a class="addFav icon-heart clo6" href="javascript:void(0);">已申请好友</a></div>
+                                <elseif condition="$isfriends eq 2"/>
+                                    <div class="left-link-container favorite"><i class="favorite material-icons md-dark md-18"></i><a class="cloc" href="javascript:void(0);">已经是我的好友</a></div>
+                                <else/>
+                                    <div class="left-link-container favorite"><i class="favorite material-icons md-dark md-18"></i><a class="addFav icon-heart profile-left-links" href="javascript:addFrinds('{$user.uid}')">新增到我的好友</a></div>
+                            </if>
                         </if>
                     </div>
                 </div>
-                <div id="profileMiddle" class="profileMiddle pull-left">
+                <div id="profileMiddle" class="profileMiddle pull-left" style="min-width: 400px;;">
                     <div class="profileHeader">
                         <div>
                             <span class="collapse-margin display-name">{$user.nickname}</span>
@@ -72,9 +75,7 @@
                         <a href="/member/chat.html?uid={$user.uid}" class="btn pull-right box-marg-b uppercase btn-primary btn-icon"><i class="material-icons md-light md-18"></i><span>留言讯息</span></a>
                    </div>
                 </div>
-                <div class="lastOnline"></div>
-                <div class="communication_options"></div>
-                <div class="clear"></div>
+                <div class="clr"></div>
                 <div class="profileInterest full-width box-vmarg-sm box-pad-t">
                     <div class="full-width">
                         <div class="pink font-lg neighbour-bottom profile-get-noticed-header">我在寻找甚麽:</div>
@@ -85,21 +86,25 @@
                         </div>
                     </div>
                 </div>
+                <if condition="!empty($photolist)">
+                    <div class="section-public yourPhoto"  id="photolist"><br/><br/>
+                        <h2 class="pink" >您的相片</h2>
+                        <volist name="photolist" id="vo">
+                            <if condition="$vo['status'] eq 1">
+                                <div class="photo_item fl relative" style="margin: 10px 5px;" id="row_{$vo.id}">
+                                    <img src="__PUBLIC__{$vo.img}" width="200" alt=""/>
+                                </div>
+                            </if>
+                        </volist>
+                        <div class="clr"></div>
+                        <br/>
+                    </div>
+                </if>
+
             </div>
         </div>
     </div>
 </div>
-<script>
-    function addFrinds($uid){
-        $.post('/index/addFrinds.html',{fuid:$uid},function(data){
-            if(data.code == 200){
-                clearpop(data.message,'','self');
-            }else{
-                clearpop(data.message);
-            }
-        })
-    }
-</script>
 <include file="Index:footer"/>
 </body>
 </html>

@@ -70,9 +70,9 @@
                 <div class="search-results box-pad-sm results-profile block relative full-width " style="border-bottom: 1px solid #cccccc">
                     <div class="fl profile-img-links pull-left" style="width: 167px">
                         <div class="relative inline search-thumb-container tc light-bg">
-                            <div class="fix-bottom-right icon-private-showcase">
-                                <a href="#" data-p="47192327" class="request_showcase"><div class="material-icons md-light">&#xE897;</div></a>
-                            </div>
+                            <!--<div class="fix-bottom-right icon-private-showcase">-->
+                                <!--<a href="#" data-p="47192327" class="request_showcase"><div class="material-icons md-light">&#xE897;</div></a>-->
+                            <!--</div>-->
                             <a href="/index/uinfo.html?uid={$vo.uid}">
                                 <img alt="按一下了解简介详细资料" width="140px;" title=": 按一下了解简介详细资料" src="__PUBLIC__{$vo.picture|default='/static/image/noavatar_middle.gif'}" class="search-thumb middle" data-toggle="tooltip" data-placement="right">
                             </a>
@@ -100,11 +100,16 @@
 
                             <div class="media-box fl">
                                 <div class="pull-left material-icons md-dark md-18">&#xE0E1;</div>
-                                <a class='media-content tm_ad_trigger search-mail-text profile-left-links' href="https://www.ashleymadison.com/app/private/member/contact/contact.p?o=0&key=quicksearch.54137400&id=47192327&from=search">留言讯息</a>
+                                <a class='media-content tm_ad_trigger search-mail-text profile-left-links' href="/member/chat.html?uid={$vo.uid}">留言讯息</a>
                             </div>
 
                             <div class="media-box fl" style="margin-left: 20px;">
-                                <div class="pull-left material-icons md-dark md-18">&#xE0E1;</div><a class='media-content tm_ad_trigger search-mail-text profile-left-links' href="https://www.ashleymadison.com/app/private/member/contact/contact.p?o=0&key=quicksearch.54137400&id=47192327&from=search">加为好友</a>
+                                <div class="pull-left material-icons md-dark md-18"></div>
+                                <if condition="$currentuser['level'] gt 1">
+                                    <a class='media-content tm_ad_trigger search-mail-text profile-left-links' href="/index/uinfo.html?uid={$vo.uid}">个人相册</a>
+                                    <else/>
+                                    <a class='media-content tm_ad_trigger search-mail-text profile-left-links' href="javascript:checkVip();">个人相册</a>
+                                </if>
                             </div>
                         </div>
                     </div>
@@ -116,7 +121,23 @@
         {$page}
     </div>
 </div>
+<script>
 
+    function checkVip() {
+        swal({
+            title: '',
+            text: '你的权限不足，是否升级会员等级查看用户照片！',
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "确定",
+            //confirmButtonColor: "#35D374"
+        }, function() {
+            window.location.href='/index/newinfo.html?id=1';
+        });
+    };
+
+</script>
 <include file="Index:footer"/>
 </body>
 </html>
