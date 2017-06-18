@@ -1,1 +1,0 @@
-<div id="think_page_trace_open" style="height:50px;float:right;text-align: right;overflow:hidden;position:fixed;bottom:0;left:0;color:#000;line-height:30px;cursor:pointer;"><div style="background:#232323;color:#FFF;padding:0 6px;float:right;line-height:30px;font-size:14px"><?php echo DEPLOY_ENV;?></div></div>
