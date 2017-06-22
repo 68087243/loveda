@@ -1,3 +1,0 @@
-<?php
-//000000604800a:5:{i:0;a:3:{s:3:"cid";s:1:"1";s:8:"clubname";s:12:"富豪专区";s:6:"status";s:1:"1";}i:1;a:3:{s:3:"cid";s:1:"2";s:8:"clubname";s:6:"女生";s:6:"status";s:1:"1";}i:2;a:3:{s:3:"cid";s:1:"3";s:8:"clubname";s:9:"非学生";s:6:"status";s:1:"1";}i:3;a:3:{s:3:"cid";s:1:"4";s:8:"clubname";s:6:"富婆";s:6:"status";s:1:"1";}i:4;a:3:{s:3:"cid";s:1:"5";s:8:"clubname";s:12:"男的求包";s:6:"status";s:1:"1";}}
-?>
