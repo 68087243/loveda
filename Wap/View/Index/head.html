@@ -14,7 +14,10 @@
         line-height: 2.2;
     }
 </style>
-<php>$currentuser = Common\Model\UserModel::getUser();$currentuid=$currentuser['uid'];</php>
+<php>
+    $currentuser = Common\Model\UserModel::getUser();$currentuid=$currentuser['uid'];
+    $msgcount = Common\Model\MessageModel::getNewMsgNumByUid($currentuid);
+</php>
 <link rel="stylesheet" type="text/css" href="__STATIC__/page/css/font-awesome.min.css?version={:version()}"/>
 <div id="topNav" class="navbar navbar-inner  is-fadein">
     <div id="returnToMessengerBar"></div>
@@ -29,7 +32,14 @@
                <i class="fa fa-search"></i>
             </div>
             <div class="nav-item relative fl nav-messaging" onclick="window.location.href='/index/news.html'" id="news">
-                <i class="fa fa-comments-o"></i><span class="badge badge-warning conversations-unread-count badge-top-left">1</span>
+                <i class="fa fa-comments-o"></i>
+                <if condition="$msgcount gt 0">
+                    <if condition="$msgcount gt 9">
+                        <span class="badge badge-warning conversations-unread-count badge-top-left">9+</span>
+                    <else/>
+                        <span class="badge badge-warning conversations-unread-count badge-top-left">{$msgcount}</span>
+                    </if>
+                </if>
             </div>
             <div class="nav-item relative fl nav-profile" onclick="window.location.href='/user/index.html'" id="user">
                 <i class="fa fa-user-o "></i>
