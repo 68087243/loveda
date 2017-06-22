@@ -45,10 +45,7 @@ class LoginController extends Controller {
     public function reg(){
         $data = M('member')->create();
         if($data){
-            $data['birthdate'] = $_POST['year'].'年'.$_POST['month'].'月';
-            if(!regex($data['tel'],'mob')){
-                apiReturn(CodeModel::ERROR,'电话号码格式不正确');
-            }
+
             if(strlen($data['password'])<5||strlen($data['password'])>18){
                 apiReturn(CodeModel::ERROR,'密码长度应为4');
             }
