@@ -260,8 +260,3 @@
 	}
 }
 
-@media screen and (max-width: 400px) {
-	.grid li {
-		width: 100%;
-	}
-}

@@ -1,0 +1,15 @@
+#ignore these files
+
+Runtime/
+.htaccess
+code/Public/upload
+.DS_Store
+Thumbs.db
+.buildpath
+.project
+.settings/
+.idea
+dist/
+*.swp
+*.log
+.htaccess
