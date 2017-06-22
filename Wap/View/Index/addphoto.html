@@ -5,6 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <include file="Index:wap_js_css"/>
     <title>名叔堂</title>
+    <style>
+
+        /*弹出可拖拽的功能型遮罩层*/
+        .maskWrap{position:fixed;z-index:10000;top:0;left:0;width:100%;background:#000;filter:alpha(opacity=00);-moz-opacity:0.00;opacity:0.00}
+        .homepop{position:absolute;z-index:10001;min-height:150px;background:#fff;display:none}
+        .move{padding-left:15px;border-bottom: 1px solid #E0E0E0; cursor:move;text-align:left;font-size:16px;color:#212121;font-weight:bold;margin-top: 15px;padding-bottom: 12px;}
+        .move a{float:right;color:#757575;padding-right:15px;cursor:pointer}
+        .move a:hover{color: red}
+        .inside{padding:16px;}
+
+        /*遮罩弹出框*/
+        .fullbg{position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;background:#000;filter:Alpha(Opacity=60);-moz-opacity:0.6;opacity:0.7}
+        .pop{position:fixed;left:5%;width:90%;top:15%;z-index:101;border:1px solid #666;border-radius:5px;background:#FFF}
+
+        /*自动消失的提示框*/
+        #clearpop{position:fixed;left:10%;right:10%;bottom:65%;z-index:999;text-align:center}
+        #clearpop p{display:inline-block;min-width:100px;max-width:90%;padding: 10px 20px;font-size:16px;font-weight:bold;line-height:22px;border-radius:4px;background:#333;color:#fff;opacity:0.7}
+        @media screen and (max-height:685px){
+            #clearpop p{padding:5px 10px;font-size:14px;line-height:18px;opacity:0.7}
+        }
+    </style>
+
 </head>
 <body class="bodyf">
 

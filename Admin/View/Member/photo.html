@@ -24,8 +24,8 @@
         </div>
         <ul class="idealforms_select_menu">
             <li data-value="">请选择</li>
-            <li data-value="1">头像</li>
-            <li data-value="2" >相片</li>
+            <li data-value="2">头像</li>
+            <li data-value="1" >相片</li>
         </ul>
     </div>
     <span style="margin-left: 10px;" class="fl">状态:&nbsp;</span>
@@ -45,7 +45,7 @@
             <th width="10%" class="tc">图片</th>
             <th width="7%" class="tc">用户</th>
             <th width="5%" class="tc">状态</th>
-            <th width="5%" class="tc">读取</th>
+            <!--<th width="5%" class="tc">读取</th>-->
             <th class="tc">备注</th>
             <th width="10%" class="tc">操作</th>
         </tr>
@@ -54,13 +54,13 @@
                 <td>{$vo.id}</td>
                 <td><img src="__PUBLIC__/{$vo.img}" width="120" alt=""/></td>
                 <td>{$vo.nickname}</td>
-                <td> <if condition="$vo['type'] eq 1">照片<else/>头像</if></td>
-                <td>{$vo.read}</td>
+                <td><if condition="$vo['type'] eq 2">头像<else/>照片</if></td>
+                <!--<td>{$vo.read}</td>-->
                 <td align="left">{$vo.note}</td>
                 <td style="text-align: center">
                     <if condition="$vo['status'] eq 0">
-                        <select name="" onchange="passShow(this,'{$vo.id}');">
-                            <option value="1">待审核</option>
+                        <select name="status" onchange="passShow(this,'{$vo.id}');">
+                            <option value="0">待审核</option>
                             <option value="1">审核通过</option>
                             <option value="2">不通过</option>
                         </select>
@@ -75,7 +75,7 @@
     </table>
 </div>
 
-<form  role="form"  id="passform" onsubmit="return false" style="display: none">
+<form  id="passform" onsubmit="return false" style="display: none">
     <input type="hidden" name="id"/>
     <input type="hidden" name="status"/>
     <div class=" form-group">

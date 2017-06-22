@@ -61,7 +61,7 @@
                             <select name="proivce" >
                                 <option value="">请选择地区</option>
                                 <volist name="priovce" id="vo">
-                                    <option <if condition="$_REQUEST['proivce'] eq $vo['aid']">selected</if> value="{$vo.aid}">{$vo.name}</option>
+                                    <option <if condition="isset($_REQUEST['proivce']) && $_REQUEST['proivce'] eq $vo['aid']">selected</if> value="{$vo.aid}">{$vo.name}</option>
                                 </volist>
                             </select>
                         </div>

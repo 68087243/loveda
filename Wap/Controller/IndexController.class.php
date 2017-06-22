@@ -63,12 +63,12 @@ class IndexController extends Controller {
             }else{
                 $where['sex'] = UserModel::FEMALE;
             }
+            $where['_string'] ="`uid` !={$user['uid']}";
         }
         $where['status'] = UserModel::NORMAL_USERS;
         $order = 'recommend desc,rank desc,uid desc';
         $list = D( "member" )->where ( $where )->order($order)->select();
         $this->assign ( "list", $list );
-
         $areas =  AreaModel::getAreaAll();
         $priovce = array();
         foreach ($areas as $area) {
