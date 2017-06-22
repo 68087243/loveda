@@ -59,7 +59,7 @@ function getUrlParam(name){
 
 //加载图
 function loading(){
-    var $html = '<div class="bkpanl"></div><div class="loadingbox"><div class="loading"><i></i><i></i></div></div>';
+    var $html = '<div class="bkpanl"></div><div class="loadingbox"><div class="loading"><i>正在处理</i><br/><i>请稍等...</i></div></div>';
     $('body').append($html);
 }
 //关闭加载

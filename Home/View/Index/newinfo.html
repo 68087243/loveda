@@ -10,12 +10,15 @@
     </style>
 </head>
 <body style="background: #f6f8f8">
+<php>$currentuser = Common\Model\UserModel::getUser();</php>
 <header class="navbar navbar-default main-header public-pages">
     <div class="menu-nav-section pull-right">
         <div class="navbar-collapse" id="main-public-nav">
             <ul class="nav navbar-nav public-nav pull-left">
                 <li class="pull-left"><a href="/" title="首页">首页</a></li>
-                <li class="pull-left"><a href="/login/index.html" title="登录">登录</a></li>
+                <if condition="empty($currentuser)">
+                    <li class="pull-left"><a href="/login/index.html" title="登录">登录</a></li>
+                </if>
                 <li class="pull-left"><a href="/index/newinfo.html?id=3" title="常见问题">常见问题</a></li>
                 <li class="pull-left"><a href="/index/newinfo.html?id=1" rel="nofollow" title="联络我们">联络我们</a></li>
             </ul>
