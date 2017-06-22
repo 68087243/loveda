@@ -1,0 +1,82 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>名叔馆--伴游计划</title>
+    <include file="Index:_js_css"/>
+    <style>
+        a:hover,a:active{text-decoration: none}
+        select{ width: 100%; height: 34px;color: #333; background-color: #FFffff; border-radius: 4px; border-color: #B8C2CC;}
+        select:active{ background-color: #e6e6e6; border-color: #adadad;}
+        .content-960.page-content.wide { padding: 30px 20px 65px;  }
+    </style>
+</head>
+<body style="background: #f6f8f8">
+
+<include file="Index:bar"/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/page/css/icon.css?version={:version(3)}"/>
+<div class="content-960 light-bg page-content wide">
+    <div id="settingsContainer">
+        <include file="Member:left"/>
+        <div class="settings-content light-bg  fr" style="width: 670px;">
+            <div class="form-group font20 r_nav_tit" >计划列表</div>
+            <ul class="right_top_nav fontb clo3">
+                <li onclick="window.location.href='?u=splan'" <if condition="(!isset($_REQUEST['u']) || $_REQUEST['u'] eq 'info') and !isset($_REQUEST['f'])"> class="selected"</if> >发布计划</li>
+                <li>|</li>
+                <li onclick="window.location.href='?u=mplan'" <if condition="(isset($_REQUEST['u']) and $_REQUEST['u'] eq 'photo') or isset($_REQUEST['f'])"> class="selected"</if>>我的计划</li>
+            </ul>
+            <div class="clr"></div>
+            <div class="content bordert-d">
+                <if condition="!isset($_REQUEST['u']) or $_REQUEST['u'] eq 'splan'">
+                    <div id="myinfos ">
+                        <include file="Member:_splan"/>
+                    </div>
+                </if>
+
+                <if condition="(isset($_REQUEST['u']) and $_REQUEST['u'] eq 'mplan') or isset($_REQUEST['f'])">
+                    <ul style="margin-top: 10px;;">
+                        <volist name="list" id="vo">
+                            <li class="borderb-d" id="row_{$vo.pid}">
+                                <h3 class="helplist_tit clo3"> <a href="/index/plan.html?pid={$vo.pid}">{$vo.title} </a></h3>
+                                <p class="clo9">
+                                    发布时间：{:timeTran($vo['createtime'])}&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a class="fr" href="javascript:deltopic('{$vo.pid}');" >删除</a>
+                                    <a class="fr" href="?u=splan&pid={$vo.pid}" >编辑&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                </p>
+                                <span class="clr"></span>
+                            </li>
+                        </volist>
+                    </ul>
+                </if>
+            </div>
+        </div>
+        <div class="clr"></div>
+    </div>
+</div>
+<include file="Index:footer"/>
+<script>
+    function sub(){
+        var data = $('#myform').serialize();
+        $.post('/member/modifyuser.html',data,function(data){
+            if(data.code ==200){
+                clearpop(data.message,'','self');
+            }else{
+                clearpop(data.message);
+            }
+        })
+    }
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

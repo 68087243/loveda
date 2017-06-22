@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html class="webkit safari chrome win">
+<head>
+    <title>名叔馆--帖子列表</title>
+    <include file="Index:_js_css"/>
+    <link rel="stylesheet" href="https://static-cdn.ashleymadison.com/v4/fonts/material-icons/material-icons.css" />
+</head>
+<body style="background: #f6f8f8">
+<include file="Index:bar"/>
+<div class="go-to-z-top fix-top-left simple-box-filled box-pad-xsm box-bdr-b text-center" style="background: #f6f8f8;border-bottom: 2px solid #D9D9D9">
+    <form id="frmQuickSearch2" name="frmQuickSearch2" action="" method="GET" target="main" class=''>
+        <input type="hidden" name="" value="1">
+           <!-- <span id="tdAgeMin">
+                <select class="selectpicker col-1 search-select" name="age-s">
+                    <?php
+                    for($i=18;$i<70;$i++){
+                    ?>
+                    <option value="{$i}"<if condition="$_REQUEST['age-s'] eq $i">selected</if>>{$i}</option>
+                    <?php
+                    }
+                    ?>
+                    <option value="70" <if condition="$_REQUEST['age-s'] eq 70">selected</if>>70+</option>
+                </select>
+            </span>
+        <span class="inline searchText">到</span>
+        <span id="tdAgeMax">
+             <select class="selectpicker col-1 search-select" name="age-e">
+                 <?php
+                    for($i=18;$i<70;$i++){
+                 ?>
+                 <option value="{$i}" <if condition="$_REQUEST['age-e'] eq $i">selected</if>>{$i}</option>
+                 <?php
+                }
+                ?>
+                 <option value="70" <if condition="$_REQUEST['age-e'] eq 70">selected</if>>70+</option>
+             </select>
+        </span>-->
+        <span id="tdLocation">
+            <span id="dLocation">
+            <select id="area" name="aid" class="selectpicker col-1 search-select">
+                <option value="">全部地区</option>
+                <volist name="priovce" id="vo">
+                    <option value="{$vo.aid}" <if condition="$_REQUEST['priovce'] eq $vo['aid']">selected</if>>{$vo.name}</option>
+                </volist>
+            </select>
+            </span>
+        </span>
+
+        <button class="btn btn-default search-btn" id="quickSearchButton" type="submit">搜寻</button>
+    </form>
+</div>
+<style>
+    .topic-itme{padding: 0 30px;width: 750px;cursor: pointer}
+    .topic-itme:hover,.topic-itme:active{background: #F8F8F8}
+</style>
+<div class="container page-content profile light-bg " style="width: 960px;">
+        <volist name="list" id="vo">
+            <div class="topic-itme "  style="margin-bottom:40px;border-bottom: 1px dashed #cccccc;">
+                <div class="topic_tit clo3 font16 fontb">
+                        <span class="red">
+                            <if condition="$vo['city']">
+                                [{:getAreaByAid($vo['city'])}]
+                                <elseif condition="$vo['proivce']"/>
+                                [{:getAreaByAid($vo['proivce'])}]
+                            </if>
+                        </span>
+                    {$vo.title} <span class="clo6 font12 fontn">({:timeTran($vo['createtime'])})</span>
+                </div>
+                <div class="topic_content font14 clo6 " style="padding-bottom:30px ;"  >
+                   <div id="contenttext"> {$vo.message|htmlspecialchars_decode}</div>
+                    <if condition="$vo['sex'] neq 1">
+                        <volist name="vo['img']" id="img">
+                            <if condition="$img">
+                                <img src="__PUBLIC__/{$img}" style="max-width: 100%"  alt=""/>
+                            </if>
+                        </volist>
+                    </if>
+                </div>
+                <div class="topic_u_info">
+                    <div class="clo9 fl topic-c-time font12">  <a href="/index/topic.html?tid={$vo.tid}">阅读</a>({$vo.read})
+                        &nbsp;<a href="/index/topic.html?tid={$vo.tid}">评论</a>({$vo.comments})
+                    </div>
+                    <div class="clo9 fr topic-c-time font12"> <a href="/index/topic.html?tid={$vo.tid}">阅读全文&gt;&gt;</a></div>
+                    <div class="clr"></div>
+                </div>
+            </div>
+        </volist>
+    <div class="full-width tc box-pad-lg" style="margin: 20px 0">
+        {$page}
+    </div>
+</div>
+<include file="Index:footer"/>
+</body>
+</html>

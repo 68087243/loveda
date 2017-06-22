@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html dir="ltr">
+<head>
+    <title>名叔馆</title>
+    <include file="Index:wap_js_css"/>
+</head>
+<style>
+    .subnav-inverse { background-color: #3F4144; color: #fff;}
+
+</style>
+<link rel="stylesheet" type="text/css" href="__STATIC__/common/css/component.css"/>
+<body class="bodyf">
+<div id="page" style="height: auto; overflow: visible;">
+    <include file="Index:head"/>
+    <div id="signupOverlay" class="absolute" style="width: 100%; ">
+        <div id="content" class="is-fadein is-shown">
+            <div class="subnav-elements subnav-inverse flex btn-group tc clof" style="margin-top: 47px;height: 47px;">
+                <a id="inboxBtn" data-tit="chat" class="btn btn-inverse nav-item active"><i class="fa fa-envelope"></i></a>
+                <a id="SavedBtn" data-tit="topic" class="btn btn-inverse nav-item"><i class="fa fa-file-word-o"></i></a>
+                <a id="SentBtn" data-tit="news" class="btn btn-inverse nav-item"><i class="fa fa-cog fa-fw"></i></a>
+            </div>
+            <ul id="chatbox" class=" content-list conversations relative">
+            </ul>
+            <ul id="topicbox" class="hide content-list conversations relative">
+            </ul>
+            <ul id="newsbox" class="hide content-list conversations relative">
+            </ul>
+            <div id="showMoreContainer" class="center " onclick="getmore();">
+                <div class="box-padding show-more ">
+                    <div class="label box-padding center clo6">
+                        显示更多 &nbsp;<i class="icon-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var page=0;
+    $('.subnav-elements.subnav-inverse a.btn-inverse').click(function(){
+        $('.subnav-elements.subnav-inverse a.btn-inverse').removeClass('active');
+        $('ul.content-list.conversations').addClass('hide');
+        $(this).addClass('active');
+        $('#showMoreContainer').show();
+        if($(this).data('tit') == 'topic'){
+            page=0;
+            getNewsInfo(2);
+            $('#topicbox').removeClass('hide');
+        }else if($(this).data('tit') == 'news'){
+            page=0;
+            getNewsInfo(3);
+            $('#newsbox').removeClass('hide');
+        }else{
+            page=0;
+            getNewsInfo(1);
+            $('#chatbox').removeClass('hide');
+        }
+    })
+    function getmore(){
+        if($('.subnav-elements.subnav-inverse a.active').data('tit') == 'topic'){
+            getNewsInfo(2);
+        }else if($(this).data('tit') == 'news'){
+            getNewsInfo(3);
+        }else{
+            getNewsInfo(1);
+        }
+    }
+    getNewsInfo(1);
+    function getNewsInfo(type){
+        $.post('/index/getNewsInfo.html',{type:type,page:page},function(data){
+            if(data.code ==200){
+                var obj = data.data,$html='';
+                if(obj){
+                    for(var i in obj){
+                        if(type == 3){
+                            $html+='<li id="row_'+obj[i]['mid']+'" class="conversation list-item bring-to-z-front hide-overflow msg-quick_reply is-read" style="height: 74px; padding: 2px 8px">';
+                            $html+='<div class="fl " style="width: 90%;"><a href="/index/newinfo.html?tid='+obj[i]['mid']+'" class="flex list-icon" style="-webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); touch-action: pan-y;">';
+                            $html+='<div class="message-block flex-item box-padding list-offset-right fl">';
+                            $html+='<p class=" fontb font18 clo6">'+(obj[i]['title']).substr(0,12)+'...</p>';
+                            $html+='<i class="font14 clo9">'+obj[i]['createtime']+'</i>';
+                            $html+='</div>';
+                            $html+='</a></div>';
+                            $html+='<div class="red fr" style="width: 10%;min-width: 30px;max-width: 50px;top: 1px; line-height: 71px; height: 71px;"  onclick="delNews('+obj[i]['mid']+')">删除</div>';
+                            $html+='</li>';
+                        }else{
+                            $html+='<li id="row_'+obj[i]['mid']+'" class="conversation list-item bring-to-z-front hide-overflow msg-quick_reply is-read" style="height: 74px; padding: 2px 8px"><div class="fl " style="width: 90%;">';
+                            if(type ==2){
+                                $html+='<a href="/index/topic.html?tid='+obj[i]['tid']+'" class="flex list-icon" style="-webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); touch-action: pan-y;">';
+                            }else{
+                                $html+='<a href="/index/chat.html?uid='+obj[i]['userid']+'" class="flex list-icon" style="-webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); touch-action: pan-y;">';
+                            }
+                            $html+='<div class="thumb thumb-large fl" style="width: 15px;min-width: 70px;max-width: 120px">';
+                            if(obj[i]['picture'])  {
+                                $html+='<img src="'+(PUBLIC+obj[i]['picture'])+'" width="70">';
+                            }else{
+                                $html+='<img src="'+(PUBLIC)+'/static/image/noavatar_middle.gif" width="70">';
+                            }
+                            $html+='</div>';
+                            $html+='<div class="message-block flex-item box-padding list-offset-right fl">';
+                            $html+='<p class=" fontb font18 clo6">'+obj[i]['nickname']+'&nbsp;&nbsp;</p>';
+                            $html+='<i class="font14 clo9">'+obj[i]['createtime']+'</i>';
+                            $html+='</div>';
+                            $html+='</a></div>';
+                            $html+='<div class="red fr" onclick="delNews('+obj[i]['mid']+')"  style="width: 10%;min-width: 30px;max-width: 50px;top: 1px; line-height: 71px; height: 71px;">删除</div>';
+                            $html+='<div class="clr"></div>';
+
+                            $html+='</li>';
+                        }
+                    }
+                    var $objtag = '';
+                    if(type == 3){
+                        $objtag= $('#newsbox');
+                    }else if(type==2){
+                        $objtag= $('#topicbox');
+                    }else{
+                        $objtag= $('#chatbox');
+                    }
+                    if(page ==0){
+                        $objtag.html($html);
+                    }else{
+                        $objtag.append($html);
+                    }
+                    page++;
+                }else{
+                    $('#showMoreContainer').hide();
+                    clearpop('没有更多了');
+                }
+            }else{
+                clearpop(data.message);
+            }
+        })
+    }
+
+    function delNews($mid){
+        $.post('/index/delNews.html',{mid:$mid},function(data){
+            clearpop(data.message);
+            if(data.code==200){
+                $('#row_'+$mid).remove();
+            }
+        })
+    }
+</script>
+</body>
+</html>

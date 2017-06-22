@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html dir="ltr">
+<head>
+    <title>名叔馆</title>
+    <include file="Index:wap_js_css"/>
+</head>
+<style>
+    .subnav-container-search {top: 50px;position: fixed; border-width: 0 0 1px;background-color: #3F4144;padding: 8px 10px;  -webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box; width: 100%;z-index: 500}
+    .item{ width: 23%; max-width: 200px;border: 1px solid #fff;overflow: hidden;}
+    .uinfo{background: #e1e1e1;  border-radius: 0;width: 100%; list-style: none; min-width: 90px;max-width: 200px;min-height: 60px}
+</style>
+<link rel="stylesheet" type="text/css" href="__STATIC__/common/css/component.css"/>
+<body class="bodyf">
+<div id="page" style="height: auto; overflow: visible;">
+    <include file="Index:head"/>
+    <div class="subnav-container-search clof" onclick="selectShow();">
+         筛选 <i class="fa fa-search-plus"></i>
+    </div>
+    <div id="signupOverlay" class="absolute" style="width: 100%; top: 105px;">
+        <div id="content" class="is-fadein is-shown">
+
+            <form action="" id="selectform" style="width: 93%;margin: 0 auto;border: 1px solid #CCCCCC;padding: 10px 5px;display: none;">
+                <div class="control-group" style="margin-bottom: 14px">
+                    <label for="input_ages" class="control-label">年龄</label>
+                    <div>
+                        <div style="width: 48%" class="controls flatten full-field icon-heart-empty icon-overlay select manage-form-el fl"
+                             id="input_ages">
+                            <select name="age-s"  style="width:90%;  top: 0;">
+                                <?php
+                    for($i=18;$i<70;$i++){
+                    ?>
+                                <option value="{$i}"<if condition="$_REQUEST['age-s'] eq $i">selected</if>>{$i}</option>
+                                <?php
+                    }
+                    ?>
+                                <option value="70" <if condition="$_REQUEST['age-s'] eq 70">selected</if>>70+</option>
+                            </select>
+                        </div>
+                        <div style="width: 48%"
+                             class="controls flatten full-field icon-heart-empty icon-overlay select manage-form-el fr">
+                            <select name="age-e" style="width:90%;  top: 0;">
+                                <?php
+                    for($i=18;$i<70;$i++){
+                 ?>
+                                <option value="{$i}" <if condition="$_REQUEST['age-e'] eq $i">selected</if>>{$i}</option>
+                                <?php
+                }
+                ?>
+                                <option value="70" <if condition="$_REQUEST['age-e'] eq 70">selected</if>>70+</option>
+                            </select>
+                        </div>
+                        <div class="clr"></div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="input_addr" class="control-label">所在城市</label>
+                    <div>
+                        <div style="width: 48%" class="controls flatten full-field icon-heart-empty icon-overlay select manage-form-el fl"
+                             id="input_addr">
+                            <select name="proivce" >
+                                <option value="">请选择地区</option>
+                                <volist name="priovce" id="vo">
+                                    <option <if condition="$_REQUEST['proivce'] eq $vo['aid']">selected</if> value="{$vo.aid}">{$vo.name}</option>
+                                </volist>
+                            </select>
+                        </div>
+                        <div style="width: 48%;" class="fr" >
+                            <input type="submit" style="height: 36px;border: none;border-radius: 4px;" value="确定"/>
+                        </div>
+                        <div class="clr"></div>
+                    </div>
+                </div>
+            </form>
+            <div class="container-fluid relative" >
+                <ul id="grid" class="masonry grid effect-2" style="position: relative; height: 794px;">
+                    <volist name="list" id="vo">
+                        <li class="item photo fl flatten-inverse" id="user-{$vo.uid}" >
+                            <a href="/index/uinfo.html?uid={$vo.uid}" title="{$vo.nickname}" class="thumbnail center needsclick">
+                                <img data-src="__PUBLIC__/{$vo.picture|default='/static/image/noavatar_middle.gif'}" src="__PUBLIC__/{$vo.picture|default='/static/image/noavatar_middle.gif'}" >
+                            </a>
+                        </li>
+                    </volist>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/common/js/modernizr.custom.js"></script>
+<script src="__STATIC__/common/js/masonry.pkgd.min.js"></script>
+<script src="__STATIC__/common/js/imagesloaded.js"></script>
+<script src="__STATIC__/common/js/classie.js"></script>
+<script src="__STATIC__/common/js/AnimOnScroll.js"></script>
+<script>
+    function selectShow(){
+        if($('#selectform').css('display') =='none'){
+            $('#selectform').show();
+        }else{
+            $('#selectform').hide();
+        }
+    }
+
+    new AnimOnScroll( document.getElementById( 'grid' ), {
+        minDuration : 0.4,
+        maxDuration : 0.7,
+        viewportFactor : 0.2
+    });
+</script>
+</body>
+</html>

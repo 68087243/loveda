@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>节点授权</title>
+<include file="Index:_js_css" />
+<script language="javascript" type="text/javascript"
+	src="__PUBLIC__/Admin/js/ztree/js/jquery.ztree.all-3.5.min.js"></script>
+<link href="__PUBLIC__/Admin/js/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+<!--
+	var setting = {
+		check : {
+			enable : true
+		},
+		data : {
+			simpleData : {
+				enable : true
+			}
+		}
+	};
+
+	var zNodes = [
+	<volist id="vo" name="nodelist">              
+	{
+		id : {$vo.id},pId : {$vo.pid},level : "{$vo.level}",name : "{$vo.title}",checked : <if condition="($vo['access'] eq 1)">true<else/>false</if>,open :true
+	},
+	</volist>
+	 ];
+
+	var zNodesChannel = [
+	<volist id="vo" name="channellist">              
+	{
+		id : {$vo.id},pId : {$vo.pid},level : "{$vo.depth}",name : "{$vo.name}",checked : <if condition="($vo['access'] eq 1)">true<else/>false</if>,open :true
+	},
+	</volist>
+	 ];
+	 
+	var zNodesShop = [
+	<volist id="vo" name="shoplist">              
+	{
+		id : {$vo.id},pId : {$vo.pid},level : "{$vo.depth}",name : "{$vo.name}",checked : <if condition="($vo['access'] eq 1)">true<else/>false</if>,open :true
+	},
+	</volist>
+	 ];
+	 
+	 
+	$(document).ready(function() {
+		$.fn.zTree.init($("#nodeTree"), setting, zNodes);
+		var zTree = $.fn.zTree.getZTreeObj("nodeTree");
+		
+		$.fn.zTree.init($("#channelTree"), setting, zNodesChannel);
+		var zTreeChannel = $.fn.zTree.getZTreeObj("channelTree");
+		
+		$.fn.zTree.init($("#shopTree"), setting, zNodesShop);
+		var zTreeShop = $.fn.zTree.getZTreeObj("shopTree");
+		
+		$("#btnAccess").click(function(){
+			var nodes =(zTree.getCheckedNodes(true));
+			var str="";
+			for(var i=0;i<nodes.length;i++){
+				str+=(nodes[i].id+"_"+(parseInt(nodes[i].level)+1)+",");
+				
+			}; 
+			$("#access").val(str);
+			
+			
+			
+			var nodes =(zTreeChannel.getCheckedNodes(true));
+			var str="";
+			for(var i=0;i<nodes.length;i++){
+				str+=(nodes[i].id+",");
+				
+			}; 
+			$("#channel").val(str);
+			
+			/*var nodes =(zTreeShop.getCheckedNodes(true));
+			var str="";
+			for(var i=0;i<nodes.length;i++){
+				str+=(nodes[i].id+",");
+				
+			}; 
+			$("#shop").val(str);*/
+			
+		})
+	});
+//-->
+</script> 
+</head>
+<body>
+	<form action="__URL__/access" method="post">
+		<input type="hidden" id="id" name="id" value="{$id}" />
+		<input type="hidden" name="access" id="access" />
+		<input type="hidden" name="channel" id="channel" />
+		<input type="hidden" name="shop" id="shop" />
+		<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+			<tr class="toolbar">
+				<td colspan="3" class="tc">【 管理授权】</td>
+			</tr>
+			<tr class="header">
+				<td>模块授权</td>
+				<td>分类授权</td> 
+			</tr>
+			<tr class="row0">
+				<td colspan="3">* 勾选相应节点即可</td>
+			</tr>
+			<tr class="row0">
+				<td><ul id="nodeTree" class="ztree"></ul></td>
+				<td><ul id="channelTree" class="ztree"></ul></td> 
+			</tr>
+			<tr class="footer">
+				<td colspan="3" class="tc"><input type="submit" class="btn1"
+					value="保存" id="btnAccess"/> <input type="button" class="btn1" value="返回"
+					onclick="history.back();" /></td>
+			</tr>
+		</table>
+	</form>
+	<include file="Index:footer" />
+</body>
+</html>

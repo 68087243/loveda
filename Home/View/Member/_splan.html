@@ -1,0 +1,175 @@
+<style>
+    #myform input[type=text]{width: 400px;}
+    .fg-l{width: 90px;}
+</style>
+<h3 style="margin:30px 100px;color: #7CE0D8">我的计划 <span class="fontn font14 clo6">(*为必填)</span></h3>
+<form role="form" class="regform" id="myform" onsubmit="return false;" style="padding-bottom: 50px;">
+    <input type="hidden" name="uid" value="{$user.uid}"/>
+    <div class="form-group">
+        <div class="fg-l tr fl">标题：</div>
+        <div class="fg-r"> <span class="red fl">*</span><input type="text" name="title" value="{$plan.title}" class="form-control fl" /></div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group">
+        <div class="fg-l tr fl">目的地：</div>
+        <div class="fg-r">
+            <span class="red fl">*</span>
+            <select name="proivce"  class="fl" onchange="checkeSupsort($(this).val(), $('#myform select[name=city]'));" style="width: 100px;">
+                <option value="">请选择</option>
+                <volist name="priovce" id="vo">
+                    <option value="{$vo.aid}" <if condition="isset($plan) && $plan['proivce'] eq $vo['aid']">selected</if>>{$vo.name}</option>
+                </volist>
+            </select>
+            <select name="city" class="fl" style="width: 100px;">
+                <option value="">请选择</option>
+            </select>
+           <input type="text" style="width: 200px" class="form-control fl" value="{$plan.addr}" name="addr" /></div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group">
+        <div class="fg-l tr fl">开始日期：</div>
+        <div class="fg-r"><span class="red fl">*</span><input type="text" value="{$plan.startime}" class="form-control fl" id="startime" name="startime" /></div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group">
+        <div class="fg-l tr fl">共几天：</div>
+        <div class="fg-r">
+            <span class="red fl">*</span>
+            <select name="duration" style="width: 100px;">
+                <option value="">请选择</option>
+                <option value="1"  <if condition="isset($plan) && $plan['duration'] eq 1">selected</if>>3天</option>
+                <option value="2" <if condition="isset($plan) && $plan['duration'] eq 2">selected</if>>5天</option>
+                <option value="3" <if condition="isset($plan) && $plan['duration'] eq 3">selected</if>>7天</option>
+                <option value="4" <if condition="isset($plan) && $plan['duration'] eq 4">selected</if>>一个月</option>
+                <option value="5" <if condition="isset($plan) && $plan['duration'] eq 5">selected</if>>三个月</option>
+                <option value="6" <if condition="isset($plan) && $plan['duration'] eq 6">selected</if>>长期有效</option>
+            </select>
+        </div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group">
+        <div class="fg-l tr fl">诚意金：</div>
+        <div class="fg-r">
+            <span class="red fl">*</span>
+            <input type="text"  class="form-control fl" value="{$plan.earnestfee}" name="earnestfee" />
+            <span class="fl">元/天</span>
+        </div>
+        <div class="clr"></div>
+    </div>
+
+    <div class="form-group">
+        <div class="fg-l tr fl">费用预算：</div>
+        <div class="fg-r">
+            <span class="red fl">*</span>
+            <input type="text" class="form-control fl" value="{$plan.budgetfee}" name="budgetfee" />
+            <span class="fl">元/天</span>
+        </div>
+        <div class="clr"></div>
+    </div>
+
+    <div class="form-group">
+        <div class="fg-l tr fl">支付方式：</div>
+        <div class="fg-r">
+            <span class="red fl">*</span>
+            <select name="payway" style="width: 100px;">
+                <option value="">请选择</option>
+                <option value="1" <if condition="isset($plan) && $plan['payway'] eq 1">selected</if>>现金</option>
+                <option value="2" <if condition="isset($plan) && $plan['payway'] eq 2">selected</if>>微信</option>
+                <option value="3" <if condition="isset($plan) && $plan['payway'] eq 3">selected</if>>QQ</option>
+                <option value="4" <if condition="isset($plan) && $plan['payway'] eq 4">selected</if>>支付宝</option>
+                <option value="5" <if condition="isset($plan) && $plan['payway'] eq 5">selected</if>>PayPal</option>
+                <option value="6" <if condition="isset($plan) && $plan['payway'] eq 6">selected</if>>银行卡</option>
+                <option value="7" <if condition="isset($plan) && $plan['payway'] eq 7">selected</if>>其他</option>
+            </select>
+        </div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group" >
+        <div class="fg-l tr fl">计划说明：</div>
+        <div class="fg-r">
+            <span class="red fl">*</span>
+            <textarea name="contentcn"  id="contentcn">{$plan.contentcn}</textarea>
+        </div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group" style="cursor: pointer"><a href="javascript:if($('#box2').css('display') =='none'){$('#box2').show();}else{$('#box2').hide();}">对伴游的要求(选填)</a></div>
+    <div id="box2" style="display: none;">
+        <div class="form-group">
+            <div class="fg-l tr fl">服务内容：</div>
+            <div class="fg-r">
+                <input type="text"  class="form-control" value="{$plan.demand}" name="demand" />
+            </div>
+            <div class="clr"></div>
+        </div>
+        <div class="form-group">
+            <div class="fg-l tr fl">年龄：</div>
+            <div class="fg-r">
+                <select name="age" style="width: 100px;">
+                    <option value="">请选择</option>
+                    <?php
+                       for($i=15;$i<80;$i++){
+                    ?>
+                    <option  <if condition="isset($plan) && $plan['age'] eq $i">selected</if> value="{$i}">{$i}</option>
+                    <?php
+                       }
+                   ?>
+                </select>
+            </div>
+            <div class="clr"></div>
+        </div>
+        <div class="form-group">
+            <div class="fg-l tr fl">身高：</div>
+            <div class="fg-r">
+                <select name="height" style="width: 100px;">
+                    <option value="">请选择</option>
+                    <?php
+                       for($i=145;$i<210;$i++){
+                    ?>
+                    <option value="{$i}" <if condition="isset($plan) && $plan['height'] eq $i">selected</if> >{$i} cm</option>
+                    <?php
+                       }
+                   ?>
+                </select>
+            </div>
+            <div class="clr"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="fg-l tr fl">体重：</div>
+            <div class="fg-r">
+                <input type="text"  value="{$plan.weight}" class="form-control fl" name="weight" />
+                <span class="fl">kg</span>
+            </div>
+            <div class="clr"></div>
+        </div>
+        <div class="form-group">
+            <div class="fg-l tr fl">兴趣爱好：</div>
+            <div class="fg-r">
+                <input type="text" value="{$plan.hobby}" class="form-control fl" name="hobby" />
+            </div>
+            <div class="clr"></div>
+        </div>
+    </div>
+    <button type="submit" style="margin-left: 100px;" class=" fl btn clof btn-success " onclick="subPlan();">发布计划</button>
+    <button type="submit" style="margin-left: 100px;" class=" fl btn btn-default" onclick="window.history.back(-1);">取消</button>
+</form>
+<link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+<script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/upload.js?{:version()}"></script>
+<script src="__STATIC__/common/js/jquery.lhgcalendar.min.js"></script>
+<script>
+    upload.prototype.createContent("#contentcn",'pyplan',670);
+    $('#startime').calendar({
+        format: 'yyyy-MM-dd',
+        minDate: '%y-%M-%d',
+        btnBar: false
+    });
+
+    checkeSupsort('{$plan.proivce}', $('#myform select[name=city]'));
+    $('#myform select[name=city] option').each(function(){
+        if('{$plan.city}' == $(this).val()){
+            $(this).attr('selected',true);
+        }
+    })
+</script>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>名叔馆</title>
+    <include file="Index:wap_js_css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/page/css/font-awesome.min.css?version={:version()}"/>
+</head>
+<style>
+    .arrow-left, .rtl .arrow-right {
+         background-color: #eee;
+         border: 1px solid #ddd;
+    }
+    #conversationMessages{width: 95%;margin: 0 auto}
+    #replyForm input{  border-radius: 6px; display: block; padding: 6px; }
+    .fat-spacing-box {
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        border: 2px double #bbb;
+        background: #ccc;
+        margin: 20px;
+        padding: 20px;
+    }
+</style>
+<body class="bodyf" data-currentuid="{$currentuid}">
+<include file="User:uhead"/>
+<div id="content" class="is-fadein is-shown" style="height: auto;margin-top: 55px;">
+    <div id="conversationDetail" class="conversation-type-quick_reply">
+        <div id="replyFormContainer">
+            <form id="replyForm" class=" well form-horizontal navbar-fixed-top"  style="margin: 0;top: 47px;padding: 8px;">
+                <input type="hidden" name="uid" value="{$_REQUEST['uid']}"/>
+                <input id="message" type="text" style="width: 85%;;" class="fl" name="message" placeholder="回复" autocomplete="off">
+                <button id="replyButton" type="button" style="width: 13%;min-width: 40px;top:3px ;" class="btn relative btn-primary fr "><i class="fa fa-envelope"></i></button>
+                <div class="clr"></div>
+            </form>
+        </div>
+        <div id="messagesContainer" class="message-blur" style="margin-top:60px;">
+            <ul id="conversationMessages" class="nav content-list messages">
+                <li>
+                    <div class="fat-spacing-box">
+                        <h3>温馨提示:</h3>
+                        <ol class="fat-spacing-list" style="line-height: 35px;;">
+                            <li>1.发送讯息以开始交谈</li>
+                            <li>
+                                2.介绍一下关於你自己的个人经历。
+                            </li>
+                            <li>
+                                3.问问他们的个人情况。
+                            </li>
+                        </ol>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div id="showMoreContainer" class="center" style="display: none;">
+            <div class="box-padding show-more " >
+                <div class="label box-padding center clo6 " onclick="getMoreReply();">
+                    查看更多 &nbsp;<i class="icon-chevron-up"></i>
+                </div>
+            </div>
+        </div>
+        <div id="conversationOverlay" class="modal-custom-overlay messages-overlay " style="display: none;">
+            <div class="white center give-me-space">
+                <h5 class="box-padding">如要查看此讯息，请成为正式会员！</h5>
+                <div class="box-padding ">
+                    购买点数让您能够查看此信息，联系其他会员和使用其他服务的功能。
+                </div>
+            </div>
+            <div class="center">
+                <button id="upgrade" class="btn btn-primary center">立即升级</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#replyButton').click(function(){
+        $.post('/index/chat.html',{uid:$('#replyForm input[name=uid]').val(),message:$('#replyForm input[name=message]').val()},function(data){
+            if(data.code ==200){
+                clearpop(data.message,'','self');
+            }else{
+                clearpop(data.message);
+            }
+        })
+    })
+
+    var page = 0;
+    function getMoreReply(){
+        $.post('/index/getMoreReply',{page:page,uid:$('#replyForm input[name=uid]').val()},function(data){
+            if(data.code ==200){
+                var obj = data.data,$html='';
+                if(obj){
+                    for(var i in obj){
+                        if(obj[i]['operator'] == $('body').data('currentuid')){
+                            $html+='<li class="message  is-read is-current" >';
+                            $html+='<abbr class="timeago yours"><span class="fromMe ">我:</span><span class="fr">'+obj[i]['createtime'] +'</span><span class="clr"></span></abbr>';
+                            $html+='<div class="messageItem box-radius box-padding hide-overflow yours alert alert-info">'+obj[i]['message'] +'</div>';
+                            $html+='</li>';
+                        }else{
+                            $html+='<li class="message  is-read is-current" data-messageid="4863402806">';
+                            $html+='<abbr class="timeago theirs"><span class="fromTa ">{$headtitle}：</span><span class="fr">'+obj[i]['createtime'] +'</span><span class="clr"></span></abbr>';
+                            $html+='<div class="messageItem box-radius box-padding hide-overflow   theirs arrow-left">'+obj[i]['message'] +'</div>';
+                            $html+='</li>';
+                        }
+                    }
+                    if(page<1){
+                        $('#conversationMessages').html($html);
+                    }else{
+                        $('#conversationMessages').append($html);
+                    }
+                    page++;
+                    $('#showMoreContainer').show();
+                }else{
+                    clearpop('没有更多了');
+                    $('#showMoreContainer').hide();
+                }
+            }else{
+                clearpop(data.message);;
+            }
+        })
+    }
+    getMoreReply();
+</script>
+</body>
+</html>

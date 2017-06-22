@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<include file="Index:_js_css" />
+</head>
+<body > 
+<table width="100%" border="0" cellspacing="1" cellpadding="3" class="MainTbl">
+  <tr class="row0">
+    <td ><strong>登录信息</strong></td>
+  </tr>
+  <tr class="row0">
+    <td>你好，<span class="fc_red">{:Session('adminname')}</span>，欢迎使用本系统！ </td>
+  </tr>
+  <tr class="row0">
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0" class="MainTbl">
+        <tr>
+          <td align="right" width="100">登录次数：</td>
+          <td>{$db.logtimes}</td>
+        </tr>
+        <tr>
+          <td align="right" width="100">上次登录时间：</td>
+          <td>{$db.lastlogtime}</td>
+        </tr>
+        <tr>
+          <td align="right" width="100">上次登录IP：</td>
+          <td>{$db.lastlogip}</td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr class="row0">
+    <td ><strong>系统信息</strong></td>
+  </tr>
+  <tr class="row0">
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0" class="MainTbl">
+        <tr>
+          <td align="right" width="100">操作系统：</td>
+          <td>{:PHP_OS}</td>
+        </tr>
+        <tr>
+          <td align="right" width="100">服务器软件：</td>
+          <td>{$_SERVER['SERVER_SOFTWARE']}</td>
+        </tr>
+        <tr>
+          <td align="right" width="100">PHP版本：</td>
+          <td>{:phpversion()}</td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+</body>
+</html>

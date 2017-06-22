@@ -1,0 +1,41 @@
+<php>$currentuser = Common\Model\UserModel::getUser();$currentuid=$currentuser['uid'];</php>
+<header class="navbar public-pages" style="min-height: 35px;margin: 0">
+    <div class="topbar navbar-default" style="border-bottom:#e7e7e7;">会员等级: <span class="fontb clo6">访客会员</span><span class="fr"><a href="/index/newinfo.html?id=5">说明</a>&nbsp;&nbsp;&nbsp;<a href="/login/logout.html">登出</a>&nbsp;&nbsp;</span><div class="clr"></div></div>
+    <div class="" style="background: #FFffff;width: 100%">
+        <div class="collapse maincontainer navbar-collapse ">
+            <a href="/" class="fontb clo6" style="font-size: 50px;line-height: 65px;">
+                名叔馆
+            </a>
+        </div>
+    </div>
+</header>
+<header class="navbar navbar-default main-header public-pages" style="height: 40px;max-height: 40px;min-height: 40px;margin-bottom: 5px;">
+    <div class="maincontainer main-nav">
+        <ul id="menu" class="menu  text-center white">
+            <li class="menuItem index"><a class="box-hpad box-pad-t inline selected" id="nav-search" target="main" href="/index/ulist.html"><span>搜寻</span></a></li>
+            <li class="menuItem member"><a class="box-hpad box-pad-t inline" id="nav-manage-profile" target="main" href="/member/index.html"><span>简介管理</span></a></li>
+            <li class="menuItem minfo"><a class="box-hpad box-pad-t inline" id="nav-view-profile" target="main" href="/member/info.html"><span>阅览简介</span></a></li>
+            <li class="menuItem"><a class="box-hpad box-pad-t inline" id="nav-traveling" target="main" href="/index/topiclist.html"><span>文章论坛</span></a></li>
+            <li class="menuItem"><a class="box-hpad box-pad-t inline" id="nav-richkept" target="main" href="/index/richkept.html"><span>悬赏</span></a></li>
+        </ul>
+    </div>
+    <div class="clr"></div>
+</header>
+<script>
+    $(function(){
+        $('#menu li.menuItem a').removeClass('selected');
+        var $pathname = (window.location.pathname).toLowerCase();
+         (window.location.pathname).toLowerCase().indexOf('/member');
+        if($pathname.indexOf('/member/info')>=0){
+            $('#nav-view-profile').addClass('selected');
+        }else if($pathname.indexOf('/member')>=0){
+            $('#nav-manage-profile').addClass('selected');
+        }else if($pathname.indexOf('/richkept')>=0){
+            $('#nav-richkept').addClass('selected');
+        }else if($pathname.indexOf('/topiclist')>=0){
+            $('#nav-traveling').addClass('selected');
+        }else{
+            $('#nav-search').addClass('selected');
+        }
+    });
+</script>

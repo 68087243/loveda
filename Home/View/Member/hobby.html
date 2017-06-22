@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>名叔馆</title>
+    <include file="Index:_js_css"/>
+    <style>
+        select{ width: 100%; height: 34px;color: #333; background-color: #FFffff; border-radius: 4px; border-color: #B8C2CC;margin-top: 5px;}
+        select:active{ background-color: #e6e6e6; border-color: #adadad;}
+        .content-960.page-content.wide { padding: 30px 20px 65px;  }
+    </style>
+</head>
+<body style="background: #f6f8f8">
+
+<include file="Index:bar"/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/page/css/icon.css?version={:version(3)}"/>
+<div class="content-960 light-bg page-content wide">
+    <div id="settingsContainer">
+        <include file="Member:left"/>
+        <div class="settings-content light-bg  fr" style="width: 670px;text-indent: 10px;">
+            <div class="settings-content">
+
+                    <div id="optionsDialog" class="is-hidden" style="display: block;">
+                        <div class="h1">个人兴趣</div>
+                        <div id="message"></div>
+                        <form id="optionsForm" onsubmit="return false;" >
+                            <div class="h2 pink" id="optionsLabel">我在寻找甚麽。。</div>
+                            <div id="optionsField">
+                                <volist name="list" id="vo">
+                                    <div class="checkbox">
+                                        <label for="checklist{$vo.hid}" class="form_label">
+                                            {$vo.name}
+                                            <input class="checkbox" type="checkbox" id="checklist{$vo.hid}" name="hobby" value="{$vo.hid}" style="top: 6px;" <if condition="in_array($vo['hid'],$hobbyids)">checked</if>>
+                                        </label>
+                                    </div>
+                                </volist>
+                            </div>
+
+                            <div id="otherField">
+                                <div class="form-group">
+                                    <label for="perfect_match_other" class="form_label collapse-margin">其他</label>
+                                    <textarea name="hobby_note" rows="3" cols="87" id="perfect_match_other" class="otherTextArea form-control" style="resize: none">{$user.hobby_note}</textarea>
+                                    <div id="wantsInfo" class="help-block font-base">
+                                        <!--包括空格您已经使用了<span id="count">0</span>个字元。(最大：2,000) <br>-->
+                                        <span id="guidelines" class="btn-link" data-toggle="modal" data-target=".bs-modal-sm">按下这里</span> 以得到指示</div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="padding-top-30"><button class="btn btn-primary btn-med" onclick="subhobby();" id="submitButton">更新</button></div>
+                    </div>
+
+                    <div class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-450">
+                            <div id="confirmDeleteModal" class="modal-content">
+                                <a class="pull-right box-marg-sm" href="#" data-dismiss="modal" aria-hidden="true">×</a>
+                                <div class="box-pad">
+                                    <p class="bold">广告简介指引</p>
+                                    <p>您的广告应该积极、乐观，并为来访的会员提供足够的资料。记住，这是您的第一印象。如果含糊或不淸楚就不可能得到很大的反应。试想像自己身处派队或夜总会，您正好走到您心仪的人跟前 -您会如何自我介绍和描述自己？</p>
+                                    <p>个人喜好可以说出任何事情。展示您的魅力。</p>
+                                    <p>这是一些不允许做的事情。:</p>
+                                    <ul class="default-list">
+                                        <li>个人简介或自我介绍上有个人联络资料。这包括MSN或 ICQ 号码、个人电邮地址、电话号码、网址等</li>
+                                        <li>'签名档' 中有图形或污秽语言 (脏话)或不合适的语言</li>
+                                        <li>在您的资料中暗地嵌入可能违反本部分中任何请求的内容。</li>
+                                        <li>叫卖任何物品或服务</li>
+                                        <li>诽谤/污蔑</li>
+                                        <li>非法活动/推销任何非法物品</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="Index:footer"/>
+<script src="__STATIC__/common/js/jquery.lhgcalendar.min.js"></script>
+<script>
+    function subhobby(){
+        var ids = '';
+        $('#optionsForm input[type=checkbox]:checked').each(function(){
+            ids += $(this).val()+',';
+        })
+        $.post('/member/hobby.html',{hobbyids:ids,hobby_note: $('#optionsForm textarea[name=hobby_note]').val()},function(data){
+            if(data.code ==200){
+                clearpop(data.message,'','self');
+            }else{
+                clearpop(data.message);
+            }
+        })
+    }
+</script>
+</body>
+</html>

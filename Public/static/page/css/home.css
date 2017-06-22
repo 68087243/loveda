@@ -1,0 +1,40 @@
+body{overflow-x:hidden }
+.maincontainer{width:1226px; margin:0 auto;}
+.padding-top-30{padding-top: 30px;}
+.block {display: block;}
+.light-bg {background: #fff;}
+.inline {display: inline-block; }
+.content-960{width: 960px;margin: 0 auto;}
+.content-780 {width: 780px;margin:0 auto }
+/*ulist*/
+.main-nav ul.menu li a:hover,.main-nav ul.menu li a:active,.navbar-collapse a:hover,.navbar-collapse a:active {text-decoration:none;cursor:pointer}
+.navbar-fixed-top .topbar{text-indent: 10px; background-color: #f8f8f8; font-size: 14px;  font-family: Helvetica,Arial,sans-serif; font-weight: 400;}
+#menu li.menuItem{float: left;height: 40px;line-height: 40px;}
+.main-nav ul.menu li a { display: inline-block; height: 38px; padding: 0px 8px;color: #f2aec2;}
+.main-nav ul.menu li .selected { border-bottom: 4px solid #fff;   background-color: transparent;color: #fff;}
+
+.box-center>div,.box-center>table { text-align: left;    margin-left: auto;  margin-right: auto;  }
+.content-700{ width: 700px; margin: 0 auto;padding-top: 40px; }
+.search-results{padding: 20px 10px; border-bottom: 1px solid #ccc;line-height: 18px;}
+.search-results:hover{background: #F8F8F8}
+.search-thumb-container { border: 1px solid #ccc; width: 140px;}
+.fix-bottom-right {position: absolute;right: 0;bottom: 0;}
+.icon-private-showcase a { background-color: rgba(0,0,0,.7);width: 20px; height: 20px;float: left;margin-right: 3px; margin-bottom: 3px;}
+
+.profile-left-links {color: #1693d5;font-size: 12px; font-family: Helvetica,Arial,sans-serif; font-weight: 400; padding-left: 5px;}
+.results-info li{width: 218px;padding-bottom: 7px;}
+
+/*footer*/
+.age-restriction{padding-right: 10px;}
+.footer-private { width: 100%;float: left; }
+.footer-private a.memberFooterLinks{ padding: 0 20px;}
+/*info*/
+.profileMiddle{padding-left: 20px; margin-left: auto;margin-right: auto;}
+.container.page-content {background-color: #fff;-webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.23); -moz-box-shadow: 0 1px 2px 0 rgba(0,0,0,.23); box-shadow: 0 1px 2px 0 rgba(0,0,0,.23); min-height: 500px;  padding: 30px 60px 65px; width: 960px;}
+
+/**member*/
+.right_top_nav li{float: left;padding: 5px 10px;}
+.r_nav_tit{width: 100%;text-indent: 10px;;height: 40px;background: #F8F8F0;line-height: 40px;}
+.right_top_nav li,.avatar_nav li{cursor:pointer;color: #999999 }
+.right_top_nav li.selected,.avatar_nav li.selected{color:#333333 }
+

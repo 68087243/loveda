@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>名叔馆</title>
+    <include file="Index:wap_js_css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/page/css/font-awesome.min.css?version={:version()}"/>
+</head>
+<style>
+    .arrow-left, .rtl .arrow-right {
+        background-color: #eee;
+        border: 1px solid #ddd;
+    }
+    #conversationMessages{width: 95%;margin: 0 auto}
+    #replyForm input{  border-radius: 6px; display: block; padding: 6px; }
+    .fat-spacing-box {
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        border: 2px double #bbb;
+        background: #ccc;
+        margin: 20px;
+        padding: 20px;
+    }
+    input[type=radio]{width: 15px;height: 15px;;}
+</style>
+<body class="bodyf" data-currentuid="{$currentuid}">
+<include file="User:uhead"/>
+<div id="content" class="is-fadein is-shown" style="height: auto;margin-top: 55px;">
+    <div id="conversationDetail" class="conversation-type-quick_reply">
+
+        <div id="messagesContainer" class="message-blur" style="margin-top:60px;">
+            <ul id="winkList" style="margin-bottom:110px" class="content-list nav">
+
+                <li data-winkid="1" class="winkMessageRow box-padding collapse-bottom dark selected">
+                    <label for="r1" class="box-radius box-padding hide-overflow yours arrow-left collapse-margin relative fontn">
+                        <input type="radio" id="r1" value="1" name="winkRadio" class="vertical-centre left-padding" checked="checked">
+        请查看我的简介，看看是否有兴趣联络我。如果有兴趣，向我“传情”，我将会主动联络你！
+                    </label>
+                </li>
+
+                <li data-winkid="1" class="winkMessageRow box-padding collapse-bottom dark selected">
+                    <label for="r2" class="box-radius box-padding hide-overflow yours arrow-left collapse-margin relative fontn">
+                        <input type="radio" id="r2" value="2" name="winkRadio" class="vertical-centre left-padding" >
+                        我收到你的讯息，我将会在升级会员套餐後尽快与你联络。
+                    </label>
+                </li>
+
+            </ul>
+        </div>
+        <div id="replyFormContainer">
+            <form id="replyForm" class=" well form-horizontal navbar-fixed-top"  style="margin: 0;top: 47px;padding: 8px;">
+                <input type="hidden" name="uid" value="{$_REQUEST['uid']}"/>
+                <button id="replyButton" type="button" style="width: 95%;min-width: 40px;top:3px ;" class="btn relative btn-primary fr ">发送</button>
+                <div class="clr"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $('#replyButton').click(function(){
+        $.post('/user/cqing.html',{uid:$('#replyForm input[name=uid]').val(),message:$('#winkList input[name=winkRadio]:checked').val()},function(data){
+            if(data.code ==200){
+                clearpop(data.message,'','self');
+            }else{
+                clearpop(data.message);
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

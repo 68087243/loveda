@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>banner设置</title>
+    <include file="Index:_js_css" />
+    <script>
+        var APP_PATH="__APP__";
+        var CONST_PUBLIC="__PUBLIC__";
+    </script>
+</head>
+<body>
+    <div style="width: 100%;height: 40px;line-height: 40px; border-top: 1px solid #cccccc;border-bottom: 1px solid #cccccc " class="tc">【 banner设置 】</div>
+    <div id="autotab_1">
+        <table border="0"class="mytables" style="width: 100%;">
+            <tr>
+                <th width="5%">ID</th>
+                <th width="10%">图片</th>
+                <th width="25%">连接</th>
+                <th>标题/介绍</th>
+                <th width="50">位置</th>
+                <th width="50">排序</th>
+                <th width="5%">状态</th>
+                <th width="10%">操作</th>
+            </tr>
+            <volist id="vo" name="banner">
+                <tr id="banner_{$vo.id}" data-indexpic="{$vo.indexpic}" data-picurl="{$vo.picurl}" data-info="{$vo.info}" data-type="{$vo.type}" data-status="{$vo.status}">
+                    <td>{$vo.id}</td>
+                    <td><img src="__PUBLIC__/{$vo.indexpic}" width="120" alt=""/></td>
+                    <td>{$vo.picurl}</td>
+                    <td>{$vo.info}</td>
+                    <td><if condition="$vo['type'] eq 1">网站<else/>微信</if></td>
+                    <td><input type="text" size="5" value="{$vo.rank}" onchange="setBanner('rank','{$vo.id}',$(this).val())" /></td>
+                    <td align="center"><if condition="$vo['status'] eq 1"><span style="cursor: pointer" onclick="setBanner('status','{$vo.id}',2)">启用</span><else/><span style="cursor: pointer" onclick="setBanner('status','{$vo.id}',1)">禁用</span></if></td>
+                <td style="text-align: center">
+                        <a href="JavaScript:uploadImage('{$vo.id}');" class="underline">编辑</a>
+                        <a href="javascript:delBanner('{$vo.id}');" class="underline">删除</a>
+                    </td>
+                </tr>
+            </volist>
+            <tr><td colspan="7" align="right"><button  onclick="uploadImage();">新增上传</button></td></tr>
+        </table>
+
+    </div>
+
+    <form  role="form"  id="upload_pic" onsubmit="return false" style="display: none">
+        <div class="form-group" id="clipArea" ><img src="" width="440" id="view" style="margin-top: 0" alt=""></div>
+
+        <input type="button" class="cancel_btn" style="margin-left: 0" value="选择文件" onClick="selectPic();"/>
+            <!--<span style="font-size: 12px;color: #cccccc;">图片尺寸:1226*600</span><br/>-->
+            <input type="hidden" name="id"/>
+            <input type="hidden" name="indexpic"/>
+            <div class=" form-group"><span>图片链接:</span>&nbsp;&nbsp;<input type="text" style="width: 400px;" name="picurl" placeholder="http://"/> </div>
+            <div class=" form-group"><span>标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题:</span>&nbsp;&nbsp;<input type="text"  style="width: 400px;" placeholder="无" name="info"/></div>
+
+            <div class=" form-group">
+                <span class="fl"> 位&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;置:</span>
+                <ul style="margin:0" >
+                    <li><label for="radio12" class="fontn clo3"><input type="radio" id="radio12" name="banner" value="1"/>网站</label></li>
+                    <li><label for="radio13" class="fontn clo3"><input type="radio" id="radio13" name="banner"  value="2" />微信</label></li>
+                </ul>
+                <div class="clr"></div>
+            </div>
+            <div class=" form-group">
+                <span class="fl">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</span>
+                <ul style="margin:0" >
+                    <li><label for="radio3" class="fontn clo3"><input type="radio" id="radio3" name="status" value="1"/>启用</label></li>
+                    <li><label for="radio4" class="fontn clo3"><input type="radio" id="radio4" name="status"  value="2" />禁用</label></li>
+                </ul>
+                <div class="clr"></div>
+            </div>
+        <!--<input type="file" id="file" class="common_btn"/>-->
+         <button id="modifyBanner" class="common_btn">保存</button>
+    </form>
+
+
+    <include file="Index:footer" />
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="__STATIC__/common/js/upload.js?{:version()}"></script>
+<script>
+
+    $("#upload_pic").idealforms();
+    $('.idealform .idealradio .radio, .idealform .idealcheck .radio').css({'top':'0'})
+
+    function uploadImage(id){
+        if(id){
+            $('#modifyBanner').show();
+            $('#clipArea img').attr('src',CONST_PUBLIC+'/'+$('#banner_'+id).data('indexpic'));
+            $('#upload_pic input[name=indexpic]').val($('#banner_'+id).data('indexpic'));
+            $('#upload_pic input[name=id]').val(id);
+            $('#upload_pic input[name=picurl]').val($('#banner_'+id).data('picurl'));
+            $('#upload_pic input[name=info]').val($('#banner_'+id).data('info'));
+            setRadioCheck('#upload_pic input[name=banner]',$('#banner_'+id).data('type'));
+            setRadioCheck('#upload_pic input[name=status]',$('#banner_'+id).data('status'));
+        }else{
+            setRadioCheck('#upload_pic input[name=banner]',1);
+            setRadioCheck('#upload_pic input[name=status]',2);
+            $('#clipArea img').attr('src','');
+            $('#upload_pic input[name=indexpic]').val('');
+        }
+        getMask().maskShow({"tit": "上传banner图","width":480, "cont": "#upload_pic"});
+    }
+    /**
+     * 选择图片
+     */
+    function selectPic(){
+        upload.prototype.callback = function(url, path){
+            $('#upload_pic input[name=indexpic]').val(path);
+            $("#clipArea img").attr("src",CONST_PUBLIC+path);
+        }
+        upload.prototype.uploadPic("banner");
+    }
+
+    function delBanner(id){
+        if(id>0){
+            $.post('/admin/cms/delBanner.html',{id:id},function(data){
+                if(data.code == 200){
+                    clearpop(data.message,'','self');
+                }else{
+                    clearpopj(data.message,'error',true);
+                }
+            })
+        }
+    }
+
+   function setBanner(field,id,val){
+       $.post('/admin/cms/setBanner.html',{field:field,val:val,id:id},function(data){
+           if(data.code == 200){
+               clearpop(data.message,'','self');
+           }else{
+               clearpopj(data.message,'error',true);
+           }
+       })
+   }
+    $('#modifyBanner').click(function(){
+        var indexpic = $('#upload_pic input[name=indexpic]').val(),
+                id = $('#upload_pic input[name=id]').val(),
+                picurl = $('#upload_pic input[name=picurl]').val(),
+                info = $('#upload_pic input[name=info]').val(),
+                type = $('#upload_pic input[name=banner]:checked').val(),
+                status = $('#upload_pic input[name=status]:checked').val();
+        $.post('/admin/cms/modifyBanner.html',{indexpic:indexpic,picurl:picurl,info:info,id:id,type:type,status:status},function(data){
+            if(data.code == 200){
+                closeMask();
+                clearpop(data.message,'','self');
+            }else{
+                clearpopj(data.message,'error',true);
+            }
+        })
+    })
+</script>
+</body>
+</html>

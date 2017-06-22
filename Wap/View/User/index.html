@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>名叔馆</title>
+    <include file="Index:wap_js_css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/page/css/font-awesome.min.css?version={:version()}"/>
+    <style>
+        .subnav-elements.subnav-inverse.flex.btn-group a.btn-inverse.nav-item{width: 25%;min-width: 50px;}
+    </style>
+</head>
+<body class="bodyf">
+<include file="Index:head"/>
+
+<div id="content" class="is-fadein is-shown" style="margin-top: 47px;">
+    <div id="profile-page" class="profile">
+        <div class=" profile-view">
+            <div class="subnav-elements subnav-inverse flex btn-group tc clof" style="height: 47px;">
+                <a id="inboxBtn" href="/user/index.html" data-tit="chat" class="btn btn-inverse nav-item active"><i class="fa fa-user"></i></a>
+                <a id="SavedBtn" href="/user/friends.html" data-tit="topic" class="btn btn-inverse nav-item"><i class="fa fa-heart"></i></a>
+                <a id="SentBtn" href="/user/photo.html" data-tit="news" class="btn btn-inverse nav-item"><i class="fa fa-photo"></i></a>
+                <a id="SystemBtn" href="/user/utopic.html" data-tit="news" class="btn btn-inverse nav-item"><i class="fa fa-file-text-o"></i></a>
+            </div>
+            <div id="mainInfo">
+                <div class="box-padding collapse-bottom">
+                    <div class="flex edit-buttons">
+                        <div class="flex-item fl" style="width: 70%">
+                            <div id="managePhotosDiv">
+                                <div id="photoUpload" class="profilePhotoManagerUpload">
+                                    <label for="managePhotosButton" class="btn btn-fullwidth btn-primary"><i class="icon-camera"></i>修改头像
+                                        <input id="managePhotosButton" type="file" accept="image/*" name="photo" class="hide">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fl" style="width: 15%;min-width: 30px;">
+                            <div id="editButton" class="btn btn-fullwidth neighbour capitalize"><i class="fa fa-edit"></i>&nbsp; 编辑</div>
+                        </div>
+                        <div class="clr"></div>
+                    </div>
+
+                    <div class="flex profile-info ">
+                        <div class="thumb thumb-xlarge fl thumb-border-dark hasAccessPhoto">
+                            <if condition="empty($inauditAvatar)">
+                                <img class="profilePhoto" width="150" style="border: 1px solid #D1D1D1" src="__PUBLIC__{$user.picture|default='/static/image/noavatar_middle.gif'}"/>
+                            <else/>
+                                <img class="profilePhoto" width="150" style="border: 1px solid #D1D1D1" src="__PUBLIC__{$inauditAvatar.img}"/>
+                                <div class="relative clof tc fontb" style="width: 108px;height: 30px;line-height: 30px;background: #000000;opacity: .5;bottom: 30px;">审核中</div>
+                            </if>
+                        </div>
+                        <div class="flex-item fl neighbour clo3">
+                            <div style="padding: 5px 0;">
+                                <i class="fa fa-user"></i>
+                                {$user.nickname}
+                            </div>
+                            <div>
+                                <i class="fa fa-home"></i>
+                                {:getAreaByAid($user['proivce'])}&nbsp;&nbsp;{:getAreaByAid($user['city'])}
+                            </div>
+                            <div>
+                                <i class="fa fa-venus-double"></i>
+                                <if condition="$user['sex'] eq 1">女士<else/>男士 </if>
+                            </div>
+                            <div><i class="fa fa-birthday-cake"></i>
+                                <div class="inline four-fifths">年龄 {:getAge($user['birthdate'])}</div>
+                            </div>
+                            <div><i class="fa fa-text-height"></i>
+                                <div class="inline four-fifths">身高 {$user.height}cm</div>
+                            </div>
+                        </div>
+                        <div class="clr"></div>
+                        <div><img id="online"></div>
+                    </div>
+                    <div class="neighbour-top icon-comment-alt clo3 icon-block force-wrap"><i class="fa fa-comment-o"></i>&nbsp;{$user.describe}</div>
+                </div>
+            </div>
+            <div id="moreInfo">
+                <div class="subnav-elements subnav-alt box-padding">
+                    <div class="title-label">其他信息</div>
+                </div>
+                <ul class="content-list nav label-list child-box-padding">
+                    <li class="list-item flex"><span class="half-width-max break-word">体重</span> &nbsp; &nbsp;{$user.weight}kg</li>
+                    <li class="list-item flex"><span class="half-width-max break-word">体型</span> &nbsp; &nbsp;{:getUserShape($user['shape'])}</li>
+                    <li class="list-item flex"><span class="half-width-max break-word">吸烟习惯</span> &nbsp; &nbsp;<if condition="$user['smoking'] eq 1">
+                        保密
+                        <elseif condition="$user['smoking'] eq 2"/>
+                        从不
+                        <elseif condition="$user['smoking'] eq 3"/>
+                        偶尔
+                        <elseif condition="$user['smoking'] eq 4"/>
+                        经常
+                    </if>
+                    </li>
+                </ul>
+            </div>
+            <div class="subnav-elements subnav-alt box-padding">
+                <div class="title-label">兴趣</div>
+            </div>
+            <dl class="list-item box-padding force-wrap">
+                <dt>能真正打动我</dt>
+                <dd> {$pairing|default="暂无设定"}</dd>
+            </dl>
+            <dl class="list-item box-padding force-wrap">
+                <dt>我在寻找</dt>
+                <dd>{$habbys|default="暂无设定"}</dd>
+            </dl>
+
+            <div id="reportButton"  style="width: 95%;margin: 0 auto;">
+                <div class="reportProfileButton btn btn-danger btn-fullwidth neighbour-top" style="background: #cccccc;border-color: #CCCABA;">
+                    <a href="/user/uppwd.html" class="clo9"><i class="fa fa-edit"></i><span class="block-text">&nbsp; 修改密码</span></a>
+                </div>
+                <div class="reportProfileButton btn btn-danger btn-fullwidth neighbour-top" style="background: #DCDCDC;border-color: #CCCABA;">
+                    <a href="/login/logout.html"><i class="fa fa-power-off"></i><span class="block-text">&nbsp; 登出</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="pic"  style="display: none;;">
+    <input type="hidden" name="img"/>
+    <div class="fullbg" onclick="clearUpfailImg();"></div>
+    <div class="pop center" style="width: 500px;left: 50%;margin-left: -250px;">
+        <div id="clipArea" style="height: 300px;"></div>
+        <p class="tc" style="margin: 5px 0">
+            <a href="javascript:clearUpfailImg();" class="cloc">取消</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="javascript:void(0);" id="clipBtn">下一步</a>
+        </p>
+        <div id="clipArea2" style="display: none;">
+            <div class="pic-containaer tc" style="padding: 5px 10px;">
+                <img  alt="" class="blurify" width="300">
+            </div>
+            <p class="tc">
+                <a href="javascript:mohu(1);">原图</a>
+                <a href="javascript:mohu(2);">模糊1</a>
+                <a href="javascript:mohu(3);">模糊2</a>
+                <a href="javascript:mohu(4);">模糊3</a>
+                <a href="javascript:mohu(5);">模糊4</a>
+                <a href="javascript:mohu(6);">模糊5</a>
+            </p>
+            <p class="tc"><a href="javascript:clearUpfailImg();" class="cloc">取消</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="flishbtn"  class="btn btn-primary wide-btn" style="width:25%;margin: 2% 0;">完成</button></p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="__STATIC__/common/js/hammer.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/iscroll-zoom.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/jquery.photoClip.min.js"></script>
+<script type="text/javascript" src="__STATIC__/common/js/blurify.js"></script>
+<script>
+    $('#editButton').click(function(){
+        window.location.href='/user/info.html';
+    })
+
+    var bodyw = $(window).width();
+    $("#clipArea").photoClip({
+        width: 300,
+        height: 300,
+        file: "#managePhotosButton",
+        view: "#view",
+        ok: "#clipBtn",
+        loadStart: function() {
+            console.log("照片读取中");
+        },
+        loadComplete: function() {
+            $('#pic .pop.center').css({'width':(bodyw-30)+'px','margin-left':-(bodyw-30)/2+'px','max-width':'400px','min-width':'300px'})
+            $('#clipArea .photo-clip-rotateLayer').css({'max-height':'300px'})
+            $('#pic').show()
+        },
+        clipFinish: function(dataURL) {
+            uploadPicByBase64('avatar',dataURL);
+        }
+    });
+
+    function uploadMhImg(scope){
+        var dataURL = $('.pic-containaer img').attr('src');
+        uploadPicByBase64(scope,dataURL,'flish');
+    }
+
+    function uploadPicByBase64(scope,stream,type){
+        var uploadPhp = DOMAIN+'/Public/uploadForKindeditor.php';
+        var uploadJson = uploadPhp+"?scope="+scope+"&callback="+DOMAIN+"&isbase64=true&isaj=1";
+        $.post(uploadJson,{stream:stream},function(data){
+            if(data.code==100){
+                var img = data.data.url.img;
+                var thumb = data.data.url.thumb;
+                if(type == 'flish'){
+                    $.post('/user/uploadPhoto.html',{ture_img:$('#pic input[name=img]').val(),img:img,scope:scope},function(data){
+                        if(data.code == 200){
+                            clearpop(data.message,'','self');
+                            $('#pic').hide()
+                        }else{
+                            clearpopj(data.message);
+                        }
+                    })
+                }else{
+                    $('.pic-containaer img.blurify').attr('data-src',PUBLIC+img)
+                    $('.pic-containaer img').attr('src',PUBLIC+img)
+                    $('#pic input[name=img]').val(img);
+                    $('#flishbtn').attr('onclick','uploadMhImg("'+scope+'")');
+                    $('#clipArea').hide()
+                    $('#clipBtn').hide()
+                    $('#clipArea2').show()
+                }
+            }else{
+                clearpop('上传失败');
+            }
+        },'json')
+    }
+
+
+    function mohu($bl){
+        new blurify({
+            images: document.querySelectorAll('img.blurify'),
+            blur: $bl,
+            mode: 'auto'
+        });
+    }
+</script>
+</body>
+</html>

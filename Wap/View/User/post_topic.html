@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>名叔馆</title>
+    <include file="Index:wap_js_css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/page/css/font-awesome.min.css?version={:version()}"/>
+    <style>
+        .subnav-elements.subnav-inverse.flex.btn-group a.btn-inverse.nav-item {
+            width: 50%;
+            min-width: 50px;
+        }
+         .controls.full-field, .controls .full-field {
+             width: 100%;
+             padding-left: 5px;
+             margin-bottom: 0;
+             -webkit-box-sizing: border-box;
+             -moz-box-sizing: border-box;
+             box-sizing: border-box;
+             left: 0;
+             top: 0;
+         }
+        #pst-box input, #pst-box textarea{border: 1px solid #dededc}
+         #pst-box textarea{width: 100%;resize: none;border-radius: 4px;height: 150px;}
+        .controls .full-field {
+            height: auto;
+            min-height: 34px;
+        }
+
+        .control-group {
+            margin-bottom: 10px;
+        }
+
+        .flatten select, .public-view .flatten select {
+            top: 0px;
+        }
+    </style>
+</head>
+<body class="bodyf">
+<div class="clearfix borderb-d" style="height: 47px;;">
+    <ul class="st-head clof top-head font14">
+        <li class="fl tc fontb clof" style="max-width: 50px;" onclick="window.history.back(-1)"><i
+                class="fontb fa fa-angle-left"></i></li>
+        <li class="tc fl " style="line-height: 20px;">
+            <div class="font16" style="height: 22px;line-height: 25px;">发帖</div>
+            <span class="font13">用户:{$user.nickname}</span>
+        </li>
+        <li class="fr font14" onclick="postTopic();">发布</li>
+    </ul>
+    <div class="clr"></div>
+</div>
+<div id="content" class="is-fadein is-shown">
+    <div id="profile-page" class="profile">
+        <div class=" profile-view">
+            <div class="subnav-elements subnav-inverse flex btn-group tc clof" style="height: 47px;">
+                <a id="SystemBtn" href="/user/utopic.html" data-tit="news" class="btn btn-inverse nav-item ">
+                    <i class="fa fa-file-text-o"></i></a>
+                <a id="SentBtn" href="/user/postTopic.html" data-tit="news" class="btn btn-inverse nav-item active">
+                    <i class="fa fa-edit"></i></a>
+            </div>
+            <div class="line10"></div>
+            <form role="form" id="pst-box" class="clo3 pst-textarea" style="width: 95%;margin: 0 auto;margin-top: 10px;" onsubmit="return false;">
+                <div class="control-group">
+                    <label for="club" class="control-label">文章类型</label>
+                    <div class="controls flatten full-field icon-heart-empty icon-overlay select manage-form-el">
+                        <select name="type" class="full-field " onchange="if($(this).val() == 2){$('#type1_box').hide();}else{$('#type1_box').show();}">
+                            <option value="1">文章帖子</option>
+                            <option value="2">悬赏任务</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group " id="type1_box">
+                    <label for="club" class="control-label">帖子分类</label>
+                    <div class="controls flatten full-field icon-heart-empty icon-overlay select manage-form-el">
+                        <select name="cid" id="club" class="full-field ">
+                            <option value="0">请选择分类</option>
+                            <volist name="club" id="vo">
+                                <option value="{$vo.cid}">{$vo.clubname}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="title" class="control-label">标题</label>
+                    <input name="title" id="title" type="text" value="" class="form-control">
+                </div>
+                <div class="control-group">
+                    <label for="title" class="control-label">内容</label>
+                    <textarea name="message" id="message"></textarea>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    function postTopic() {
+        var type = $('#pst-box select[name=type]').val();
+        var cid = $('#pst-box select[name=cid]').val();
+        var title = $('#pst-box input[name=title]').val();
+        var message = $('#pst-box textarea').val();
+        $.post('/index/subTopic.html', {cid: cid, title: title, message: message, type: type}, function (data) {
+            if (data.code == 200) {
+                clearpop(data.message, '', data.data);
+            } else {
+                clearpop(data.message);
+            }
+        })
+    }
+
+</script>
+</body>
+</html>
