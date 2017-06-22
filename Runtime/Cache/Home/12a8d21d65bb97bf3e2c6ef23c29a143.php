@@ -9,24 +9,24 @@
     <meta property="og:title" content="名叔馆">
     <meta property="og:description" content="名叔馆">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="http://www.adsvip.cn/">
+    <meta property="og:url" content="http://www.mingshut.com/">
     <meta name="copyright" content="名叔馆. 2013-2017">
     <meta name="type" content="adsvip.com">
     <meta name="robots" content="index,follow">
     <meta name="distribution" content="global">
 
-    <link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/static/common/css/sweetalert.css"/>
-    <script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/sweetalert.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/bootstrap/css/bootstrap-select.min.css"/>
-    <link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/static/common/css/site-public.css"/>
+    <link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/static/common/css/sweetalert.css"/>
+    <script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/bootstrap/css/bootstrap-select.min.css"/>
+    <link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/static/common/css/site-public.css"/>
 
-    <script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/jquery.2.2.1.min.js"></script>
-    <script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/jquery.browser.min.js"></script>
-    <script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/jquery.cookies.2.2.0.js"></script>
-    <script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/common.js"></script>
-    <script type="text/javascript" src="http://www.adsvip.cn/Public/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="http://www.adsvip.cn/Public/bootstrap/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/jquery.2.2.1.min.js"></script>
+    <script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/jquery.browser.min.js"></script>
+    <script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/jquery.cookies.2.2.0.js"></script>
+    <script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/common.js"></script>
+    <script type="text/javascript" src="http://www.mingshut.com/Public/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://www.mingshut.com/Public/bootstrap/js/bootstrap-select.min.js"></script>
 </head>
 
 <body class="landing-body">
@@ -51,8 +51,8 @@
     <div class="full-width seo-content">
         <div class="discreet-connection-section">
             <div class="discreet-img">
-                <p class="disclaimer-note">*不是adsvip.cn的实际成员</p>
-                <img src="http://www.adsvip.cn/Public/static/image/page/home/lander_seo_section1.png" border="0">
+                <p class="disclaimer-note">*不是mingshut.com的实际成员</p>
+                <img src="http://www.mingshut.com/Public/static/image/page/home/lander_seo_section1.png" border="0">
             </div>
             <div class="discreet-copy">
                 <h2>上百万和您一样的人正在寻找保密艳遇</h2>
@@ -70,7 +70,7 @@
             <div class="discretion-matters">
                 <div class="completely-independent half-width">
                     <div class="discretion-matters-img">
-                        <img src="http://www.adsvip.cn/Public/static/image/page/home/lander_seo_section2.1.png" border="0">
+                        <img src="http://www.mingshut.com/Public/static/image/page/home/lander_seo_section2.1.png" border="0">
                     </div>
                     <div class="discretion-matters-copy">
                         <h3>完全独立</h3>
@@ -79,7 +79,7 @@
                 </div>
                 <div class="discreet-photos half-width">
                     <div class="discretion-matters-img">
-                        <img src="http://www.adsvip.cn/Public/static/image/page/home/lander_seo_section2.2.png" border="0">
+                        <img src="http://www.mingshut.com/Public/static/image/page/home/lander_seo_section2.2.png" border="0">
                     </div>
                     <div class="discretion-matters-copy">
                         <h3>保密照片</h3>
@@ -90,7 +90,7 @@
             <div class="discretion-matters">
                 <div class="inbox-control half-width">
                     <div class="discretion-matters-img">
-                        <img src="http://www.adsvip.cn/Public/static/image/page/home/lander_seo_section2.3.png" border="0">
+                        <img src="http://www.mingshut.com/Public/static/image/page/home/lander_seo_section2.3.png" border="0">
                     </div>
                     <div class="discretion-matters-copy">
                         <h3>收件箱控制</h3>
@@ -99,7 +99,7 @@
                 </div>
                 <div class="travel-perks half-width">
                     <div class="discretion-matters-img">
-                        <img src="http://www.adsvip.cn/Public/static/image/page/home/lander_seo_section2.4.png" border="0">
+                        <img src="http://www.mingshut.com/Public/static/image/page/home/lander_seo_section2.4.png" border="0">
                     </div>
                     <div class="discretion-matters-copy">
                         <h3>旅游红利</h3>
@@ -111,7 +111,7 @@
         <div class="clearfix"></div>
         <div class="only-a-moment-section">
             <div class="only-a-moment-img">
-                <img src="http://www.adsvip.cn/Public/static/image/page/home/lander_seo_section3.jpg" border="0">
+                <img src="http://www.mingshut.com/Public/static/image/page/home/lander_seo_section3.jpg" border="0">
             </div>
             <div class="only-a-moment-copy">
                 <h2>只要一下下</h2>
@@ -127,13 +127,13 @@
                 <p>无论您是因为何种原因来到 名叔馆，您都能感到安心，因为在这里您并不孤单。我们的会员可能是单身或有伴侣的人寻找艳遇对象，或者是伴侣寻找多人关系。会员们寻找网络暧昧、没有约束或是保密的关系。有可能是学生、家庭主妇或主夫、上班族、商人、企业家、退休人员，或是任何介于这些身分之间的人。性倾向、目前的情感关系、年龄、财富或宗教，在这里都不重要。每个人都因为不同的原因加入像 名叔馆 这样的免费交友网站，但是都渴望寻找真正的保密对象。无论您的原因理由为何，或是您寻找的关系为何，您都能在 名叔馆 找到人生缺少的那一块。</p>
             </div>
             <div class="for-everyone-img">
-                <img src="http://www.adsvip.cn/Public/static/image/page/home/lander_seo_section4.jpg" border="0">
+                <img src="http://www.mingshut.com/Public/static/image/page/home/lander_seo_section4.jpg" border="0">
             </div>
         </div>
         <div class="clearfix"></div>
         <div class="first-dating-section">
             <div class="first-dating-img">
-                <img src="http://www.adsvip.cn/Public/static/image/page/home/lander_seo_section5.png" border="0">
+                <img src="http://www.mingshut.com/Public/static/image/page/home/lander_seo_section5.png" border="0">
             </div>
             <div class="first-dating-copy">
                 <h2>前所未有的独特交友网站</h2>
@@ -150,7 +150,7 @@
                 </form>
             </div>
             <div class="more-than-affair-img">
-                <img src="http://www.adsvip.cn/Public/static/image/page/home/lander_seo_section6.jpg" border="0">
+                <img src="http://www.mingshut.com/Public/static/image/page/home/lander_seo_section6.jpg" border="0">
             </div>
         </div>
         <div class="clearfix"></div>
@@ -171,7 +171,7 @@
             </div>
             <div class="half-width copyright-section">
                 <p class="legal pull-right box-pad-r-lg text-right box-marg-r">
-                    <span class="memberFooterCopyright force-ltr"> &copy; 2013 - 2017.  - <a href="http://www.adsvip.cn/" class="nopadding">名叔馆官方网站</a></span>
+                    <span class="memberFooterCopyright force-ltr"> &copy; 2013 - 2017.  - <a href="http://www.mingshut.com/" class="nopadding">名叔馆官方网站</a></span>
                     <span class="age-restriction">所有会员均年满18岁或以上</span>
                 </p>
             </div>

@@ -14,31 +14,31 @@
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no" media="(device-height: 568px)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<!--<link rel="shortcut icon" type="image/x-icon" href="http://www.adsvip.cn/Public/static/common/img/favicon.ico"/>-->
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/static/common/css/sweetalert.css"/>
-<script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/sweetalert.min.js"></script>
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/bootstrap/css/bootstrap.min.css"/>
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/bootstrap/css/bootstrap-select.min.css"/>
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/static/common/css/site-public.css"/>
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/static/common/css/common.css?version=<?php echo version();?>"/>
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/static/common/css/idealforms.css?version=<?php echo version();?>"/>
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/static/common/css/animation.css?version=<?php echo version();?>"/>
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/static/page/css/wap.landing.css?version=<?php echo version();?>"/>
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/static/page/css/wap.css?version=<?php echo version();?>"/>
+<!--<link rel="shortcut icon" type="image/x-icon" href="http://www.mingshut.com/Public/static/common/img/favicon.ico"/>-->
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/static/common/css/sweetalert.css"/>
+<script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/bootstrap/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/bootstrap/css/bootstrap-select.min.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/static/common/css/site-public.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/static/common/css/common.css?version=<?php echo version();?>"/>
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/static/common/css/idealforms.css?version=<?php echo version();?>"/>
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/static/common/css/animation.css?version=<?php echo version();?>"/>
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/static/page/css/wap.landing.css?version=<?php echo version();?>"/>
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/static/page/css/wap.css?version=<?php echo version();?>"/>
 
-<script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/jquery.2.2.1.min.js"></script>
-<script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/jquery.browser.min.js"></script>
-<script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/jquery.cookies.2.2.0.js"></script>
-<script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/common.js"></script>
-<script type="text/javascript" src="http://www.adsvip.cn/Public/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="http://www.adsvip.cn/Public/bootstrap/js/bootstrap-select.min.js"></script>
-<!--<script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/jquery.idealforms.js?version=<?php echo version();?>"></script>-->
-<script type="text/javascript" src="http://www.adsvip.cn/Public/static/page/js/wap.js?version=<?php echo version();?>"></script>
+<script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/jquery.2.2.1.min.js"></script>
+<script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/jquery.browser.min.js"></script>
+<script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/common.js"></script>
+<script type="text/javascript" src="http://www.mingshut.com/Public/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://www.mingshut.com/Public/bootstrap/js/bootstrap-select.min.js"></script>
+<!--<script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/jquery.idealforms.js?version=<?php echo version();?>"></script>-->
+<script type="text/javascript" src="http://www.mingshut.com/Public/static/page/js/wap.js?version=<?php echo version();?>"></script>
 <script type="text/javascript">
     var URL="/Wap/Index";
-    var PUBLIC = 'http://www.adsvip.cn/Public';
-    var STATIC = 'http://www.adsvip.cn/Public/static';
-    var UPLOAD = 'http://www.adsvip.cn/Public/upload';
+    var PUBLIC = 'http://www.mingshut.com/Public';
+    var STATIC = 'http://www.mingshut.com/Public/static';
+    var UPLOAD = 'http://www.mingshut.com/Public/upload';
     var DOMAIN ="<?php echo C('DOMAIN');?>";
 </script>
 
@@ -55,7 +55,7 @@
         </header>
         <div class="center neighbour-top" id="centerImg" style="">
             <div id="mainImgContainer" class="hero-image-wrapper inline position-relative" style="width: auto">
-                <img id="mainImg" class="top-minus-6" src="http://www.adsvip.cn/Public/static/image/page/home/indexbg2.jpg" style="height: 446px;">
+                <img id="mainImg" class="top-minus-6" src="http://www.mingshut.com/Public/static/image/page/home/indexbg2.jpg" style="height: 446px;">
             </div>
         </div>
         <div id="landingView">

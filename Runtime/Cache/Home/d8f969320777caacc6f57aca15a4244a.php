@@ -10,36 +10,36 @@
 <meta property="og:title" content="名叔馆">
 <meta property="og:description" content="名叔馆">
 <meta property="og:type" content="website">
-<meta property="og:url" content="http://www.adsvip.cn/">
+<meta property="og:url" content="http://www.mingshut.com/">
 <meta name="copyright" content="名叔馆. 2013-2017">
 <meta name="type" content="adsvip.com">
 <meta name="robots" content="index,follow">
 <meta name="distribution" content="global">
 
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/static/common/css/sweetalert.css"/>
-<script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/sweetalert.min.js"></script>
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/bootstrap/css/bootstrap.min.css"/>
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/bootstrap/css/bootstrap-select.min.css"/>
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/static/common/css/site-public.css"/>
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/static/common/css/common.css?version=<?php echo version();?>"/>
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/static/page/css/home.css?version=<?php echo version(2);?>"/>
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/static/common/css/sweetalert.css"/>
+<script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/bootstrap/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/bootstrap/css/bootstrap-select.min.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/static/common/css/site-public.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/static/common/css/common.css?version=<?php echo version();?>"/>
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/static/page/css/home.css?version=<?php echo version(2);?>"/>
 
 <!--[if IE 7]>
-<link rel="stylesheet" type="text/css" href="http://www.adsvip.cn/Public/static/common/css/cent-ie7.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.mingshut.com/Public/static/common/css/cent-ie7.css"/>
 <![endif]-->
-<script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/jquery.2.2.1.min.js"></script>
-<script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/jquery.browser.min.js"></script>
-<script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/jquery.cookies.2.2.0.js"></script>
-<script type="text/javascript" src="http://www.adsvip.cn/Public/static/common/js/common.js"></script>
-<script type="text/javascript" src="http://www.adsvip.cn/Public/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="http://www.adsvip.cn/Public/bootstrap/js/bootstrap-select.min.js"></script>
-<script type="text/javascript" src="http://www.adsvip.cn/Public/static/page/js/home.js?1"></script>
+<script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/jquery.2.2.1.min.js"></script>
+<script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/jquery.browser.min.js"></script>
+<script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="http://www.mingshut.com/Public/static/common/js/common.js"></script>
+<script type="text/javascript" src="http://www.mingshut.com/Public/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://www.mingshut.com/Public/bootstrap/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="http://www.mingshut.com/Public/static/page/js/home.js?1"></script>
 <script type="text/javascript">
     var URL="/Home/Index";
     var APP_PATH="";
-    var PUBLIC = 'http://www.adsvip.cn/Public';
-    var STATIC = 'http://www.adsvip.cn/Public/static';
-    var UPLOAD = 'http://www.adsvip.cn/Public/upload';
+    var PUBLIC = 'http://www.mingshut.com/Public';
+    var STATIC = 'http://www.mingshut.com/Public/static';
+    var UPLOAD = 'http://www.mingshut.com/Public/upload';
     var DOMAIN ="<?php echo C('DOMAIN');?>";
 </script>
 
@@ -154,7 +154,7 @@
         </div>
     </form>
 </div>
-<script src="http://www.adsvip.cn/Public/static/common/js/jquery.lhgcalendar.min.js"></script>
+<script src="http://www.mingshut.com/Public/static/common/js/jquery.lhgcalendar.min.js"></script>
 <script>
     $('#exampleInputBirthdate1').calendar({
         format: 'yyyy-MM-dd',
