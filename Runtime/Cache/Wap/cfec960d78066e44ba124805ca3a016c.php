@@ -1,7 +1,7 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html class="no-js webkit safari safari9 iphone">
 <head>
-    <title>名叔馆</title>
+    <title>名叔堂</title>
     <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="HandheldFriendly" content="True">
@@ -9,7 +9,7 @@
 <meta name="format-detection" content="telephone=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="app-mobile-web-app-title" content="名叔馆">
+<meta name="app-mobile-web-app-title" content="名叔堂">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no" media="(device-height: 568px)">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -50,7 +50,7 @@
         <header class="logoHeight" id="headerContainer" style="">
             <div class="backTransparent logoHeight" id="backLayer"></div>
             <div class="backLogo logoHeight" id="logoBack" style="">
-                <span class="font24 relative clof" style="top: 15px;">名叔馆</span>
+                <span class="font24 relative clof" style="top: 15px;">名叔堂</span>
                 <small id="tagLineText" class="clof tagline center " style="">寻找心动瞬间</small></div>
         </header>
         <div class="center neighbour-top" id="centerImg" style="">
@@ -60,14 +60,14 @@
         </div>
         <div id="landingView">
             <div id="buttonSection">
-                <div id="memberText" class="center side-padding">超过 53,175,000 会员*</div>
+                <div id="memberText" class="center side-padding">超过 198,813 会员*</div>
                 <div class="side-padding center neighbour-top">
                     <div id="promoteSignup" class="">
                         <a id="registerButtonMobile" href="/login/reg.html" class="btn btn-ashley btn-large btn-fullwidth">免费加入</a>
                         <a id="goToLogin" href="/login/login.html" class="btn btn-large neighbour-top btn-fullwidth">登入</a>
                     </div>
                 </div>
-                <div><p class="disclaimer member-legal">*自2002年起加入名叔馆的会员数量。</p></div>
+                <div><p class="disclaimer member-legal">*自2002年起加入名叔堂的会员数量。</p></div>
             </div>
             <form id="nextLoginForm" action="/n/" method="post"><input id="access_token" type="hidden" name="access_token"></form>
         </div>

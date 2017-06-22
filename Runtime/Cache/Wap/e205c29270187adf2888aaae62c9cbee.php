@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <meta name="Robots" content="noindex,nofollow,noarchive" />
-    <title>名叔馆--登录</title>
+    <title>名叔堂--登录</title>
     <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="HandheldFriendly" content="True">
@@ -11,7 +11,7 @@
 <meta name="format-detection" content="telephone=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="app-mobile-web-app-title" content="名叔馆">
+<meta name="app-mobile-web-app-title" content="名叔堂">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no" media="(device-height: 568px)">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -50,7 +50,7 @@
     input[type=checkbox]{width: 15px;}
     header{background-color: #231f20;background-image: none;height:50px;line-height: 50px;}
 </style>
-<header class="relative tc font24"> 名叔馆</header>
+<header class="relative tc font24"> 名叔堂</header>
 <div class="container">
     <form role="form" id="loginbox" onsubmit="return false;">
         <div class="form-group">
@@ -69,7 +69,7 @@
 </div>
 <div data-role="footer" class="footer-public ui-footer tc" style="margin-top: 30px;padding: 5px 0" role="contentinfo">
     <div class="memberFooterCopyright force-ltr"> © 2013 - 2017.</div>
-    <div class="memberFooterCopyright"> <a href="/" target="_top" class="ui-link">名叔馆 官方网站</a> </div>
+    <div class="memberFooterCopyright"> <a href="/" target="_top" class="ui-link">名叔堂 官方网站</a> </div>
     <div class="memberFooterCopyright">  </div>
 </div>
 <script>

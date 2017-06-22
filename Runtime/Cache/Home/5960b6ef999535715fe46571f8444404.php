@@ -2,17 +2,17 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>名叔馆</title>
+    <title>名叔堂</title>
     
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta charset="utf-8">
-<meta name="description" content="名叔馆">
-<meta name="keywords" content="名叔馆">
-<meta property="og:title" content="名叔馆">
-<meta property="og:description" content="名叔馆">
+<meta name="description" content="名叔堂">
+<meta name="keywords" content="名叔堂">
+<meta property="og:title" content="名叔堂">
+<meta property="og:description" content="名叔堂">
 <meta property="og:type" content="website">
 <meta property="og:url" content="http://www.mingshut.com/">
-<meta name="copyright" content="名叔馆. 2013-2017">
+<meta name="copyright" content="名叔堂. 2013-2017">
 <meta name="type" content="adsvip.com">
 <meta name="robots" content="index,follow">
 <meta name="distribution" content="global">
@@ -59,7 +59,7 @@
     <div class="" style="background: #FFffff;width: 100%">
         <div class="collapse maincontainer navbar-collapse ">
             <a href="/" class="fontb clo6" style="font-size: 50px;line-height: 65px;">
-                名叔馆
+                名叔堂
             </a>
         </div>
     </div>

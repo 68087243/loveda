@@ -79,20 +79,16 @@ class LoginController extends Controller {
         }else{
             $areas =  AreaModel::getAreaAll();
             $priovce = array();
-            $city = array();
+
             foreach ($areas as $area) {
                 if ($area["parentid"] == 0 && $area["parentid"] !== null) {
                     array_push($priovce, $area);
-                } elseif ($area["parentid"] > 0) {
-                    array_push($city, $area);
                 }
             }
             $this->assign('priovce',$priovce);
-            $this->assign('city',$city);
             $this->assign('headtitle','注册');
             $this->display();
         }
-
     }
 
 }

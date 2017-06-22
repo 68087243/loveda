@@ -1,17 +1,17 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html class="webkit safari chrome win">
 <head>
-    <title>名叔馆 | 登录</title>
+    <title>名叔堂 | 登录</title>
     
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta charset="utf-8">
-<meta name="description" content="名叔馆">
-<meta name="keywords" content="名叔馆">
-<meta property="og:title" content="名叔馆">
-<meta property="og:description" content="名叔馆">
+<meta name="description" content="名叔堂">
+<meta name="keywords" content="名叔堂">
+<meta property="og:title" content="名叔堂">
+<meta property="og:description" content="名叔堂">
 <meta property="og:type" content="website">
 <meta property="og:url" content="http://www.mingshut.com/">
-<meta name="copyright" content="名叔馆. 2013-2017">
+<meta name="copyright" content="名叔堂. 2013-2017">
 <meta name="type" content="adsvip.com">
 <meta name="robots" content="index,follow">
 <meta name="distribution" content="global">

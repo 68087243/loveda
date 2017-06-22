@@ -1,17 +1,17 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html class="webkit safari chrome win">
 <head>
-    <title>名叔馆</title>
+    <title>名叔堂</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta charset="utf-8">
-    <meta name="description" content="名叔馆">
-    <meta name="keywords" content="名叔馆">
-    <meta property="og:title" content="名叔馆">
-    <meta property="og:description" content="名叔馆">
+    <meta name="description" content="名叔堂">
+    <meta name="keywords" content="名叔堂">
+    <meta property="og:title" content="名叔堂">
+    <meta property="og:description" content="名叔堂">
     <meta property="og:type" content="website">
     <meta property="og:url" content="http://www.mingshut.com/">
-    <meta name="copyright" content="名叔馆. 2013-2017">
-    <meta name="type" content="adsvip.com">
+    <meta name="copyright" content="名叔堂. 2013-2017">
+    <meta name="type" content="mingshut.com">
     <meta name="robots" content="index,follow">
     <meta name="distribution" content="global">
 
@@ -37,7 +37,7 @@
     </button>
     <div class="left-content">
         <div class="logo-top-section">
-            <h1 class="clof" style="font-size: 40px;">名叔馆</h1>
+            <h1 class="clof" style="font-size: 40px;">名叔堂</h1>
             <br/>
         </div>
         <div>
@@ -45,7 +45,7 @@
         </div>
 
         <div id="membersCount" class="member-count-section">
-            超过 53,020,000 会员*
+            超过 198,813 会员*
         </div>
     </div>
     <div class="full-width seo-content">
@@ -56,7 +56,7 @@
             </div>
             <div class="discreet-copy">
                 <h2>上百万和您一样的人正在寻找保密艳遇</h2>
-                <p>每天有上千人加入 名叔馆，寻找各种保密艳遇。无论单身或有伴侣、寻找探险机会，或只是好奇外面的世界──名叔馆 是全世界最开放包容的约会社区。</p>
+                <p>每天有上千人加入 名叔堂，寻找各种保密艳遇。无论单身或有伴侣、寻找探险机会，或只是好奇外面的世界──名叔堂 是全世界最开放包容的约会社区。</p>
             </div>
         </div>
         <div class="clearfix"></div>
@@ -74,7 +74,7 @@
                     </div>
                     <div class="discretion-matters-copy">
                         <h3>完全独立</h3>
-                        <p>您无需将名叔馆账户与您任何其他社交账户链接。事实上，您不能这么做。请使用一个私人电子邮箱来注册（为了更加隐秘，我们建议为了这个账户单独建立一个电子邮箱）。</p>
+                        <p>您无需将名叔堂账户与您任何其他社交账户链接。事实上，您不能这么做。请使用一个私人电子邮箱来注册（为了更加隐秘，我们建议为了这个账户单独建立一个电子邮箱）。</p>
                     </div>
                 </div>
                 <div class="discreet-photos half-width">
@@ -117,14 +117,14 @@
                 <h2>只要一下下</h2>
                 <p>生活常常不知不觉就埋没在例行公事中。我们数着日子而不是把握日子，常常梦想要更多，最后生活却只剩下世俗无趣的日常琐事。</p>
                 <p>有时候，特别的事情就发生了。擦肩而过、匆匆一瞥、回眸相视而笑……这些时刻往往让我们感受到那特别的一瞬间。回想起来，那些没有把握的当下、没有实际去过的生活，对我们来说会有怎样的可能性？</p>
-                <p>要是自己能够主动去让那一刻发生呢？感觉内心小鹿乱撞，体会那样的渴望，不是为了生活而生活，而是好好的活一回？名叔馆 就是崭新旅程的起点，寻找属于你的那一瞬间。</p>
+                <p>要是自己能够主动去让那一刻发生呢？感觉内心小鹿乱撞，体会那样的渴望，不是为了生活而生活，而是好好的活一回？名叔堂 就是崭新旅程的起点，寻找属于你的那一瞬间。</p>
             </div>
         </div>
         <div class="clearfix"></div>
         <div class="for-everyone-section">
             <div class="for-everyone-copy">
-                <h2>名叔馆 是属于每一个人的</h2>
-                <p>无论您是因为何种原因来到 名叔馆，您都能感到安心，因为在这里您并不孤单。我们的会员可能是单身或有伴侣的人寻找艳遇对象，或者是伴侣寻找多人关系。会员们寻找网络暧昧、没有约束或是保密的关系。有可能是学生、家庭主妇或主夫、上班族、商人、企业家、退休人员，或是任何介于这些身分之间的人。性倾向、目前的情感关系、年龄、财富或宗教，在这里都不重要。每个人都因为不同的原因加入像 名叔馆 这样的免费交友网站，但是都渴望寻找真正的保密对象。无论您的原因理由为何，或是您寻找的关系为何，您都能在 名叔馆 找到人生缺少的那一块。</p>
+                <h2>名叔堂 是属于每一个人的</h2>
+                <p>无论您是因为何种原因来到 名叔堂，您都能感到安心，因为在这里您并不孤单。我们的会员可能是单身或有伴侣的人寻找艳遇对象，或者是伴侣寻找多人关系。会员们寻找网络暧昧、没有约束或是保密的关系。有可能是学生、家庭主妇或主夫、上班族、商人、企业家、退休人员，或是任何介于这些身分之间的人。性倾向、目前的情感关系、年龄、财富或宗教，在这里都不重要。每个人都因为不同的原因加入像 名叔堂 这样的免费交友网站，但是都渴望寻找真正的保密对象。无论您的原因理由为何，或是您寻找的关系为何，您都能在 名叔堂 找到人生缺少的那一块。</p>
             </div>
             <div class="for-everyone-img">
                 <img src="http://www.mingshut.com/Public/static/image/page/home/lander_seo_section4.jpg" border="0">
@@ -137,16 +137,16 @@
             </div>
             <div class="first-dating-copy">
                 <h2>前所未有的独特交友网站</h2>
-                <p>当 名叔馆 在 2001 年成立时，成人保密约会并没有很多选择。当保密是您最看重的条件时，从职场上或朋友之间认识对象的风险太高。很多人转而到传统在线交友网站，但是发现那里很难找到想要类似关系的人。因此，名叔馆 做为第一个对这种需求坦诚开放的网站而成立：想法类似的人们寻找已婚的约会对象。这里没有人会有偏见，名叔馆 的理念是成人在互相同意下应该能够过自己想要的私人生活。十年前开始的想法很快就成为全球领先的外遇交友空间。一开始专为寻找外遇关系的已婚男女，设计最具有隐私的交友方式，逐渐发展出更多可能性。</p>
+                <p>当 名叔堂 在 2001 年成立时，成人保密约会并没有很多选择。当保密是您最看重的条件时，从职场上或朋友之间认识对象的风险太高。很多人转而到传统在线交友网站，但是发现那里很难找到想要类似关系的人。因此，名叔堂 做为第一个对这种需求坦诚开放的网站而成立：想法类似的人们寻找已婚的约会对象。这里没有人会有偏见，名叔堂 的理念是成人在互相同意下应该能够过自己想要的私人生活。十年前开始的想法很快就成为全球领先的外遇交友空间。一开始专为寻找外遇关系的已婚男女，设计最具有隐私的交友方式，逐渐发展出更多可能性。</p>
             </div>
         </div>
         <div class="clearfix"></div>
         <div class="more-than-affair-section">
             <div class="more-than-affair-copy">
                 <h2>不只是外遇网站</h2>
-                <p>今日的 名叔馆 不仅只是个外遇的地方，而是充满各种成人交友的机会。事实上，我们分布全球的上百万会员中，有很大的一部分是单身人士，因为他们想要拥有 名叔馆 超过十年来所代表的隐私保密。许多会员都拥有令人满意的亲密关系，可是想要一起在一个安全的空间寻求更开放的关系。其他人仍在寻找同性对象，但是希望能与个人生活或职场区隔。当然，仍然有许多男男女女在 名叔馆 寻找外遇，但我们不希望被局限住，您也不该被局限住。名叔馆 是与心态开放的成人产生真正私密关系的最佳地点。</p>
+                <p>今日的 名叔堂 不仅只是个外遇的地方，而是充满各种成人交友的机会。事实上，我们分布全球的上百万会员中，有很大的一部分是单身人士，因为他们想要拥有 名叔堂 超过十年来所代表的隐私保密。许多会员都拥有令人满意的亲密关系，可是想要一起在一个安全的空间寻求更开放的关系。其他人仍在寻找同性对象，但是希望能与个人生活或职场区隔。当然，仍然有许多男男女女在 名叔堂 寻找外遇，但我们不希望被局限住，您也不该被局限住。名叔堂 是与心态开放的成人产生真正私密关系的最佳地点。</p>
                 <form action="/index/ulist.html" method="post" id="noseekingregistration">
-                    <input type="submit" value="到 名叔馆 寻找属于你的那一瞬间" class="btn btn-pink">
+                    <input type="submit" value="到 名叔堂 寻找属于你的那一瞬间" class="btn btn-pink">
                 </form>
             </div>
             <div class="more-than-affair-img">
@@ -171,7 +171,7 @@
             </div>
             <div class="half-width copyright-section">
                 <p class="legal pull-right box-pad-r-lg text-right box-marg-r">
-                    <span class="memberFooterCopyright force-ltr"> &copy; 2013 - 2017.  - <a href="http://www.mingshut.com/" class="nopadding">名叔馆官方网站</a></span>
+                    <span class="memberFooterCopyright force-ltr"> &copy; 2013 - 2017.  - <a href="http://www.mingshut.com/" class="nopadding">名叔堂官方网站</a></span>
                     <span class="age-restriction">所有会员均年满18岁或以上</span>
                 </p>
             </div>

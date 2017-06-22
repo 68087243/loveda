@@ -269,7 +269,7 @@ class UserModel extends Model
                     }
                 }
             }
-            $subject='[名叔馆]重置密码';
+            $subject='[名叔堂]重置密码';
             if(send_mail($email,$subject,$body)){
                 $where['uid']=$user['uid'];
                 if( M('member')->where($where)->setField('password',md5($pwd))){

@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <meta name="Robots" content="noindex,nofollow,noarchive" />
-    <title>名叔馆--注册</title>
+    <title>名叔堂--注册</title>
     <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="HandheldFriendly" content="True">
@@ -11,7 +11,7 @@
 <meta name="format-detection" content="telephone=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="app-mobile-web-app-title" content="名叔馆">
+<meta name="app-mobile-web-app-title" content="名叔堂">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no" media="(device-height: 568px)">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -51,17 +51,9 @@
 <style>
     header{background-color: #231f20;background-image: none;height:50px;line-height: 50px;}
 </style>
-<header class="relative tc font24"> 名叔馆</header>
+<header class="relative tc font24"> 名叔堂</header>
 <div class="container bodyf">
     <form role="form" id="regbox" class="clo3" style="margin-top: 10px;" onsubmit="return false;">
-        <!--<div id="box_1">-->
-            <!--<div class="form-group tc" style="margin-bottom: 0">-->
-                <!--<ul class="relative" style="line-height: 41px; top: 10px;">-->
-                    <!--<li class="fl"><label for="radio1" class="clo6"><input type="radio" id="radio1" name="sex" value="1"/>我是女生</label></li>-->
-                    <!--<li class="fl"><label for="radio2" class="clo6"><input type="radio" id="radio2" name="sex" value="2"/>我是男生</label></li>-->
-                <!--</ul>-->
-            <!--</div>-->
-            <!--<div class="font12 orange relative fr" id="sextit" style="top: -20px;right: 30px;display: none">选择后不可更改</div>-->
             <div class="form-group">
                 <span class="fontb">用户名</span><input type="text" name="nickname" class="form-control"  />
             </div>
@@ -114,13 +106,10 @@
 </div>
 <div data-role="footer" class="footer-public ui-footer tc" style="padding: 5px 0" role="contentinfo">
     <div class="memberFooterCopyright force-ltr"> © 2013 - 2017.</div>
-    <div class="memberFooterCopyright"> <a href="/" target="_top" class="ui-link">名叔馆 官方网站</a> </div>
+    <div class="memberFooterCopyright"> <a href="/" target="_top" class="ui-link">名叔堂 官方网站</a> </div>
     <div class="memberFooterCopyright">  </div>
 </div>
 <script>
-//    $("#regbox").idealforms();
-//    $('.idealforms_select_menu').css({'max-height': '120px'});
-
     /*阻塞标志，防止重复提交；预设不阻塞*/
     window.subBlock=false;
     function subReg(){
