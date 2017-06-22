@@ -42,12 +42,12 @@
                         <input type="password" name="password" class="form-control" id="exampleInputPwd1" />
                     </div>
                     <div class="form-group pure-g">
-                        <label for="exampleInputCode1">邮递区号</label>
-                        <input type="text" class="form-control" name="zip_code" id="exampleInputCode1" />
+                        <label for="exampleInputCode1">微信</label>
+                        <input type="text" class="form-control" placeholder="请填写微信号方便客服联系您" name="wechat" id="exampleInputCode1" />
                     </div>
                     <div class="form-group pure-g">
                         <label for="exampleInputIntroduce1">签名介绍</label>
-                        <input type="text" class="form-control" name="describe" id="exampleInputIntroduce1" />
+                        <input type="text" class="form-control" placeholder="公开信息，请尽情发挥" name="describe" id="exampleInputIntroduce1" />
                     </div>
                     <div class="form-group pure-g">
                         <label for="height">性别</label>
@@ -110,7 +110,7 @@
                     <div class="smallprint">
                         我确认我已经年满18岁并已阅读及同意 名叔堂 的<a href="/index/newinfo.html?id=4" target="_blank">隐私政策</a> 和 <a href="/index/newinfo.html?id=3" target="_blank">条款和条件</a>.
                     </div>
-                    <input type="submit" id="submitBtn" class="submitBtn" value="注册">
+                    <input type="submit" id="submitBtn" onclick="reg();" class="submitBtn" value="注册">
                 </form>
                 <div class="smallprint">
                     <p>mingshut.com将定期通知您所在地区的潜在或新的配对和任何您可能会感兴趣的服务更新。</p>
@@ -125,7 +125,6 @@
 <script>
     $('#exampleInputBirthdate1').calendar({
         format: 'yyyy-MM-dd',
-        minDate: '%y-%M-%d',
         btnBar: false
     });
     /*阻塞标志，防止重复提交；预设不阻塞*/
@@ -136,7 +135,7 @@
         }
         var account = $('#myform input[name=account]').val();
         var password = $('#myform input[name=password]').val();
-        var zip_code = $('#myform input[name=zip_code]').val();
+        var wechat = $('#myform input[name=wechat]').val();
         var describe = $('#myform input[name=describe]').val();
         var height = $('#myform select[name=height]').val();
         var weight = $('#myform select[name=weight]').val();
@@ -159,8 +158,8 @@
             subBlock = false;//解除阻塞
             return false;
         }
-        if(!zip_code){
-            clearpop('请输入的你邮编地址！');
+        if(!wechat){
+            clearpop('请填写微信号方便客服联系您！');
             subBlock = false;//解除阻塞
             return false;
         }

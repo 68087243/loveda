@@ -52,6 +52,9 @@ class LoginController extends Controller {
             if(strlen($data['password'])<5||strlen($data['password'])>18){
                 apiReturn(CodeModel::ERROR,'密码长度应为4');
             }
+            if(!$data['wechat']){
+                apiReturn(CodeModel::ERROR,'请填写微信号方便客服联系您');
+            }
             if(!$data['sex']){
                 apiReturn(CodeModel::ERROR,'请选择性别');
             }
