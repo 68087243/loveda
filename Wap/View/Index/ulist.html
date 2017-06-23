@@ -60,7 +60,7 @@
                              id="input_addr">
                             <select name="proivce" >
                                 <option value="">请选择地区</option>
-                                <volist name="priovce" id="vo">
+                                <volist name="proivce" id="vo">
                                     <option <if condition="isset($_REQUEST['proivce']) && $_REQUEST['proivce'] eq $vo['aid']">selected</if> value="{$vo.aid}">{$vo.name}</option>
                                 </volist>
                             </select>

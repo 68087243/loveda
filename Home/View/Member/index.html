@@ -51,7 +51,7 @@
                             <label for="weight" class="form_label collapse-margin block">所在城市</label>
 
                             <select name="proivce" onchange="checkeSupsort($(this).val(), $('#myform select[name=city]'));" style="width: 49%;">
-                                <volist name="priovce" id="vo">
+                                <volist name="proivce" id="vo">
                                     <option <if condition="$user['proivce'] eq $vo['aid']">selected</if>  value="{$vo.aid}">{$vo.name}</option>
                                 </volist>
                             </select>

@@ -48,7 +48,7 @@
                 <form onsubmit='return false;' id="searchForm" class="absolute nav navbar-nav navbar-right" style="top: 50px;right: 0" >
                         <select name="proivce" onchange="checkeSupsort($(this).val(), $('#searchForm select[name=city]'));"  style="width: 80px;height: 32px;">
                             <option value="">请选择</option>
-                            <volist name="priovce" id="vo">
+                            <volist name="proivce" id="vo">
                                 <option value="{$vo.aid}">{$vo.name}</option>
                             </volist>
                         </select>

@@ -57,7 +57,7 @@ class TopicModel extends Model
                     $topic['avatar'] = $club['picture'];
                     $topic['level'] = $club['level'];
                     $topic['city'] = $club['city'];
-                    $topic['priovce'] = $club['priovce'];
+                    $topic['proivce'] = $club['proivce'];
                 }
                return $topic;
             }else{

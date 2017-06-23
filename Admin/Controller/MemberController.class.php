@@ -107,16 +107,16 @@ class MemberController extends BaseController {
         $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
         $this->assign ( "page", $page->show() );
         $areas =  AreaModel::getAreaAll();
-        $priovce = array();
+        $proivce = array();
         $city = array();
         foreach ($areas as $area) {
             if ($area["parentid"] == 0 && $area["parentid"] !== null) { //排除中国和俄罗斯
-                array_push($priovce, $area);
+                array_push($proivce, $area);
             } elseif ($area["parentid"] > 0) {
                 array_push($city, $area);
             }
         }
-        $this->assign('priovce',$priovce);
+        $this->assign('proivce',$proivce);
         #$this->assign('city',$city);
         // 输出当前Member等级列表
         $this->assign ( "levels", LevelModel::getLevel(true));
@@ -153,16 +153,16 @@ class MemberController extends BaseController {
         $this->assign ( "user", $user );
 
         $areas =  AreaModel::getAreaAll();
-        $priovce = array();
+        $proivce = array();
         $city = array();
         foreach ($areas as $area) {
             if ($area["parentid"] == 0 && $area["parentid"] !== null) { //排除中国和俄罗斯
-                array_push($priovce, $area);
+                array_push($proivce, $area);
             } elseif ($area["parentid"] > 0) {
                 array_push($city, $area);
             }
         }
-        $this->assign('priovce',$priovce);
+        $this->assign('proivce',$proivce);
         $this->display ('editMember');
 
     }

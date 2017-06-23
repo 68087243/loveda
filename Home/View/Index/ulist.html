@@ -38,10 +38,10 @@
         </span>
         <span id="tdLocation">
             <span id="dLocation">
-            <select id="area" name="priovce" class="selectpicker col-1 search-select">
+            <select id="area" name="proivce" class="selectpicker col-1 search-select">
                 <option value="">全部地区</option>
-                <volist name="priovce" id="vo">
-                    <option value="{$vo.aid}" <if condition="$_REQUEST['priovce'] eq $vo['aid']">selected</if>>{$vo.name}</option>
+                <volist name="proivce" id="vo">
+                    <option value="{$vo.aid}" <if condition="$_REQUEST['proivce'] eq $vo['aid']">selected</if>>{$vo.name}</option>
                 </volist>
             </select>
             </span>

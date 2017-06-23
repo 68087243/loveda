@@ -68,9 +68,9 @@
                     <div class="form-group">
                         <label>城市</label>
                         <div>
-                            <select name="proivce" id="priovce" class="fl" style="width: 49%;" onchange="checkeSupsort($(this).val(), $('#myform select[name=city]'));">
+                            <select name="proivce" id="proivce" class="fl" style="width: 49%;" onchange="checkeSupsort($(this).val(), $('#myform select[name=city]'));">
                                 <option value="">请选择省</option>
-                                <volist name="priovce" id="vo">
+                                <volist name="proivce" id="vo">
                                     <option value="{$vo.aid}">{$vo.name}</option>
                                 </volist>
                             </select>

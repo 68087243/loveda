@@ -71,7 +71,7 @@
                  id="input_addr">
                 <select name="proivce" onchange="checkeSupsort($(this).val(), $('#formEditProfile select[name=city]'));"
                         style="width:90%;  top: 0;">
-                    <volist name="priovce" id="vo">
+                    <volist name="proivce" id="vo">
                         <option
                         <if condition="$user['proivce'] eq $vo['aid']">selected</if>
                         value="{$vo.aid}">{$vo.name}</option>

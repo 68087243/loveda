@@ -3,7 +3,7 @@
 *.log
 Runtime/
 thumb/
-Logs/
+Runtime/Logs/
 .htaccess
 Public/upload
 .DS_Store

@@ -57,8 +57,8 @@ class IndexController extends Controller {
             $where['birthdate'] = array(array("elt",getBirthday($_REQUEST['age-s'])),array("egt",getBirthday($_REQUEST['age-e'])));
         }
 
-        if (!empty($_REQUEST['priovce'])) {
-            $where['proivce'] = $_REQUEST['priovce'];
+        if (!empty($_REQUEST['proivce'])) {
+            $where['proivce'] = $_REQUEST['proivce'];
         }
         if (!empty($_REQUEST['loginstatus'])) {
             $where['loginstatus'] = $_REQUEST['loginstatus'];
@@ -82,13 +82,13 @@ class IndexController extends Controller {
         $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
         $this->assign ( "page", $page->show() );
         $areas =  AreaModel::getAreaAll();
-        $priovce = array();
+        $proivce = array();
         foreach ($areas as $area) {
             if ($area["parentid"] == 0 && $area["parentid"] !== null) { //排除中国和俄罗斯
-                array_push($priovce, $area);
+                array_push($proivce, $area);
             }
         }
-        $this->assign('priovce',$priovce);
+        $this->assign('proivce',$proivce);
         $this->display();
     }
     //用户详情
@@ -269,17 +269,17 @@ class IndexController extends Controller {
     //发布计划
     public function planpost(){
         $areas =  AreaModel::getAreaAll();
-        $priovce = array();
+        $proivce = array();
         $city = array();
         foreach ($areas as $area) {
             if ($area["parentid"] == 0 && $area["parentid"] !== null) { //排除中国和俄罗斯
-                array_push($priovce, $area);
+                array_push($proivce, $area);
             } elseif ($area["parentid"] > 0) {
                 array_push($city, $area);
             }
         }
         $this->assign ( "content", ContentModel::getHotContent());
-        $this->assign('priovce',$priovce);
+        $this->assign('proivce',$proivce);
         $this->assign('city',$city);
         $this->display();
     }
@@ -355,16 +355,16 @@ class IndexController extends Controller {
         $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
         $this->assign ( "page", $page->show() );
         $areas =  AreaModel::getAreaAll();
-        $priovce = array();
+        $proivce = array();
         $city = array();
         foreach ($areas as $area) {
             if ($area["parentid"] == 0 && $area["parentid"] !== null) { //排除中国和俄罗斯
-                array_push($priovce, $area);
+                array_push($proivce, $area);
             } elseif ($area["parentid"] > 0) {
                 array_push($city, $area);
             }
         }
-        $this->assign('priovce',$priovce);
+        $this->assign('proivce',$proivce);
         $this->assign('club', ClubModel::getClub());
         $this->display();
     }

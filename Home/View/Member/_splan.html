@@ -16,7 +16,7 @@
             <span class="red fl">*</span>
             <select name="proivce"  class="fl" onchange="checkeSupsort($(this).val(), $('#myform select[name=city]'));" style="width: 100px;">
                 <option value="">请选择</option>
-                <volist name="priovce" id="vo">
+                <volist name="proivce" id="vo">
                     <option value="{$vo.aid}" <if condition="isset($plan) && $plan['proivce'] eq $vo['aid']">selected</if>>{$vo.name}</option>
                 </volist>
             </select>

@@ -41,9 +41,9 @@
             <div class="form-group">
                 <span class="fontb">城市</span>
                 <div>
-                    <select name="priovce" id="priovce" class="fl" style="width: 49%;" onchange="checkeSupsort($(this).val(), $('#regbox select[name=city]'));">
+                    <select name="proivce" id="proivce" class="fl" style="width: 49%;" onchange="checkeSupsort($(this).val(), $('#regbox select[name=city]'));">
                         <option value="">请选择省</option>
-                        <volist name="priovce" id="vo">
+                        <volist name="proivce" id="vo">
                             <option value="{$vo.aid}">{$vo.name}</option>
                         </volist>
                     </select>
@@ -104,6 +104,12 @@
             return false;
         }
         var $email = $('#regbox input[name=email]').val()
+        if(!$email){
+            clearpop('请填写邮箱地址');
+            $('#regbox input[name=email]').focus();
+            subBlock = false;
+            return false;
+        }
         if($email && !regex($email,'email')){
             clearpop('邮箱格式不正确');
             $('#regbox input[name=email]').focus();

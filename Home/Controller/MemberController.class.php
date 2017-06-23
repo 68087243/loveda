@@ -28,16 +28,16 @@ class MemberController extends BaseController {
 
 	public function index() {
         $areas =  AreaModel::getAreaAll();
-        $priovce = array();
+        $proivce = array();
         $city = array();
         foreach ($areas as $area) {
             if ($area["parentid"] == 0 && $area["parentid"] !== null) { //排除中国和俄罗斯
-                array_push($priovce, $area);
+                array_push($proivce, $area);
             } elseif ($area["parentid"] > 0) {
                 array_push($city, $area);
             }
         }
-        $this->assign('priovce',$priovce);
+        $this->assign('proivce',$proivce);
         $this->assign('city',$city);
         $this->display();
 	}
@@ -334,16 +334,16 @@ class MemberController extends BaseController {
 
 
         $areas =  AreaModel::getAreaAll();
-        $priovce = array();
+        $proivce = array();
         $city = array();
         foreach ($areas as $area) {
             if ($area["parentid"] == 0 && $area["parentid"] !== null) { //排除中国和俄罗斯
-                array_push($priovce, $area);
+                array_push($proivce, $area);
             } elseif ($area["parentid"] > 0) {
                 array_push($city, $area);
             }
         }
-        $this->assign('priovce',$priovce);
+        $this->assign('proivce',$proivce);
         $this->assign('city',$city);
         $this->display();
     }

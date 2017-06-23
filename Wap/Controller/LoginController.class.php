@@ -61,6 +61,7 @@ class LoginController extends Controller {
             if(UserModel::isExistNickname($username)){
                 apiReturn(CodeModel::ERROR,'账户已存在');
             }
+
             if($data = D('member')->create()){
                 $data['account'] = $data['nickname']; //注册时登录账户==昵称
                 $data['password'] = md5($password);
@@ -78,14 +79,14 @@ class LoginController extends Controller {
             }
         }else{
             $areas =  AreaModel::getAreaAll();
-            $priovce = array();
+            $proivce = array();
 
             foreach ($areas as $area) {
                 if ($area["parentid"] == 0 && $area["parentid"] !== null) {
-                    array_push($priovce, $area);
+                    array_push($proivce, $area);
                 }
             }
-            $this->assign('priovce',$priovce);
+            $this->assign('proivce',$proivce);
             $this->assign('headtitle','注册');
             $this->display();
         }

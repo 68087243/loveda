@@ -53,8 +53,8 @@ class IndexController extends Controller {
         if(!empty($_REQUEST['age-s']) && !empty($_REQUEST['age-e'])){  //如果有开始和结束
             $where['birthdate'] = array(array("elt",getBirthday($_REQUEST['age-s'])),array("egt",getBirthday($_REQUEST['age-e'])));
         }
-        if (!empty($_REQUEST['priovce'])) {
-            $where['proivce'] = $_REQUEST['priovce'];
+        if (!empty($_REQUEST['proivce'])) {
+            $where['proivce'] = $_REQUEST['proivce'];
         }
         $user = UserModel::getUser();
         if($user){
@@ -70,13 +70,13 @@ class IndexController extends Controller {
         $list = D( "member" )->where ( $where )->order($order)->select();
         $this->assign ( "list", $list );
         $areas =  AreaModel::getAreaAll();
-        $priovce = array();
+        $proivce = array();
         foreach ($areas as $area) {
             if ($area["parentid"] == 0 && $area["parentid"] !== null) { //排除中国和俄罗斯
-                array_push($priovce, $area);
+                array_push($proivce, $area);
             }
         }
-        $this->assign('priovce',$priovce);
+        $this->assign('proivce',$proivce);
         $this->display();
     }
 
@@ -435,16 +435,16 @@ class IndexController extends Controller {
             $gotword = HotWordModel::getHotWordByType();
         }
         $areas =  AreaModel::getAreaAll();
-        $priovce = array();
+        $proivce = array();
         $city = array();
         foreach ($areas as $area) {
             if ($area["parentid"] == 0 && $area["parentid"] !== null) { //排除中国和俄罗斯
-                array_push($priovce, $area);
+                array_push($proivce, $area);
             } elseif ($area["parentid"] > 0) {
                 array_push($city, $area);
             }
         }
-        $this->assign('priovce',$priovce);
+        $this->assign('proivce',$proivce);
         $this->assign('city',$city);
         $this->assign('gotword',$gotword);
         $this->display();
