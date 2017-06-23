@@ -5,6 +5,7 @@ use Common\Model\AreaModel;
 use Common\Model\BannerModel;
 use Common\Model\ClubModel;
 use Common\Model\CodeModel;
+use Common\Model\ContentModel;
 use Common\Model\EscortPlanModel;
 use Common\Model\FavoriteModel;
 use Common\Model\FriendsModel;
@@ -717,4 +718,21 @@ class IndexController extends Controller {
         $this->display();
     }
 
+
+    public function newinfo(){
+        if(isset($_REQUEST['type']) && $_REQUEST['type']=='sm'){
+            $info = MessageModel::getMsgByMid($_REQUEST['id']);
+            MessageModel::readMesUp($_REQUEST['id']);
+            $this->assign ( "info",$info);
+        }else{
+            $info = ContentModel::getContentById($_REQUEST['id']);
+            $data['hits'] =intval($info['hits'])+1;
+            ContentModel::modifyContent($_REQUEST['id'],$data);
+            if(!empty($info) && $info['status'] == ContentModel::NORMAL){
+                $this->assign ( "info",$info);
+            }
+        }
+        $this->assign('headtitle','消息中心');
+        $this->display();
+    }
 }

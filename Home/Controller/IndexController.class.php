@@ -42,7 +42,6 @@ class IndexController extends Controller {
                 $this->assign ( "info",$info);
             }
         }
-
         $this->display();
     }
     //用户列表
