@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="Robots" content="noindex,nofollow,noarchive" />
+    <title>名叔堂--{$user.nickname}</title>
+    <include file="Index:wap_js_css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/page/css/font-awesome.min.css?version={:version()}"/>
+    <style>
+        .subnav-elements.subnav-inverse.flex.btn-group a.btn-inverse.nav-item{width: 25%;min-width: 50px;}
+        .modifyuser li label {width: 60px;}
+        select{ width: 100%; height: 34px;color: #333; background-color: #FFffff; border-radius: 4px; border-color: #B8C2CC;margin-top: 5px;}
+        select:active{ background-color: #e6e6e6; border-color: #adadad;}
+        .content-960.page-content.wide { padding: 30px 20px 65px;  }
+        .photo_item{margin-bottom: 10px}
+    </style>
+<body pagename="friends" style="overflow-x:hidden;" class="bodyf" data-cuid="{$cuid}">
+<include file="User:uhead"/>
+<div class=" profile-view" style="margin-top: 47px;;">
+    <div class="line10"></div>
+    <div id="photolist" style="padding-bottom:80px ">
+        <if condition="empty($list)">
+           <div class="tc" style="line-height: 100px;font-size: 22px;"><i class="fa fa-warning" style="color: red;"></i>用户暂未上传相片</div>
+        <else/>
+            <volist name="list" id="vo">
+                <div class="photo_item fl relative" id="row_{$vo.id}" style="margin:5px 5px; width: 47%;">
+                    <if condition="$vo['status'] eq 1">
+                        <img src="__PUBLIC__{$vo.img}" alt=""/>
+                    </if>
+                </div>
+            </volist>
+            <div class="clr"></div>
+            <br/>
+        </if>
+    </div>
+</div>
+</body>
+</html>

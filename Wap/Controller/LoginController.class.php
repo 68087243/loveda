@@ -3,6 +3,7 @@ namespace Wap\Controller;
 
 use Common\Model\AreaModel;
 use Common\Model\CodeModel;
+use Common\Model\FriendsModel;
 use Common\Model\UserModel;
 use Think\Controller;
 
@@ -61,7 +62,6 @@ class LoginController extends Controller {
             if(UserModel::isExistNickname($username)){
                 apiReturn(CodeModel::ERROR,'账户已存在');
             }
-
             if($data = D('member')->create()){
                 $data['account'] = $data['nickname']; //注册时登录账户==昵称
                 $data['password'] = md5($password);

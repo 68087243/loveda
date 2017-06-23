@@ -708,4 +708,13 @@ class IndexController extends Controller {
         }
     }
 
+    public function uphoto(){
+        $con['uid'] =  $_REQUEST['uid'];
+        $con['type'] = UserPhotoModel::PHOTO_TYPE;
+        $con['status'] = UserPhotoModel::AUDITED;
+        $this->assign('list',UserPhotoModel::getUserPhotoByCon($con));
+        $this->assign('headtitle','用户相册');
+        $this->display();
+    }
+
 }

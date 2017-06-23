@@ -65,7 +65,7 @@
     .box-padding, .child-box-padding>li {
         padding: 10px;
     }
-
+    a:hover.a:active{text-decoration: none;}
     .subnav-alt {
         background-color: #888;
     }
@@ -77,8 +77,15 @@
                 <div class="flex-item fl" style="width: 90%;">
                     <div id="messageButton" onclick="window.location.href='/index/chat.html?uid={$user.uid}'" class="btn btn-primary  btn-fullwidth "><i class="icon-envelope">&nbsp;</i>讯息</div>
                 </div>
-                <div id="favoriteButton" onclick="addFrinds('{$user.uid}');" style="width: 10%;" class="clof fr">
-                    <div class="neighbour add-favorite clof"><i class="fa fa-heart-o"></i></div></div>
+                <php>
+                    $currentuser = Common\Model\UserModel::getUser();$currentuid=$currentuser['uid'];
+                    $isfriend = Common\Model\FriendsModel::isfriend($currentuid,$_REQUEST['uid']);
+                </php>
+                <if condition="$isfriend neq 2">
+                    <div id="favoriteButton" onclick="addFrinds('{$user.uid}');" style="width: 10%;" class="clof fr">
+                        <div class="neighbour add-favorite clof"><i class="fa fa-heart-o"></i></div></div>
+                </if>
+
                 <div class="clr"></div>
             </div>
             <div id="mainInfo">
@@ -117,8 +124,8 @@
                 </div>
 
                 <div class="side-padding neighbour-bottom">
-                    <div id="requestPrivateAccessButton" class="btn btn-fullwidth neighbour-top "><i class="icon-key">&nbsp;</i>浏览相册</div>
-                    <div id="winkButton" class="btn btn-fullwidth neighbour-top "><i class="icon-eye-open">&nbsp;</i>发送传情</div>
+                    <a href="/index/uphoto.html?uid={$user.uid}" class="clof"><div id="requestPrivateAccessButton" class="btn btn-fullwidth neighbour-top "><i class="icon-key">&nbsp;</i>浏览相册</div></a>
+                    <a href="/user/cqing.html?uid={$user.uid}" class="clof"><div id="winkButton" class="btn btn-fullwidth neighbour-top "><i class="icon-eye-open">&nbsp;</i>发送传情</div></a>
                 </div>
             </div>
             <div id="moreInfo">
