@@ -5,8 +5,8 @@ return array(
         'allowExts'         =>  array("jpg","gif","png","jpeg"),
         'subType'           =>  'date',   // 子目录创建方式 可以使用hash date
         'dateFormat'        =>  'Ym',
-        'fixedWidth' =>400,
-        'fixedHeight'=>300,
+       // 'fixedWidth' =>400,缩略图尺寸
+        //'fixedHeight'=>300,
         'uploadReplace'     =>  true,     // 存在同名是否覆盖
         'saveRule'          =>  'uniqid', // 上传文件命名规则
     ),
@@ -23,8 +23,8 @@ return array(
         'allowExts'         =>  array("jpg","gif","png","jpeg"),
         'subType'           =>  'date',   // 子目录创建方式 可以使用hash date
         'dateFormat'        =>  'Ym',
-        'fixedWidth' =>400,
-        'fixedHeight'=>500,
+       // 'fixedWidth' =>400,//缩略图尺寸
+        //'fixedHeight'=>500,
         'uploadReplace'     =>  true,     // 存在同名是否覆盖
         'saveRule'          =>  'uniqid', // 上传文件命名规则
     ),

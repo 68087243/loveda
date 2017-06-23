@@ -17,7 +17,7 @@
 
         /*遮罩弹出框*/
         .fullbg{position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;background:#000;filter:Alpha(Opacity=60);-moz-opacity:0.6;opacity:0.7}
-        .pop{position:fixed;left:5%;width:90%;top:15%;z-index:101;border:1px solid #666;border-radius:5px;background:#FFF}
+        .pop{position:fixed;left:5%;width:90%;top:15%;z-index:2001;border:1px solid #666;border-radius:5px;background:#FFF}
 
         /*自动消失的提示框*/
         #clearpop{position:fixed;left:10%;right:10%;bottom:65%;z-index:999;text-align:center}
@@ -104,7 +104,8 @@
     <script type="text/javascript" src="__STATIC__/common/js/jquery.photoClip.min.js"></script>
     <script type="text/javascript" src="__STATIC__/common/js/blurify.js"></script>
     <script>
-
+        /*阻塞标志，防止重复提交；预设不阻塞*/
+        window.subBlock=false;
         $(function(){
             var bodyw = $(window).width()-20;
             $('#skipPhotoMobile').click(function(){
@@ -130,12 +131,17 @@
                     $('#pic').show()
                 },
                 clipFinish: function(dataURL) {
+                    $('#clipBtn').attr('onclick',"return false");
+                    $('#clipBtn').css('color',"#cccccc");
                     uploadPicByBase64('photo',dataURL);
                 }
             });
         }
 
         function uploadMhImg(scope){
+            loading();
+            $('#flishbtn').attr('disabled','disabled');
+            subBlock =true;
             var dataURL = $('.pic-containaer img').attr('src');
             uploadPicByBase64(scope,dataURL,'flish');
         }
@@ -149,15 +155,22 @@
         }
 
         function uploadPicByBase64(scope,stream,type){
+            if(subBlock){
+                clearpop('正在截取中');
+            }
+            subBlock =true;
             var uploadPhp = DOMAIN+'/Public/uploadForKindeditor.php';
             var uploadJson = uploadPhp+"?scope="+scope+"&callback="+DOMAIN+"&isbase64=true&isaj=1";
             $.post(uploadJson,{stream:stream},function(data){
+                subBlock =false;
                 if(data.code==100){
                     var img = data.data.url.img;
                     var thumb = data.data.url.thumb;
                     if(type == 'flish'){
+                        closeLoad();
                         $.post('/home/member/uploadPhoto.html',{ture_img:$('#pic input[name=img]').val(),img:img,scope:scope},function(data){
                             if(data.code == 200){
+                                $('#flishbtn').removeAttr('disabled');
                                 clearpop(data.message,'','/user/index.html');
                                 $('#pic').hide()
                             }else{

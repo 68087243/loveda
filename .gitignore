@@ -2,6 +2,7 @@
 
 *.log
 Runtime/
+thumb/
 Logs/
 .htaccess
 Public/upload

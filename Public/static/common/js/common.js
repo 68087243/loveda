@@ -59,7 +59,7 @@ function getUrlParam(name){
 
 //加载图
 function loading(){
-    var $html = '<div class="bkpanl"></div><div class="loadingbox"><div class="loading"><i>正在处理</i><br/><i>请稍等...</i></div></div>';
+    var $html = '<div class="bkpanl"></div><div class="loadingbox"><div class="loading"><i></i><br/><i>请稍等...</i></div></div>';
     $('body').append($html);
 }
 //关闭加载
@@ -398,7 +398,13 @@ String.prototype.trim = function() {    return this.replace(/(^\s*)|(\s*$)/g,"")
 
 //上传图片插件取消上传时清楚隐藏内容
 function clearUpfailImg(){
+    $('#pic #clipArea').show();
+    $('#clipBtn').show();
+    $('#clipBtn').css('color','#1693d5');
+    $('#pic #clipArea2').hide();
     $('#pic #clipArea').children().remove();
     $('#pic #clipArea2 .pic-containaer img').attr('src','');
+    $('#flishbtn').removeAttr('disabled');
     $('#pic').hide();
+
 }
