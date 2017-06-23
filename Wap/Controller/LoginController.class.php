@@ -56,7 +56,7 @@ class LoginController extends Controller {
             if (!$_POST['proivce']&&!$_POST['city']) {
                 apiReturn(CodeModel::ERROR,'请选择城市');
             }
-            if (!regex($email,'email')) {
+            if ($email && !regex($email,'email')) {
                 apiReturn(CodeModel::ERROR,'邮箱格式不正确');
             }
             if(UserModel::isExistNickname($username)){
