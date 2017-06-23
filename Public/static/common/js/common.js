@@ -399,7 +399,7 @@ String.prototype.trim = function() {    return this.replace(/(^\s*)|(\s*$)/g,"")
 //上传图片插件取消上传时清楚隐藏内容
 function clearUpfailImg(){
     $('#pic #clipArea').show();
-    $('#clipBtn').show();
+    $('#upnext').show();
     $('#clipBtn').css('color','#1693d5');
     $('#pic #clipArea2').hide();
     $('#pic #clipArea').children().remove();

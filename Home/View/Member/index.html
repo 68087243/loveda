@@ -175,7 +175,7 @@
 
     function sub(){
         var data = $('#myform').serialize();
-        $.post('/member/info.html',data,function(data){
+        $.post('/member/modifyuser.html',data,function(data){
             if(data.code ==200){
                 clearpop(data.message,'','self');
             }else{

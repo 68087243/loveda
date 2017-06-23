@@ -80,7 +80,7 @@
         <div class="fullbg" onclick="clearUpfailImg();"></div>
         <div class="pop center" style="width: 500px;left: 50%;margin-left: -250px;">
             <div id="clipArea" style="height: 300px;"></div>
-            <p class="tc" style="margin: 5px 0"><a href="javascript:clearUpfailImg();" class="cloc">取消</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="clipBtn">下一步</a></p>
+            <p class="tc" id="upnext" style="margin: 5px 0"><a href="javascript:clearUpfailImg();" class="cloc">取消</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" id="clipBtn">下一步</a></p>
             <div id="clipArea2" style="display: none;">
                 <div class="pic-containaer tc" style="padding: 5px 10px;">
                     <img  alt="" class="blurify" width="300">
@@ -183,7 +183,7 @@
                         $('#pic input[name=img]').val(img);
                         $('#flishbtn').attr('onclick','uploadMhImg("'+scope+'")');
                         $('#clipArea').hide()
-                        $('#clipBtn').hide()
+                        $('#upnext').hide()
                         $('#clipArea2').show()
                     }
                 }else{
