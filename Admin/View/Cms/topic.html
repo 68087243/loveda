@@ -61,17 +61,19 @@
 				class="inputText1 numeric w50" value="{$vo.rank}" />
             </td>
 			<td>
-                <if condition="($vo.recommend eq 1)">
+                <if condition="($vo['recommend'] eq 1)">
                     <a href="javascript:void(0);" onclick="setVal('topic','recommend','{$vo.tid}',0)" class="red">推荐</a>
 				<else />
                     <a href="javascript:void(0);" onclick="setVal('topic','recommend','{$vo.tid}',1)">未推荐</a>
                 </if>
             </td>
 			<td>
-                <if condition="($vo.status eq 1)">
-                    <a href="javascript:void(0);" onclick="setVal('topic','status','{$vo.tid}',-1,this,'禁用')"  class="fc_red">启用</a>
-                <else />
+                <if condition="($vo['status'] eq 1)">
+                    <a href="javascript:void(0);" onclick="setVal('topic','status','{$vo.tid}',-1,this,'禁用')"  class="fc_red">正常</a>
+                <elseif condition="$vo['status'] eq -1" />
 				    <a href="javascript:void(0);" onclick="setVal('topic','status','{$vo.tid}',1,this,'启用')">禁用</a>
+                <else/>
+				    <a href="javascript:void(0);" onclick="setVal('topic','status','{$vo.tid}',1,this,'启用')">待审核</a>
                 </if>
             </td>
 			<td>

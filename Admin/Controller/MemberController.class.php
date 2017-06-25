@@ -164,7 +164,6 @@ class MemberController extends BaseController {
         }
         $this->assign('proivce',$proivce);
         $this->display ('editMember');
-
     }
 
     /**
@@ -198,13 +197,15 @@ class MemberController extends BaseController {
             }
         }
         if ($data) {
+            $data['birthdate'] = getBirthday($data['age']);
+            unset($data['age']);
             if (UserModel::modifyMember($data['uid'],$data) !== false) {
                 apiReturn(CodeModel::CORRECT, "编辑会员成功！" );
             } else {
                 apiReturn(CodeModel::ERROR, "编辑会员失败！" );
             }
         }else{
-            apiReturn(CodeModel::ERROR);
+            apiReturn(CodeModel::ERROR,'编辑会员失败，请刷新重试！');
         }
     }
 

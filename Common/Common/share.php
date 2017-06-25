@@ -467,4 +467,14 @@ function getUsername($uid){
         return false;
     }
 }
+
+function userLevel($level){
+    $static  = C('TMPL_PARSE_STRING');
+
+    switch($level){
+        case 1:echo '<img src="">';
+        case 2:echo '<img src="'.$static['__STATIC__'].'/image/level.png">';
+
+    }
+}
 ?>

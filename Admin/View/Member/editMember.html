@@ -56,6 +56,16 @@
         <div class="clr"></div>
     </div>
     <div class="form-group">
+        <div class="fg-l tr fl">微信：</div>
+        <div class="fg-r fr"><input type="text" value="{$user.wechat}" class="form-control fr" name="wechat" /></div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group">
+        <div class="fg-l tr fl">QQ：</div>
+        <div class="fg-r fr"><input type="text" value="{$user.qqid}" class="form-control fr" name="qqid" /></div>
+        <div class="clr"></div>
+    </div>
+    <div class="form-group">
         <div class="fg-l tr fl">性别：</div>
         <div class="fg-r fr">
             <div class="idealforms_select fl" style="width: 120px;" >
@@ -124,18 +134,6 @@
         </div>
         <div class="clr"></div>
     </div>
-    <if condition="$user['sex'] eq 2">
-        <div class="form-group hide" id="bwh">
-            <div class="fg-l tr fl">三围：</div>
-            <div class="fg-r fr">
-                &nbsp;
-                <input type="text" name="bust" value="{$user.bust}" placeholder="胸围/cm" class="form-control fl" style="width: 100px;"/>
-                <input type="text" name="waist" value="{$user.waist}" placeholder="腰围/cm" class="form-control fl"  style="width: 100px;margin-left: 4px;"/>
-                <input type="text" name="hip"  value="{$user.hip}" placeholder="臀围/cm" class="form-control fl"  style="width: 100px;margin-left: 4px;"/>
-            </div>
-            <div class="clr"></div>
-        </div>
-    </if>
     <div class="form-group">
         <div class="fg-l tr fl">身高：</div>
         <div class="fg-r fr">
@@ -161,29 +159,6 @@
     </div>
 
     <div class="form-group">
-        <div class="fg-l tr fl">学历：</div>
-        <div class="fg-r fr">
-            <div class="idealforms_select fl" style="width: 120px;" >
-                <div class="idealforms_select_obj" >
-                    <input type="hidden" value="" name="education">
-                    <input type="text" value="" readonly>
-                    <span class="icaret"></span>
-                </div>
-                <ul class="idealforms_select_menu" style="text-indent: 10px;">
-                    <li data-value="">请选择</li>
-                    <li data-value="初中及以下">初中及以下</li>
-                    <li data-value="中专">中专</li>
-                    <li data-value="高中">高中</li>
-                    <li data-value="专科">专科</li>
-                    <li data-value="本科">本科</li>
-                    <li data-value="硕士">硕士</li>
-                    <li data-value="博士">博士</li>
-                </ul>
-            </div>
-        </div>
-        <div class="clr"></div>
-    </div>
-    <div class="form-group">
         <div class="fg-l tr fl">婚姻状况：</div>
         <div class="fg-r fr">
             <div class="idealforms_select fl" style="width: 120px;" >
@@ -203,33 +178,10 @@
         </div>
         <div class="clr"></div>
     </div>
-    <div class="form-group">
-        <div class="fg-l tr fl">月收入：</div>
-        <div class="fg-r fr">
-            <div class="idealforms_select fl" style="width: 120px;" >
-                <div class="idealforms_select_obj" >
-                    <input type="hidden" value="" name="income">
-                    <input type="text" value="" readonly>
-                    <span class="icaret"></span>
-                </div>
-                <ul class="idealforms_select_menu" style="text-indent: 10px;">
-                    <li data-value="">请选择</li>
-                    <li data-value="3000元以下">3000元以下</li
-                    <li data-value="3001元-5000元" >3001元-5000元</li>
-                    <li data-value="5001元-8000元">5001元-8000元</li>
-                    <li data-value="8001元-12000元">8001元-12000元</li>
-                    <li data-value="12001元-20000元">12001元-20000元</li>
-                    <li data-value="20001元-50000元">20001元-50000元</li>
-                    <li data-value="50001元以上">50001元以上</li>
-                </ul>
-            </div>
-        </div>
-        <div class="clr"></div>
-    </div>
 
     <div class="form-group">
         <div class="fg-l tr fl">爱好：</div>
-        <div class="fg-r fr"><input type="text" name="hobby" value="{$user.hobby}" class="form-control fr" /></div>
+        <div class="fg-r fr"><input type="text" name="hobby_note" value="{$user.hobby_note}" class="form-control fr" /></div>
         <div class="clr"></div>
     </div>
 
@@ -330,13 +282,9 @@
         }
         subBlock = true;//阻塞
         var $data = $("#infoform").serialize();
-        $.post('/admin/member/modifyuser.html', $data, function (data) {
+        $.post('/Admin/member/modifyuser.html', $data, function (data) {
             subBlock = false;//解除阻塞
-            if (data.code == 200) {
-                clearpop(data.message);
-            } else {
-                clearpop(data.message);
-            }
+            clearpop(data.message);
         })
     }
 </script>
